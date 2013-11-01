@@ -1,0 +1,52 @@
+#topbar-div{
+
+	background-color:#FFD633;
+	text-align:center;
+}
+
+#form-content{
+	background-color:#E6E6E6;
+	border-style:solid;
+	
+	border-color:#707070;
+}
+
+#log-div{
+
+	display:none;
+}
+
+#reg-div{
+
+	display:none;
+}
+
+#to-do{
+	border-style:dashed;
+	border-color:#C3C3C3;
+	border-width:3px;
+	text-align:center;
+	
+}
+
+#boody {
+	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+   }
+
+
+#footerr {
+
+		width:100%;
+		float:left;
+		left: 0;
+		right: 0;		
+		
+
+}
+
+#hv{
+	border-style:solid;
+	border-color:white;
+	border-width:1px;
+	border-right-style:dotted;
+}

@@ -1,0 +1,33 @@
+GENERAL
+    add: agregar 
+    del: borrar
+    update: actualizar
+    all: listar todo
+
+GESTION DE RESERVAS
+    rsv_dispobilidad: habitaciones dispobinibles en un rango de fecha
+    rsv_num_habitaciones: número de habitaciones en general
+    rsv_num_habitaciones_ocupadas: número de habitaciones ocupadas
+    rsv_por_usuario: lista las habitaciones por usuario, el estatus es opcional
+    Cancelar reserva: se llama a la función update de la categoría general
+    
+    Reservar: se hace con un add de la categoría general, pero hay que validar 
+que haya tanto del tipo doble en el caso de que no haya indidual pero sin embargo
+se haga la reserva. En el caso de que se le asigne una DOBLE se cambia el TIPO y
+automáticamente se activa el item de caso especial. PARA EFECTOS EL CONTABILIZACIÓN 
+DE HABITACIONES SE TOMA COMO DOBLE PERO PARA CALCULO DE FACTURA COMO INDIVIDUAL.
+
+    rsv_ocupar: Cambia el estatus activa a ocupada y se genera el minibar en ese 
+instante.
+        
+GESTION DE USUARIO
+    usuario_existe: verifica la existencia de un usuario
+
+MINIBAR
+    generar_minibar: genera el combo del minibar dada una categoría e id_reserva,
+    este método se llama dentro de rsv_ocupar.
+        _add_minibar: agrega un item al minibar
+        _get_id_ca: obtiene el id del un item del almacen
+
+GESTIÓN DE FACTURAS
+    facturar: genera la data de la factura con sus respectivos items.

@@ -1,0 +1,27 @@
+Doctrine:
+
+crear BD especificada en app/config/parameters.yml:
+	php app/console doctrine:database:create
+
+crear una entidad de forma asistida:
+	php app/console doctrine:generate:entity
+
+generar getters, setters y algo mas en las entidades:
+	php app/console doctrine:generate:entities Acme/StoreBundle/Entity/Product
+	php app/console doctrine:generate:entities Acme/StoreBundle/
+	php app/console doctrine:generate:entities Acme
+
+actualizar tablas en la BD:
+	php app/console doctrine:schema:update --force
+
+Por hacer:
+- Hacer funcional el formulario de reservas.
+- Agregar la restriccion personalizada de fecha de entrada < fecha de salida y probarla.
+
+Por hacer al final:
+- Agregar las siguientes restricciones al registro:
+	1) Cedula de identidad unica.
+	2) RIF unico.
+	3) Numero de tarjeta de credito unico.
+- Arreglar los botones.
+- Colocar errores en espanol para las fechas que no se especifican.

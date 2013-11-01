@@ -1,0 +1,126 @@
+
+{# plantilla footer #}
+
+	{# barra amarilla #}
+	<div class="large-12 columns" style="background-color:#FFD633;height:20px;margin:20px 0px 0px 0px;">
+	</div>
+    
+
+	<div id="footerr" style="position:relative; margin:0px 0px 0px 0px;"> 
+
+		{# las tres columnas #}
+		<div style="position:absolute; color:black; font-size:13px; background-color:white; height:480px; width:100%; z-index:2;">
+		
+			<div class="large-12 columns" style="margin:45px 0px 0px 0px;">
+				 
+					<div  class="large-5 columns" style="height:300px;border-right:1px solid #D6D6D6;margin:0px 0px 0px 0px;"> 
+					
+					{{ render(controller('GZMainBundle:Main:contact')) }}
+
+					</div>
+					
+
+				
+					<div class="large-4 columns" style="height:300px; width:400px; border-right:1px solid #D6D6D6;" > 
+
+						<div  style="margin:0px 0px 0px 30px;">
+							<div class="large-12 columns">
+								<h2>Ultima Symfonia!</h2>
+							</div>
+						</div>
+
+						<hr>
+
+						<div class="row" style="margin:0px 0px 0px 30px;">
+						<div class="large-12 columns">
+						<h5 style="color:#35438E;"> Primer lugar en sintonia - Red Bull BC ONE </h5> 
+						</div></div>
+						<div class="row" style="margin:0px 0px 0px 30px;">
+						<div class="large-12 columns">
+						<a href="{{ path('main') }}" > <h6> Leer el articulo </h6> </a>
+						</div></div>
+
+						<hr> </hr>
+
+						<div class="row" style="margin:0px 0px 0px 30px;">
+						<div class="large-12 columns">
+						<h5 style="color:#35438E;"> Ella tiene Cualto - Estereo lobby </h5> 
+						</div></div>
+						<div class="row" style="margin:0px 0px 0px 30px;">
+						<div class="large-12 columns">
+						<a href="{{ path('main') }}" > <h6> Leer el articulo -> by eliecer uribe </h6> </a>
+						</div></div>					
+
+						<hr> </hr>
+
+						<div class="row" style="margin:0px 0px 0px 30px;">
+						<div class="large-12 columns">
+						<h5 style="color:#35438E;"> PATRIA! patria pa' todo el mundo - Venezuela </h5> 
+						</div></div>
+						<div class="row" style="margin:0px 0px 0px 30px;">
+						<div class="large-12 columns">
+						<a href="{{ path('main') }}" > <h6> Leer el articulo </h6> </a>
+						</div></div>
+							
+
+					</div>
+
+					<div class="large-3  columns" style="height:300px;" > 
+
+						<div  style="margin:0px 0px 0px 0px;">
+							<div class="large-12 columns">
+								<h2>Socializa</h2>
+							</div>
+						</div>
+
+
+						<div class="row" style="margin:0px 0px 0px 0px;">
+						<div class="large-12 columns">
+						<h4>Persiguenos o Atrapanos </h4>
+
+						<a href="{{ path('main') }}" >
+						<img  style="height:50px;margin:10px 0px 0px 30px;" src="{{ asset('bundles/img/facebook.png') }}" alt="Symfony!" /> </a>
+
+						<a href="{{ path('main') }}" >
+						<img  style="height:50px;margin:10px 0px 0px 40px;" src="{{ asset('bundles/img/twitter.png') }}" alt="Symfony!" /> </a>
+
+						</div></div>
+
+						<div class="row" style="margin:30px 0px 0px 0px;">
+						<div class="large-12 columns">
+						<h4> Ya eres un Cliente? </h4>
+						</div></div>	
+
+						<div class="row" style="margin:10px 0px 0px 50px;">
+
+
+							<div  class="large-12 columns">
+								<button class="btn btn-3 btn-3a" > Haz login </button>
+							</div>
+
+							{#
+							<div class="large-12 columns">
+								<a class="button">Ingresar</a>
+							</div>
+							#}
+
+						</div>
+
+					 </div>
+				
+			</div>
+		</div>
+		<hr>
+		<hr>
+
+		{# imagen flotante #}	
+		<div style="position:absolute;margin:355px 0px 0px 50%;z-index:4;" >
+			<img  style="height:110px;margin:auto;" src="{{ asset('bundles/img/apple_logo.png') }}" alt="Symfony!" />
+		</div>		
+			
+		{# barra negra #}	
+		{<div style="position:absolute; background-color:black; height:60px; width:100%; margin:400px 0px }
+		{ 0px 0px; z-index:3;"></div> }
+
+	{# fin del footerr #}
+	</div>

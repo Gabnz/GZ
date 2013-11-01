@@ -1,0 +1,3 @@
+gz_main:
+    resource: "@GZMainBundle/Resources/config/routing.yml"
+    prefix:   /

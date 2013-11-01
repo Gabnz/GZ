@@ -1,0 +1,33 @@
+
+main:
+    pattern:  /main
+    defaults: { _controller: GZMainBundle:Main:content }
+
+reservations:
+    pattern: /reservations
+    defaults: { _controller: GZMainBundle:Main:content }
+
+reserve:
+    pattern: /reserve/
+    defaults: { _controller: GZMainBundle:Main:reserve }
+
+register:
+    pattern: /register
+    defaults: { _controller: GZMainBundle:Main:register }
+
+login:
+    pattern: /login
+    defaults: { _controller: GZMainBundle:Main:login }
+
+logout:
+    pattern: /logout
+    defaults: { _controller: GZMainBundle:Main:logout }
+
+contact:
+    pattern: /contact
+    defaults: { _controller: GZMainBundle:Main:contact }
+
+footer:
+    pattern: /footer
+    defaults: { _controller: GZMainBundle:Main:footer }
+

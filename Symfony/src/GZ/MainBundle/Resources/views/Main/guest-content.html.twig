@@ -1,0 +1,59 @@
+{% extends 'GZMainBundle::layout.html.twig' %}
+
+
+
+	{% block topbar %}
+
+	<div class="row" style="height:45px;">
+	{#
+	    <div style="text-align:center;" class="large-2 push-8 columns">
+	      <a class="small button" id="log-button">Ingresa</a>
+	    </div>
+	#}
+
+		<div  class="large-2 push-8 columns">
+			<button class="btn btn-3 btn-3b" id="log-button" > Ingresa </button>
+		</div>
+
+
+		<div  class="large-2 columns">
+			<button class="btn btn-3 btn-3b" id="reg-button" > Registrate </button>
+		</div>
+
+	{#
+	    <div class="large-2 columns">
+	      <a class="small button" id="reg-button">Registrate</a>
+	    </div>
+    #}
+	</div>
+	
+	<div class="row">
+
+		<div id="log-div">
+			{#descripcion resumida de la pagina#}
+			<div class="large-5 push-1 columns">
+				<h3 class="subheader">Symfonia</h3>
+					<p>Symfonia, un hotel donde te haremos cantar del placer. Ay.</p>
+			</div>
+			{#area de Login#}
+
+			<div class="large-5 pull-1 columns">
+				{{ render(controller('GZMainBundle:Main:login')) }}
+			</div>
+		</div>
+
+		{#area de registro#}
+	    <div id="reg-div">
+	        {{ render(controller('GZMainBundle:Main:register')) }}
+	    </div>
+	</div>
+		
+	{% endblock %}
+
+	{% block content %}
+
+
+	{{ include(
+		'GZMainBundle::'~route~'.html.twig') }}
+		
+	{% endblock %}
