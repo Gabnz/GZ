@@ -1,3 +1,6 @@
+index:
+    pattern:  /index
+    defaults: { _controller: GZMainBundle:Main:index }
 
 main:
     pattern:  /main

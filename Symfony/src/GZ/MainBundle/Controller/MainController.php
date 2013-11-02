@@ -30,6 +30,11 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class MainController extends Controller{
+
+	public function indexAction(){
+
+		return $this->render('GZMainBundle:Main:index.html.twig');
+	}
 	
 	public function contentAction($_route){
 

@@ -5,89 +5,12 @@
 
 {% block stylesheets %}
 	<link rel="stylesheet" href="{{ asset('bundles/layout.css') }}" />
-
+	<link rel="stylesheet" href="{{ asset('bundles/foundation-icons/foundation-icons.css')}}" />
 {% endblock %}
-
-{% block style %}
-    body {background-image:url("{{ asset('bundles/img/papel2.png')}}");}
-{% endblock %}
-
 
 {% block body %}
-<div id="boody">
-
-
-	{% block avisos %}
-			<!---------------------------------->
-			<!-- AVISOS de Foundation (reveal)-->
-			<!---------------------------------->
-			<div id="aviso_inicio_sesion" class="reveal-modal small">
-			  <h4>
-				  <img  style="width:50px;margin:auto;" src="{{ asset('bundles/img/check1.png') }}" alt="Symfony!" /> Usted ha iniciado sesión exitosamente.</h4>
-				<a class="close-reveal-modal">&#215;</a>
-			</div>
-
-
-			<div id="aviso_registro_usuario" class="reveal-modal small">
-			  <h4>
-				  <img  style="width:50px;margin:auto;" src="{{ asset('bundles/img/check1.png') }}" alt="Symfony!" /> Usted se ha registrado exitosamente. </h4>
-				<a class="close-reveal-modal">&#215;</a>
-			</div>			
-
+	
+	{% block content %}
 	{% endblock %}
 
-	{% block header %}
-
-		
-		<div id="topbar-div">
-			{% block topbar %}
-			{# Este bloque corresponde a la barra superior #}
-			{% endblock %}
-		</div>
-
-		{% block logotipo %}	
-		{% endblock %}
-		
-		{% block namepage %}
-		{% endblock %}
-		
-		{% block topsup %} {# Este bloque corresponde al titulo y los botones del centro #}
-		
-			{#divs de relleno para hacer espacio#}
-			{% for i in 0..3 %}
-				<div class="large-12 columns">&nbsp;</div>
-			{% endfor %}
-
-			
-
-			<div class="large-12 large-centered columns">
-				<h1 align="center">Symfonia</h1>
-				<h4 align="center" class="subheader">Tienes un suenio, nosotros tenemos el lugar para que suceda.</h4>
-			</div>
-
-			<div class="large-6 large-centered columns">
-				<ul class="button-group even-3">
-				  <li><a class="button" href="{{ path('main') }}">Inicio</a></li>
-				  <li><a class="button" href="{{ path('reservations') }}">Reservas</a></li>
-				  <li><a class="button">Contactanos</a></li>
-				</ul>
-			</div>
-		
-		{% endblock %}	
-			
-	{% endblock %}
-	
-	{% block content %} {% endblock %}
-
-	{% block footer %} 
-	
-	
-		{{ render(controller('GZMainBundle:Main:footer')) }}
-	
-
-		{#{{ include(
-					'GZMainBundle::footer.html.twig') }}#}
-	
-	{% endblock %}
-</div>	
 {% endblock %}
