@@ -11,6 +11,26 @@ function main(){
 		register();
 		reserve();
 		availability();
+
+		$( "#accordion" ).accordion();
+
+		$("#standard-header").on("click", function(){
+
+			//alert('1');
+
+		});
+
+		$("#bussiness-header").on("click", function(){
+
+			//alert('2');
+
+		});
+
+		$("#high-header").on("click", function(){
+
+			//alert('3');
+
+		});
 		
 	});
 }
