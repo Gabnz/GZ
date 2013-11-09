@@ -5,7 +5,10 @@ function main(){
 
 	$(document).ready(function(){
 
+		$(window).stellar();
+
 		topbar();
+		topbar2();
 		formContact();
 		login();
 		register();
@@ -50,6 +53,18 @@ function topbar(){
 			$("#reg-div").slideToggle("slow");
 		});
 	});
+}
+
+function topbar2(){
+	var nav = $('.topbar-div');
+    
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > $('#cover-div').height()) {
+            nav.addClass("topbar");
+        } else {
+            nav.removeClass("topbar");
+        }
+    });
 }
 
 function login(){

@@ -1,14 +1,13 @@
+/*100% de la pantalla para cada vista*/
 .view-div{
 
 	width:100%;
 	height:100%;
 }
 
-#topbar-div{
+/*Efecto sticker del topbar*/
+.topbar{ z-index: 9999; position: fixed; left: 0; top: 0; width: 100%;}
 
-	background-color:#FFD633;
-	text-align:center;
-}
 
 #form-content{
 	background-color:#E6E6E6;
