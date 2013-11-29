@@ -1,29 +1,15 @@
 {# plantilla que da formato a las paginas de la aplicacion. 
 	Aqui esta definido el header y el footer.#}
 
-{% extends '::foundation.base.html.twig' %}
+{% extends '::new.base.html.twig' %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" href="{{ asset('bundles/layout.css') }}" />
-	<link rel="stylesheet" href="{{ asset('bundles/foundation-icons/foundation-icons.css')}}" />
-
-	<link href="{{ asset('bundles/jquery-ui-1.10.3.custom/css/custom-theme/jquery-ui-1.10.3.custom.css')}}" rel="stylesheet">
-	
-	<script src="{{ asset('bundles/jquery-1.10.2.js') }}" >
-	</script>
-
-	<script src="{{ asset('bundles/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js')}}">
-	</script>
-	<script src="{{ asset('bundles/stellar.js/jquery.stellar.js') }}" ></script>
-	<script src="{{ asset('bundles/app.js') }}" ></script>
-
-
-	
+    <link rel="stylesheet" href="{{ asset('bundles/layout.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/foundation-icons/foundation-icons.css')}}"/>
 {% endblock %}
 
-{% block body %}
-	
-	{% block content %}
-	{% endblock %}
-
+{% block javascripts %}
+  <script src="{{ asset('bundles/stellar.js/jquery.stellar.js') }}"></script>
+  <script src="{{ asset('bundles/app.js') }}"></script>
 {% endblock %}
+

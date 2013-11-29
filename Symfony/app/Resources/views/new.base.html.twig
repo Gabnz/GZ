@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--[if IE 9]<html class="lt-ie10" lang="es"> <![endif]-->
+<html class="no-js" lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bienvenido!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="{{ asset('bundles/foundation-5.0.2/css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/foundation-5.0.2/css/foundation.css') }}">
+    <script src="{{ asset('bundles/foundation-5.0.2/js/vendor/custom.modernizr.js') }}"></script>
+  </head>
+  <body>
+    {% block body %}{% endblock %}
+    <script src="{{ asset('bundles/foundation-5.0.2/js/vendor/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/foundation-5.0.2/js/foundation.min.js') }}"></script>
+    {% block javascripts %}{% endblock %}
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
