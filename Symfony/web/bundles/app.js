@@ -6,51 +6,11 @@ function main(){
 	$(document).ready(function(){
 
 		$(window).stellar();
-
-		topbar();
 		formContact();
 		login();
 		register();
 		reserve();
 		availability();
-
-		$( "#accordion" ).accordion();
-
-		$("#standard-header").on("click", function(){
-
-			//alert('1');
-
-		});
-
-		$("#bussiness-header").on("click", function(){
-
-			//alert('2');
-
-		});
-
-		$("#high-header").on("click", function(){
-
-			//alert('3');
-
-		});
-		
-	});
-}
-
-function topbar(){
-
-	$("#log-button").on("click", function(){
-		$("#reg-div").slideUp("slow", function(){
-
-			$("#log-div").slideToggle("slow");
-		});
-	});
-
-	$("#reg-button").on("click", function(){
-		$("#log-div").slideUp("slow", function(){
-
-			$("#reg-div").slideToggle("slow");
-		});
 	});
 }
 
@@ -64,10 +24,10 @@ function login(){
 
 			if(result[0] == '/'){
 				alert('Ha ingresado exitosamente.');
-				$('#aviso_inicio_sesion').foundation('reveal', 'open');
 				window.location.replace(result);
-			}else
-				form.replaceWith(result);
+			}else{
+				$("#log-div").replaceWith(result);
+			}
 		};
 
 		$.ajax({
@@ -94,7 +54,7 @@ function register(){
 				window.location.replace(result);
 			}else{
 				
-				form.replaceWith(result);
+				$("#reg-div").replaceWith(result);
 				//recarga los markups de foundation
 				$(document).foundation();
 			}

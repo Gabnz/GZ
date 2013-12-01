@@ -1,36 +1,39 @@
 index:
     pattern:  /index
-    defaults: { _controller: GZMainBundle:Main:index }
-
-main:
-    pattern:  /main
     defaults: { _controller: GZMainBundle:Main:content }
 
 reservations:
     pattern: /reservations
     defaults: { _controller: GZMainBundle:Main:content }
 
-reserve:
-    pattern: /reserve/
-    defaults: { _controller: GZMainBundle:Main:reserve }
-
-register:
-    pattern: /register
-    defaults: { _controller: GZMainBundle:Main:register }
+contact:
+    pattern: /contact
+    defaults: { _controller: GZMainBundle:Main:content }
 
 login:
     pattern: /login
+    defaults: { _controller: GZMainBundle:Main:content }
+
+loginattempt:
+    pattern: /loginattempt
     defaults: { _controller: GZMainBundle:Main:login }
+
+register:
+    pattern: /register
+    defaults: { _controller: GZMainBundle:Main:content }
+
+registerattempt:
+    pattern: /registerattempt
+    defaults: { _controller: GZMainBundle:Main:register }
+
+reserve:
+    pattern: /reserve/
+    defaults: { _controller: GZMainBundle:Main:reserve }
 
 logout:
     pattern: /logout
     defaults: { _controller: GZMainBundle:Main:logout }
 
-contact:
-    pattern: /contact
-    defaults: { _controller: GZMainBundle:Main:contact }
-
 footer:
     pattern: /footer
     defaults: { _controller: GZMainBundle:Main:footer }
-

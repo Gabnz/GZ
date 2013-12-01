@@ -30,22 +30,15 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class MainController extends Controller{
-
-	public function indexAction(){
-
-		return $this->render('GZMainBundle:Main:index.html.twig');
-	}
 	
 	public function contentAction($_route){
 
 		$session = $this->getRequest()->getSession();
 
 		if(!$session->has('user'))
-			return $this->render('GZMainBundle:Main:guest-content.html.twig', array('route'=>$_route));
-		else{
-
-			return $this->render('GZMainBundle:Main:user-content.html.twig', array('route'=>$_route, 'user' => $session->get('user')));
-		}
+			return $this->render('GZMainBundle:Guest:'.$_route.'.html.twig');
+		else
+			return $this->render('GZMainBundle:User:'.$_route.'.html.twig', array('user' => $session->get('user')));
 	}
 
 	public function loginAction(Request $request){
@@ -76,16 +69,14 @@ class MainController extends Controller{
     			$session->set('user', $user);
 
 	    		/*parte que realiza solo si el controlador es ejecutado por ajax*/
-		        if($request->isXmlHttpRequest()){
-
-		       		return new Response($this->generateUrl('main'));
-		        }
+		        if($request->isXmlHttpRequest())
+		       		return new Response($this->generateUrl('index'));
 		        else
-		        	return $this->redirect($this->generateUrl('main'));
+		        	return $this->redirect($this->generateUrl('index'));
     		}
    		}
 
-        return $this->render('GZMainBundle::login.html.twig',
+        return $this->render('GZMainBundle:Login:form.html.twig',
         	array('form' => $form->createView()));
 	}
 
@@ -95,7 +86,7 @@ class MainController extends Controller{
 
 		$session->clear();
 
-		return $this->redirect($this->generateUrl('main'));
+		return $this->redirect($this->generateUrl('index'));
 	}
 
 	public function registerAction(Request $request){
@@ -127,13 +118,13 @@ class MainController extends Controller{
 			/*parte que realiza solo si el controlador es ejecutado por ajax*/
 	        if($request->isXmlHttpRequest()){
 
-	       		return new Response($this->generateUrl('main'));
+	       		return new Response($this->generateUrl('index'));
 	        }
 	        else
-	        	return $this->redirect($this->generateUrl('main'));
+	        	return $this->redirect($this->generateUrl('index'));
 		}
 
-        return $this->render('GZMainBundle::register.html.twig',
+        return $this->render('GZMainBundle:Register:form.html.twig',
         	array('form' => $form->createView()));
 	}
 
