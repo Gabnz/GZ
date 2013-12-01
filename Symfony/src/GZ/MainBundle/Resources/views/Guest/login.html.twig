@@ -1,0 +1,8 @@
+{% extends 'GZMainBundle::layout.html.twig' %}
+
+{% block body %}
+	{{ include('GZMainBundle:Login:cover.html.twig') }}
+	{{ include('GZMainBundle:Guest:topbar.html.twig') }}
+	{{ render(controller('GZMainBundle:Main:login')) }}
+	{{ include('GZMainBundle::footer.html.twig') }}
+{% endblock %}

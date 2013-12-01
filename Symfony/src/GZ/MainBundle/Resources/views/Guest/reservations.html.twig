@@ -1,0 +1,8 @@
+{% extends 'GZMainBundle::layout.html.twig' %}
+
+{% block body %}
+	{{ include('GZMainBundle:Reservations:cover.html.twig') }}
+	{{ include('GZMainBundle:Guest:topbar.html.twig') }}
+	{{ include('GZMainBundle:Reservations:rooms.html.twig') }}
+	{{ include('GZMainBundle::footer.html.twig') }}
+{% endblock %}

@@ -1,4 +1,5 @@
-{#capa que da formato y estilo#}
+{# plantilla que da formato a las paginas de la aplicacion. 
+	Aqui esta definido el header y el footer.#}
 
 {% extends '::new.base.html.twig' %}
 
@@ -9,7 +10,6 @@
 
 {% block javascripts %}
 	<script src="{{ asset('bundles/foundation-5.0.2/js/foundation/foundation.topbar.js') }}"></script>
-	<script src="{{ asset('bundles/foundation-5.0.2/js/foundation/foundation.abide.js') }}"></script>
 	<script src="{{ asset('bundles/stellar.js/jquery.stellar.js') }}"></script>
 	<script src="{{ asset('bundles/app.js') }}"></script>
 {% endblock %}

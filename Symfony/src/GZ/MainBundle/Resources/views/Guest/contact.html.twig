@@ -1,0 +1,8 @@
+{% extends 'GZMainBundle::layout.html.twig' %}
+
+{% block body %}
+	{{ include('GZMainBundle:Contact:form.html.twig') }}
+	{{ include('GZMainBundle:Guest:topbar.html.twig') }}
+	{{ include('GZMainBundle:Contact:team.html.twig') }}
+	{{ include('GZMainBundle::footer.html.twig') }}
+{% endblock %}
