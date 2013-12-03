@@ -110,7 +110,6 @@ class MainController extends Controller{
 
     		$regiuser = $repository->findOneBy(array('email' => $user->getEmail(), 'pass' => $user->getPass())); 		
 
-
     		//inicia sesion con los datos del usuario que hizo login
     		$session = $this->getRequest()->getSession();
 

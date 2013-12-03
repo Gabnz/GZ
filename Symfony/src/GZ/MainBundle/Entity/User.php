@@ -168,7 +168,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="rif", type="string", length=20)
-     * @Assert\NotBlank(message="Porfavor introduzca su RIF")
+     * @Assert\NotBlank(message="Porfavor introduzca su RIF.")
      * @Assert\Regex(
      *      pattern="/^[JV]-[1-9][0-9]*-\d$/",
      *      match=true,

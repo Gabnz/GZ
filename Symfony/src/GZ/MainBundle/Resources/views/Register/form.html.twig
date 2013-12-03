@@ -1,195 +1,47 @@
 {#formulario para hacer login#}
-<div id="reg-div" style="width:100%;
-	height:200%;">
+<div id="reg-div" style="width:100%; height:180%;">
 	<div class="small-6 columns" style="width:100%; height:10%;">
 		<h1 align="center" style="position: absolute; width:100%; bottom: 0; text-align: center;">Registro</h1>
 	</div>
 
-		<form method="post" action="{{ path('registerattempt') }}" class="custom" id="reg-form">
+	{% form_theme form 'GZMainBundle:Form:fields.html.twig' %}
 
-			<div class="small-9 small-centered columns" id="form-content">
-				{% for i in 0..1 %}
-					<div class="small-12 columns">&nbsp;</div>
-				{% endfor %}
-
-			    {% for i in 0..1 %}
-					<div class="small-12 columns">&nbsp;</div>
-				{% endfor %}
-				
-				<div class="small-6 columns">
-
-					<div class="row collapse">
-	        			<div class="small-4 columns">
-	        				<span class="prefix">
-	        					<h4>{{ form_label(form.email) }}</h4>
-	        				</span>
-						</div>
-						<div class="small-8 columns">
-							{{ form_widget(form.email) }}
-						</div>
-						{{ form_errors(form.email) }}
-					</div>
-
-					<div class="row collapse">
-	        			<div class="small-4 columns">
-	        				<span class="prefix">
-	        					<h4>{{ form_label(form.pass.first) }}</h4>
-	        				</span>
-						</div>
-						<div class="small-8 columns">
-							{{ form_widget(form.pass.first) }}
-						</div>
-						{{ form_errors(form.pass.first) }}
-					</div>
-
-					<div class="row collapse">
-	        			<div class="small-4 columns">
-	        				<span class="prefix">
-	        					<h4>{{ form_label(form.pass.second) }}</h4>
-	        				</span>
-						</div>
-						<div class="small-8 columns">
-							{{ form_widget(form.pass.second) }}
-						</div>
-						{{ form_errors(form.pass.second) }}
-					</div>
-
-					<div class="row collapse">
-	        			<div class="small-4 columns">
-	        				<span class="prefix">
-	        					<h4>{{ form_label(form.firstname) }}</h4>
-	        				</span>
-						</div>
-						<div class="small-8 columns">
-							{{ form_widget(form.firstname) }}
-						</div>
-						{{ form_errors(form.firstname) }}
-					</div>
-
-					<div class="row collapse">
-	        			<div class="small-4 columns">
-	        				<span class="prefix">
-	        					<h4>{{ form_label(form.lastname) }}</h4>
-	        				</span>
-						</div>
-						<div class="small-8 columns">
-							{{ form_widget(form.lastname) }}
-						</div>
-						{{ form_errors(form.lastname) }}
-					</div>
-
-					<div class="row">
-						<h4>{{ form_label(form.birthdate) }}</h4>
-						<div class="small-4 columns">
-							{{ form_widget(form.birthdate.day) }}
-						</div>
-						<div class="small-4 columns">
-							{{ form_widget(form.birthdate.month) }}
-						</div>
-						<div class="small-4 columns">
-							{{ form_widget(form.birthdate.year) }}
-						</div>
-						{{ form_errors(form.birthdate) }}
-					</div>
-
-				</div>
-				
-				<div class="small-6 columns">
-
-					<div class="row collapse">
-	        			<div class="small-4 columns">
-	        				<span class="prefix">
-	        					<h4>{{ form_label(form.gender) }}</h4>
-	        				</span>
-						</div>
-						<div class="small-4 pull-4 columns">
-							{{ form_widget(form.gender) }}
-						</div>
-						{{ form_errors(form.gender) }}
-					</div>
-
-					<div class="row collapse">
-	        			<div class="small-6 columns">
-	        				<span class="prefix">
-	        					<h4>{{ form_label(form.nationality) }}</h4>
-	        				</span>
-						</div>
-						<div class="small-6 columns">
-							{{ form_widget(form.nationality) }}
-						</div>
-						{{ form_errors(form.nationality) }}
-					</div>
-
-					<div class="row collapse">
-	        			<div class="small-4 columns">
-	        				<span class="prefix">
-	        					<h4>{{ form_label(form.idcard) }}</h4>
-	        				</span>
-						</div>
-						<div class="small-8 columns">
-							{{ form_widget(form.idcard) }}
-						</div>
-						{{ form_errors(form.idcard) }}
-					</div>
-
-					<div class="row collapse">
-	        			<div class="small-4 columns">
-	        				<span class="prefix">
-	        					<h4>{{ form_label(form.rif) }}</h4>
-	        				</span>
-						</div>
-						<div class="small-8 columns">
-							{{ form_widget(form.rif) }}
-						</div>
-						{{ form_errors(form.rif) }}
-					</div>
-
-					<div class="row collapse">
-	        			<div class="small-6 columns">
-	        				<span class="prefix">
-	        					<h4>{{ form_label(form.account) }}</h4>
-	        				</span>
-						</div>
-						<div class="small-5 pull-1 columns">
-							{{ form_widget(form.account) }}
-						</div>
-						{{ form_errors(form.account) }}
-					</div>
-
-					<div class="row">
-	        			<div class="small-11 columns">
-	        				
-	        					<h4>{{ form_label(form.creditcard) }}</h4>
-	        				
-						</div>
-					</div>
-					<div class="row">
-						<div class="small-11 columns">
-							{{ form_widget(form.creditcard) }}
-						</div>
-						{{ form_errors(form.creditcard) }}
-					</div>
-					
-				</div>
-
-			{{ form_rest(form) }}
-
-			<div class="small-12 columns">&nbsp;</div>
-
-			<div class="row">
-				<div class="small-2 small-centered columns">
-					<a class="button" id="reg-send-button">Enviar</a>
-				</div>
+	<form method="post" action="{{ path('registerattempt') }}" id="reg-form">
+		<div class="row">
+			<div class="small-4 small-push-2 columns">
+				{{ form_row(form.email) }}
+				{{ form_row(form.pass.first) }}
+				{{ form_row(form.pass.second) }}
+				{{ form_row(form.firstname) }}
+				{{ form_row(form.lastname) }}
+				{{ form_row(form.lastname) }}
+				{{ form_row(form.birthdate) }}
 			</div>
-
-			<div class="small-12 columns">&nbsp;</div>
+			<div class="small-4 small-pull-2 columns">
+				{{ form_row(form.idcard) }}
+				{{ form_row(form.rif) }}
+				<div class="row">
+					<div class="small-6 columns">
+						{{ form_row(form.gender) }}
+					</div>
+					<div class="small-6 columns">
+						{{ form_row(form.nationality) }}
+					</div>
+				</div>
+				{{ form_row(form.creditcard) }}
+				<div class="row">
+					<div class="small-6 columns">
+						{{ form_row(form.account) }}
+					</div>
+				</div>
 				
 			</div>
-
-			{% for i in 0..2 %}
-					<div class="small-12 columns">&nbsp;</div>
-				{% endfor %}
-
-			
-		</form>
+		</div>
+		{{ form_rest(form) }}
+		<div class="row">
+			<div class="small-2 small-centered columns">
+				<a class="button" id="reg-send-button">Enviar</a>
+			</div>
+		</div>
+	</form>
 </div>

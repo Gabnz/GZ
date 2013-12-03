@@ -19,9 +19,8 @@ class UserType extends AbstractType
 		->add('lastname','text', array('label' => 'Apellido'))
 		->add('gender','choice', array('choices' => array('male' => 'Hombre', 'female' => 'Mujer'),
             'label' => 'Genero'))
-        ->add('birthdate', 'birthday', array('years' => range(1920,1995), 'label' => 'Fecha de nacimiento','widget' => 'choice',
+        ->add('birthdate', 'birthday', array('label' => 'Fecha de nacimiento','widget' => 'single_text',
         'empty_value' => array('year' => 'Anio', 'month' => 'Mes', 'day' => 'Dia')))
-
         ->add('idcard', 'text', array('label' => 'Cedula'))
         ->add('creditcard', 'text', array('label' => 'Numero de tarjeta de credito'))
         ->add('account', 'choice', array( 'choices' => array('current' => 'Corriente', 'saving' => 'Ahorro'),'label' => 'Tipo de cuenta'))

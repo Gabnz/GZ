@@ -6,11 +6,11 @@ function main(){
 	$(document).ready(function(){
 
 		$(window).stellar();
-		formContact();
 		login();
 		register();
 		reserve();
 		availability();
+		formContact();
 	});
 }
 
@@ -27,6 +27,7 @@ function login(){
 				window.location.replace(result);
 			}else{
 				$("#log-div").replaceWith(result);
+				$('#log-div').bind('click', login);
 			}
 		};
 
@@ -50,13 +51,13 @@ function register(){
 
 			if(result[0] == '/'){
 				alert('bien.');
-				$('#aviso_registro_usuario').foundation('reveal', 'open');
 				window.location.replace(result);
 			}else{
 				
 				$("#reg-div").replaceWith(result);
 				//recarga los markups de foundation
-				$(document).foundation();
+				//$(document).foundation();
+				$('#reg-div').bind('click', register);
 			}
 			
 		};
