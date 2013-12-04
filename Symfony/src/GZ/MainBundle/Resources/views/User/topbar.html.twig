@@ -10,13 +10,13 @@
       <!-- Right Nav Section -->
       <ul class="right">
       	<li class="divider"></li>
-        	<li class="has-form">
-    			 <a href="{{ path('register') }}" class="button">Registrate</a>
-  		    </li>
-          <li class="divider"></li>
-        	<li class="has-form">
-    			 <a href="{{ path('login') }}" class="button">Haz login</a>
-  		    </li>
+        <li class="has-dropdown">
+        <a href="#">{{user.firstname}}</a>
+        <ul class="dropdown">
+          <li><a href="#">Opciones intermedias</a></li>
+          <li><a href="{{ path('logout') }}">Cerrar sesion</a></li>
+        </ul>
+      </li>
       </ul>
 
       <!-- Left Nav Section -->

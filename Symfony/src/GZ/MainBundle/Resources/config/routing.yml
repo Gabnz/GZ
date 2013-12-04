@@ -27,8 +27,8 @@ registerattempt:
     defaults: { _controller: GZMainBundle:Main:register }
 
 reserve:
-    pattern: /reserve/
-    defaults: { _controller: GZMainBundle:Main:reserve }
+    pattern: /reserve
+    defaults: { _controller: GZMainBundle:Main:content }
 
 logout:
     pattern: /logout

@@ -1,47 +1,41 @@
-{#formulario para hacer login#}
-<div id="reg-div" style="width:100%; height:180%;">
-	<div class="small-6 columns" style="width:100%; height:10%;">
-		<h1 align="center" style="position: absolute; width:100%; bottom: 0; text-align: center;">Registro</h1>
-	</div>
+{#formulario para hacer registro#}
+{% form_theme form 'GZMainBundle:Form:fields.html.twig' %}
 
-	{% form_theme form 'GZMainBundle:Form:fields.html.twig' %}
-
-	<form method="post" action="{{ path('registerattempt') }}" id="reg-form">
-		<div class="row">
-			<div class="small-4 small-push-2 columns">
-				{{ form_row(form.email) }}
-				{{ form_row(form.pass.first) }}
-				{{ form_row(form.pass.second) }}
-				{{ form_row(form.firstname) }}
-				{{ form_row(form.lastname) }}
-				{{ form_row(form.lastname) }}
-				{{ form_row(form.birthdate) }}
+<form method="post" action="{{ path('registerattempt') }}" id="reg-form">
+	<div class="row">
+		<div class="small-4 small-push-2 columns">
+			{{ form_row(form.email) }}
+			{{ form_row(form.pass.first) }}
+			{{ form_row(form.pass.second) }}
+			{{ form_row(form.firstname) }}
+			{{ form_row(form.lastname) }}
+			{{ form_row(form.lastname) }}
+			{{ form_row(form.birthdate) }}
+		</div>
+		<div class="small-4 small-pull-2 columns">
+			{{ form_row(form.idcard) }}
+			{{ form_row(form.rif) }}
+			<div class="row">
+				<div class="small-6 columns">
+					{{ form_row(form.gender) }}
+				</div>
+				<div class="small-6 columns">
+					{{ form_row(form.nationality) }}
+				</div>
 			</div>
-			<div class="small-4 small-pull-2 columns">
-				{{ form_row(form.idcard) }}
-				{{ form_row(form.rif) }}
-				<div class="row">
-					<div class="small-6 columns">
-						{{ form_row(form.gender) }}
-					</div>
-					<div class="small-6 columns">
-						{{ form_row(form.nationality) }}
-					</div>
+			{{ form_row(form.creditcard) }}
+			<div class="row">
+				<div class="small-6 columns">
+					{{ form_row(form.account) }}
 				</div>
-				{{ form_row(form.creditcard) }}
-				<div class="row">
-					<div class="small-6 columns">
-						{{ form_row(form.account) }}
-					</div>
-				</div>
+			</div>
 				
-			</div>
 		</div>
-		{{ form_rest(form) }}
-		<div class="row">
-			<div class="small-2 small-centered columns">
-				<a class="button" id="reg-send-button">Enviar</a>
-			</div>
+	</div>
+	{{ form_rest(form) }}
+	<div class="row">
+		<div class="small-2 small-centered columns">
+			<a class="button" id="reg-send-button">Enviar</a>
 		</div>
-	</form>
-</div>
+	</div>
+</form>

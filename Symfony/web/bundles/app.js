@@ -25,10 +25,8 @@ function login(){
 			if(result[0] == '/'){
 				alert('Ha ingresado exitosamente.');
 				window.location.replace(result);
-			}else{
-				$("#log-div").replaceWith(result);
-				$('#log-div').bind('click', login);
-			}
+			}else
+				form.replaceWith(result);
 		};
 
 		$.ajax({
@@ -52,14 +50,8 @@ function register(){
 			if(result[0] == '/'){
 				alert('bien.');
 				window.location.replace(result);
-			}else{
-				
-				$("#reg-div").replaceWith(result);
-				//recarga los markups de foundation
-				//$(document).foundation();
-				$('#reg-div').bind('click', register);
-			}
-			
+			}else
+				form.replaceWith(result);
 		};
 
 		$.ajax({

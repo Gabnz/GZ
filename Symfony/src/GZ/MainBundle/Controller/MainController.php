@@ -171,10 +171,7 @@ class MainController extends Controller{
 		    else
 		    	return $this->redirect($this->generateUrl('main'));
 		}
-
-
-
-		return $this->render('GZMainBundle::reserve.html.twig',
+		return $this->render('GZMainBundle:Reservations:form.html.twig',
         	array('form' => $form->createView(), 'user' => $user, 'category' => $category));
 	}
 

@@ -11,11 +11,11 @@ class ReserveType extends AbstractType
     {
     	$builder->add('entrydate', 'date', array('empty_value' => array('year' => 'Anio', 'month' => 'Mes', 'day' => 'Dia'),
             'label' => 'Fecha de entrada','years' => range(date('Y'),date('Y') + 1),
-            'widget' => 'choice',
+            'widget' => 'single_text',
             ))
     	->add('exitdate','date',array('empty_value' => array('year' => 'Anio', 'month' => 'Mes', 'day' => 'Dia'),
             'label' => 'Fecha de salida','years' => range(date('Y'),date('Y') + 1),
-            'widget' => 'choice',
+            'widget' => 'single_text',
             ))
         ->add('roomcategory', 'hidden')
     	->add('roomtype','choice',array('choices' => array('individual' => 'Individual', 'double' => 'Doble'),

@@ -1,41 +1,61 @@
 {#reservaciones#}
-<div class="view-div">
-	<div class="small-6 columns" style="width:100%; height:25%;">
+<div style="width:100%; height:200%;">
+	<div class="small-6 columns" style="width:100%; height:15%;">
 		<h1 align="center" style="position: absolute; width:100%; bottom: 0; text-align: center;">Reservaciones</h1>
 	</div>
 
+	{% set rooms = [ "Estandar" , "Business" , "Alta" ] %}
+	{% set rooms_cat = ["standard", "bussiness", "high"] %}
+	{% set backgrounds = [ "#FFFFFF", "#DCDCDC", "#FFFF99"] %}
+
 	<p align="center">
-		<a data-orbit-link="standard" class="small button">
-		  Categoria Estandar
-		</a>
-		<a data-orbit-link="bussiness" class="small button">
-		  Categoria Bussiness
-		</a>
-		<a data-orbit-link="high" class="small button">
-		  Categoria Alta
-		</a>
+		{% for i in 0..2 %}
+			<a data-orbit-link="{{rooms_cat[i]}}" class="small button">
+		  		Categoria {{rooms[i]}}
+			</a>
+		{% endfor %}
 	</p>
 	
-	<div class="small-11 small-centered columns">
+	<div id="res-div" class="small-11 small-centered columns">
 		<ul data-orbit data-options="animation:'fade'; navigation_arrows: false;  slide_number: false; bullets: false; timer: false; stack_on_small: false;">
-		  <li data-orbit-slide="standard" style="background-color:#FFFFFF">
+
+		{% for i in 0..2 %}
+			<li data-orbit-slide="{{rooms_cat[i]}}" style="background-color:{{backgrounds[i]}}">
 		    <div>
-		      <h2>Habitacion 1</h2>
-		      <h3>... 1</h3>
+		    	<div class="row">
+		    		<div class="small-6 columns">
+		    			<h2 align="center">Habitacion {{rooms[i]}}</h2>
+		    		</div>
+		    		<div class="small-6 columns">
+		    			<h2 align="center">Caracteristicas</h2>
+		    		</div>
+		    	</div>
+		    	<div class="row">
+		      		<div class="small-6 columns">
+						<img src="{{ asset('bundles/img/'~rooms_cat[i]~'.jpg') }}" height="200" width="400"/>
+					</div>
+					<div class="small-6 columns">
+						<h4 class="subheader">(Posible icono) Descripcion</h4>
+						<h4 class="subheader">(Posible icono) Descripcion</h4>
+						<h4 class="subheader">(Posible icono) Descripcion</h4>
+						<h4 class="subheader">(Posible icono) Descripcion</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="small-4 columns">
+						<h3 align="center">Cuando la quieres?</h3>
+					</div>
+					<div class="small-4 columns">
+						<h3 align="center">Como la quieres?</h3>
+					</div>
+					<div class="small-4 columns">
+						<h3 align="center">En serio la quieres?</h3>
+					</div>		
+				</div>
+				{{ render(controller('GZMainBundle:Main:reserve', {'category':rooms_cat[i]})) }}
 		    </div>
 		  </li>
-		  <li data-orbit-slide="bussiness" style="background-color:#DCDCDC">
-		    <div>
-		      <h2>Habitacion 2</h2>
-		      <h3>... 2</h3>
-		    </div>
-		  </li>
-		  <li data-orbit-slide="high" style="background-color:#FFFF99">
-		    <div>
-		      <h2>Habitacion 3</h2>
-		      <h3>... 3</h3>
-		    </div>
-		  </li>
+		{% endfor %}
 		</ul>
 	</div>
 </div>
