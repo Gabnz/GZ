@@ -1,7 +1,6 @@
 {#formulario para hacer registro#}
-{% form_theme form 'GZMainBundle:Form:fields.html.twig' %}
-
 <form method="post" action="{{ path('registerattempt') }}" id="reg-form">
+	{% form_theme form 'GZMainBundle:Form:fields.html.twig' %}
 	<div class="row">
 		<div class="small-4 small-push-2 columns">
 			{{ form_row(form.email) }}

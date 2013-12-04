@@ -1,7 +1,6 @@
 {#formulario para cada categoria#}
-{% form_theme form 'GZMainBundle:Form:fields.html.twig' %}
-
 <form class="custom" action="{{ path('reserve') }}" method="post" id="res-form">
+	{% form_theme form 'GZMainBundle:Form:fields.html.twig' %}
 	<div class="row">
 		<div class="small-4 columns">
 			<div class="row">

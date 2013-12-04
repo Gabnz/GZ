@@ -2,13 +2,13 @@ index:
     pattern:  /index
     defaults: { _controller: GZMainBundle:Main:content }
 
-reservations:
-    pattern: /reservations
-    defaults: { _controller: GZMainBundle:Main:content }
-
 contact:
     pattern: /contact
     defaults: { _controller: GZMainBundle:Main:content }
+
+contactattempt:
+    pattern: /contactattempt
+    defaults: { _controller: GZMainBundle:Main:contact }
 
 login:
     pattern: /login
@@ -33,7 +33,3 @@ reserve:
 logout:
     pattern: /logout
     defaults: { _controller: GZMainBundle:Main:logout }
-
-footer:
-    pattern: /footer
-    defaults: { _controller: GZMainBundle:Main:footer }

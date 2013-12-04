@@ -2,7 +2,7 @@
 
 {% block body %}
 	{{ include('GZMainBundle:Reservations:cover.html.twig') }}
-	{{ include('GZMainBundle:User:topbar.html.twig') }}
+	{{ include('GZMainBundle::'~prefix~'-topbar.html.twig') }}
 	{{ include('GZMainBundle:Reservations:rooms.html.twig') }}
 	{{ include('GZMainBundle::footer.html.twig') }}
 {% endblock %}

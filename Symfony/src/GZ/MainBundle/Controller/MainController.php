@@ -28,7 +28,6 @@ use Symfony\Component\Form\FormError;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 
-
 class MainController extends Controller{
 	
 	public function contentAction($_route){
@@ -36,9 +35,9 @@ class MainController extends Controller{
 		$session = $this->getRequest()->getSession();
 
 		if(!$session->has('user'))
-			return $this->render('GZMainBundle:Guest:'.$_route.'.html.twig');
+			return $this->render('GZMainBundle:Content:'.$_route.'.html.twig', array('prefix' => 'guest'));
 		else
-			return $this->render('GZMainBundle:User:'.$_route.'.html.twig', array('user' => $session->get('user')));
+			return $this->render('GZMainBundle:Content:'.$_route.'.html.twig', array('prefix' => 'user', 'user' => $session->get('user')));
 	}
 
 	public function loginAction(Request $request){
@@ -192,13 +191,7 @@ public function contactAction(Request $request){
        		 	return new Response('success');
        		}
         }
-
-        return $this->render('GZMainBundle::contactform.html.twig',
+        return $this->render('GZMainBundle:Contact:form.html.twig',
         	array('form' => $form->createView()));
-	}
-
-	public function footerAction(){
-	
-		return $this->render('GZMainBundle::footer.html.twig');
 	}
 }

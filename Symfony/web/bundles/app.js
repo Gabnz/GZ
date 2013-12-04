@@ -9,8 +9,8 @@ function main(){
 		login();
 		register();
 		reserve();
-		availability();
-		formContact();
+		//availability();
+		contact();
 	});
 }
 
@@ -101,11 +101,11 @@ function availability(){
 	});
 }
 
-function formContact(){
+function contact(){
 
-	$("#footerr").on('click' , '#contact_send_button', function () {
+	$("#contact-div").on('click' , '#contact-send-button', function () {
 
-		form = $("#contact_form");
+		form = $("#contact-form");
 		
 		var inform = function(result){
 
@@ -122,9 +122,6 @@ function formContact(){
 			data: form.serialize(),
 			success: inform
 		});
-		//alert(form.attr('action'));
-	
 	});
-    
 }
 
