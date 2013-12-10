@@ -35,9 +35,9 @@ class MainController extends Controller{
 		$session = $this->getRequest()->getSession();
 
 		if(!$session->has('user'))
-			return $this->render('GZMainBundle:Content:'.$_route.'.html.twig', array('prefix' => 'guest'));
+			return $this->render('GZMainBundle:'.$_route.':'.$_route.'.html.twig', array('prefix' => 'guest'));
 		else
-			return $this->render('GZMainBundle:Content:'.$_route.'.html.twig', array('prefix' => 'user', 'user' => $session->get('user')));
+			return $this->render('GZMainBundle:'.$_route.':'.$_route.'.html.twig', array('prefix' => 'user', 'user' => $session->get('user')));
 	}
 
 	public function loginAction(Request $request){
@@ -49,7 +49,6 @@ class MainController extends Controller{
         $form->handleRequest($request);
 
         if($form->isValid()){
-
 	        //verifica si el correo esta registrado
 	        $repository = $this->getDoctrine()
     		->getRepository('GZMainBundle:User');
@@ -61,7 +60,6 @@ class MainController extends Controller{
     			$form->get('email')->addError(new FormError('Correo o contrasena invalida.'));
 
     		}else{
-
     			//inicia sesion con los datos del usuario que hizo login
     			$session = $this->getRequest()->getSession();
 
@@ -74,8 +72,7 @@ class MainController extends Controller{
 		        	return $this->redirect($this->generateUrl('index'));
     		}
    		}
-
-        return $this->render('GZMainBundle:Login:form.html.twig',
+        return $this->render('GZMainBundle:login:form.html.twig',
         	array('form' => $form->createView()));
 	}
 
@@ -97,9 +94,7 @@ class MainController extends Controller{
         $form->handleRequest($request);
 
 		if($form->isValid()){
-		 
 		    // guarda el usuario en la base de datos
-
 		    $em = $this->getDoctrine()->getManager();
     		$em->persist($user);
     		$em->flush();
@@ -114,15 +109,31 @@ class MainController extends Controller{
 
     		$session->set('user', $regiuser);
 			/*parte que realiza solo si el controlador es ejecutado por ajax*/
-	        if($request->isXmlHttpRequest()){
-
+	        if($request->isXmlHttpRequest())
 	       		return new Response($this->generateUrl('index'));
-	        }
 	        else
 	        	return $this->redirect($this->generateUrl('index'));
 		}
+        return $this->render('GZMainBundle:register:form.html.twig',
+        	array('form' => $form->createView()));
+	}
 
-        return $this->render('GZMainBundle:Register:form.html.twig',
+	public function contactAction(Request $request){
+
+		$contact = new Contact();	
+
+		$form = $this->createForm(new contactType(), $contact);
+
+        $form->handleRequest($request);
+
+        if($form->isValid()){
+        	/*parte que realiza solo si el controlador es ejecutado por ajax*/
+	        if($request->isXmlHttpRequest())
+	       		 return new Response($this->generateUrl('index'));
+	       	else
+	       		return $this->redirect($this->generateUrl('index'));
+        }
+        return $this->render('GZMainBundle:contact:form.html.twig',
         	array('form' => $form->createView()));
 	}
 
@@ -168,30 +179,9 @@ class MainController extends Controller{
 		       	return new Response('success');
 		    }
 		    else
-		    	return $this->redirect($this->generateUrl('main'));
+		    	return $this->redirect($this->generateUrl('reserve'));
 		}
-		return $this->render('GZMainBundle:Reservations:form.html.twig',
+		return $this->render('GZMainBundle:reserve:form.html.twig',
         	array('form' => $form->createView(), 'user' => $user, 'category' => $category));
-	}
-
-
-public function contactAction(Request $request){
-
-		$contact = new Contact();	
-
-		$form = $this->createForm(new contactType(), $contact);
-
-        $form->handleRequest($request);
-
-        /*parte que realiza solo si el controlador es ejecutado por ajax*/
-        if($request->isXmlHttpRequest()){
-
-       		if($form->isValid()){
-
-       		 	return new Response('success');
-       		}
-        }
-        return $this->render('GZMainBundle:Contact:form.html.twig',
-        	array('form' => $form->createView()));
 	}
 }

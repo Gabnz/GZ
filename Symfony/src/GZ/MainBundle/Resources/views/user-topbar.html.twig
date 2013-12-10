@@ -14,6 +14,7 @@
         <a href="#">{{user.firstname}}</a>
         <ul class="dropdown">
           <li><a href="#">Opciones intermedias</a></li>
+          <li><a href="{{ path('bill') }}">Mi factura</a></li>
           <li><a href="{{ path('logout') }}">Cerrar sesion</a></li>
         </ul>
       </li>
@@ -26,7 +27,7 @@
         <li class="divider"></li>
         <li><a href="{{ path('reserve') }}">Reservaciones</a></li>
         <li class="divider"></li>
-        <li><a href="{{ path('contact') }}">Contacto</a></li>
+        <li><a href="{{ path('team') }}">Equipo</a></li>
         <li class="divider"></li>
       </ul>
     </section>

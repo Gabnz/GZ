@@ -1,0 +1,20 @@
+{% extends 'GZMainBundle::layout.html.twig' %}
+
+{% block body %}
+	{#cover de login#}
+	<div class="cover-div"
+	style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+	</div>
+	{#barra superior#}
+	{{ include('GZMainBundle::guest-topbar.html.twig') }}
+	{#titulo#}
+	<div class="title-div">
+		<h1>Login</h1>
+	</div>
+	{#formulario de login#}
+	<div id="log-div">
+		{{ render(controller('GZMainBundle:Main:login')) }}
+	</div>
+	{#footer#}
+	{{ include('GZMainBundle::footer.html.twig') }}
+{% endblock %}

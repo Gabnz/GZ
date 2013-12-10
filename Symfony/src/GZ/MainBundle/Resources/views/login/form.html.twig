@@ -1,7 +1,6 @@
-{#formulario para hacer login#}
 <form method="post" action="{{ path('loginattempt') }}" id="log-form">
 	{% form_theme form 'GZMainBundle:Form:fields.html.twig' %}
-	<div class="small-5 small-centered columns">
+	<div class="small-12 medium-5 large-5 small-centered medium-centered large-centered columns">
 		<div class="row">
 			<div class="small-12 columns">
 				{{ form_row(form.email) }}
@@ -11,11 +10,8 @@
 			</div>
 		</div>
 		{{ form_rest(form) }}
-		<div class="row">
-			<div class="small-4 small-centered columns">
-				<a class="button" id="log-send-button">Ingresar</a>
-			</div>
+		<div align="center">
+			<a class="button" id="log-send-button">Ingresar</a>
 		</div>
 	</div>
 </form>
-	

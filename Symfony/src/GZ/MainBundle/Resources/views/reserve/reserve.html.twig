@@ -1,9 +1,17 @@
-{#reservaciones#}
-<div style="width:100%; height:200%;">
-	<div class="small-6 columns" style="width:100%; height:15%;">
-		<h1 align="center" style="position: absolute; width:100%; bottom: 0; text-align: center;">Reservaciones</h1>
-	</div>
+{% extends 'GZMainBundle::layout.html.twig' %}
 
+{% block body %}
+	{#cover de reserva#}
+	<div class="cover-div"
+	style="background-image:url({{ asset('bundles/img/reservations.jpg') }});">
+	</div>
+	{#barra superior#}
+	{{ include('GZMainBundle::'~prefix~'-topbar.html.twig') }}
+	{#titulo#}
+	<div class="title-div">
+		<h1>Reservaciones</h1>
+	</div>
+	{#reserva de habitaciones por categoria#}
 	{% set rooms = [ "Estandar" , "Business" , "Alta" ] %}
 	{% set rooms_cat = ["standard", "bussiness", "high"] %}
 	{% set backgrounds = [ "#FFFFFF", "#DCDCDC", "#FFFF99"] %}
@@ -15,8 +23,8 @@
 			</a>
 		{% endfor %}
 	</p>
-	
-	<div id="res-div" class="small-11 small-centered columns">
+
+	<div class="small-11 small-centered columns">
 		<ul data-orbit data-options="animation:'fade'; navigation_arrows: false;  slide_number: false; bullets: false; timer: false; stack_on_small: false;">
 
 		{% for i in 0..2 %}
@@ -32,7 +40,9 @@
 		    	</div>
 		    	<div class="row">
 		      		<div class="small-6 columns">
-						<img src="{{ asset('bundles/img/'~rooms_cat[i]~'.jpg') }}" height="200" width="400"/>
+		      			<a class="th" href="{{ asset('bundles/img/'~rooms_cat[i]~'.jpg') }}">
+							<img src="{{ asset('bundles/img/'~rooms_cat[i]~'.jpg') }}"/>
+						</a>
 					</div>
 					<div class="small-6 columns">
 						<h4 class="subheader">(Posible icono) Descripcion</h4>
@@ -52,10 +62,15 @@
 						<h3 align="center">En serio la quieres?</h3>
 					</div>		
 				</div>
-				{{ render(controller('GZMainBundle:Main:reserve', {'category':rooms_cat[i]})) }}
+				{#formulario de disponibilidad y reserva#}
+				<div id="res-div">
+					{{ render(controller('GZMainBundle:Main:reserve', {'category':rooms_cat[i]})) }}
+				</div>
 		    </div>
 		  </li>
 		{% endfor %}
 		</ul>
 	</div>
-</div>
+	{#footer#}
+	{{ include('GZMainBundle::footer.html.twig') }}
+{% endblock %}

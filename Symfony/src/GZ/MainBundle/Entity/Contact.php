@@ -26,32 +26,6 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=50)
-     * @Assert\NotBlank(message="Porfavor introduzca su nombre.")
-     * @Assert\Regex(
-     *      pattern="/^[a-zA-Z][\S]*$/",
-     *      match=true,
-     *      message="Porfavor introduzca un solo nombre que sea valido."
-     *  )
-     */
-    private $firstname;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lastname", type="string", length=50)
-     * @Assert\NotBlank(message="Porfavor introduzca su apellido.")
-     * @Assert\Regex(
-     *      pattern="/^[a-zA-Z][\S]*$/",
-     *      match=true,
-     *      message="Porfavor introduzca un solo apellido que sea valido."
-     *  )
-     */
-    private $lastname;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="email", type="string", length=100)
      * @Assert\NotBlank(message = "Porfavor introduzca su correo.")
      * @Assert\Email(message = "El correo '{{ value }}' no es valido.")
@@ -66,7 +40,6 @@ class Contact
      */
     private $message;
 
-
     /**
      * Get id
      *
@@ -75,52 +48,6 @@ class Contact
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set firstname
-     *
-     * @param string $firstname
-     * @return Contact
-     */
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
-    
-        return $this;
-    }
-
-    /**
-     * Get firstname
-     *
-     * @return string 
-     */
-    public function getFirstname()
-    {
-        return $this->firstname;
-    }
-
-    /**
-     * Set lastname
-     *
-     * @param string $lastname
-     * @return Contact
-     */
-    public function setLastname($lastname)
-    {
-        $this->lastname = $lastname;
-    
-        return $this;
-    }
-
-    /**
-     * Get lastname
-     *
-     * @return string 
-     */
-    public function getLastname()
-    {
-        return $this->lastname;
     }
 
     /**

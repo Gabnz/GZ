@@ -109,9 +109,10 @@ function contact(){
 		
 		var inform = function(result){
 
-			if(result == 'success')
+			if(result[0] == '/'){
 				alert('bien.');
-			else
+				window.location.replace(result);
+			}else
 				form.replaceWith(result);
 		};
 

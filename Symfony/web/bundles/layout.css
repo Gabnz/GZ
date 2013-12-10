@@ -2,14 +2,43 @@ body,html{
 	width:100%;
     height:100%;
 }
-/*100% de la pantalla para cada vista*/
-.view-div{
-	width:100%;
-	height:100%;
-}
 
 .parallax-div{
+	width:100%;
+	height:90%;
 	background-size: 100%;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+}
+
+.cover-div{
+	width:100%;
+	height:40%;
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+.title-div{
+	margin-top:10%;
+	margin-bottom:2%;
+	text-align: center;
+}
+
+#footer-div{
+	width:100%;
+	height:30%;
+	background-color:#474747;
+}
+
+#contact-div{
+	padding: 20px 20px 0px 20px;
+}
+
+.hr{
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+textarea{
+    resize: none;
 }

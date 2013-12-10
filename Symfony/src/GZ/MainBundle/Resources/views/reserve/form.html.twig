@@ -40,22 +40,16 @@
 					<span class="postfix">-</span>
 				</div>
 			</div>
-
+			
 			<div class="small-12 columns">&nbsp;</div>
 
-			{% if user != null %}
-				<div class="row">
-					<div class="small-5 small-centered columns">
-						<a class="button" id="res-send-button">Reservar</a>
-					</div>
-				</div>
-			{% else %}
-				<div class="row">
-					<div class="small-12 columns">
-						<h5 align="center">Ingresa a tu cuenta para reservar</h5>
-					</div>
-				</div>
-			{% endif %}
+			<div align="center">
+				{% if user != null %}
+					<a class="button" id="res-send-button">Reservar</a>
+				{% else %}
+					<h5 align="center">Ingresa a tu cuenta para reservar</h5>
+				{% endif %}
+			</div>
 		</div>
 	</div>
 </form>
