@@ -24,7 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Reserve
 {
     /**
-    * @ORM\ManyToOne(targetEntity="User", inversedBy="reserves")
+    * @ORM\ManyToOne(targetEntity="\GZ\UserBundle\Entity\User", inversedBy="reserves")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=FALSE)
     */
     private $user;
@@ -238,10 +238,10 @@ class Reserve
     /**
      * Set user
      *
-     * @param \GZ\MainBundle\Entity\User $user
+     * @param \GZ\UserBundle\Entity\User $user
      * @return Reserve
      */
-    public function setUser(\GZ\MainBundle\Entity\User $user = null)
+    public function setUser(\GZ\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
     
@@ -251,7 +251,7 @@ class Reserve
     /**
      * Get user
      *
-     * @return \GZ\MainBundle\Entity\User 
+     * @return \GZ\UserBundle\Entity\User 
      */
     public function getUser()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace GZ\MainBundle\Entity;
+namespace GZ\UserBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

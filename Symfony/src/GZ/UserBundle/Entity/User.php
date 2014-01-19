@@ -1,6 +1,6 @@
 <?php
 
-namespace GZ\MainBundle\Entity;
+namespace GZ\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,12 +21,12 @@ class User
 {
 
     /**
-    * @ORM\OneToMany(targetEntity="Reserve", mappedBy="user")
+    * @ORM\OneToMany(targetEntity="\GZ\MainBundle\Entity\Reserve", mappedBy="user")
     */
     private $reserves;
 
     /**
-    * @ORM\OneToMany(targetEntity="Bill", mappedBy="user")
+    * @ORM\OneToMany(targetEntity="\GZ\MainBundle\Entity\Bill", mappedBy="user")
     */
     private $bills;
 

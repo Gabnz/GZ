@@ -2,25 +2,25 @@ index:
     pattern:  /index
     defaults: { _controller: GZMainBundle:Main:content }
 
-login:
-    pattern: /login
-    defaults: { _controller: GZMainBundle:Main:content }
+#login:
+#    pattern:  /login
+#    defaults: { _controller: GZMainBundle:Main:content }
 
-loginattempt:
-    pattern: /loginattempt
-    defaults: { _controller: GZMainBundle:Main:login }
+#loginattempt:
+#    pattern: /loginattempt
+#    defaults: { _controller: GZMainBundle:Main:loginattempt }
 
-logout:
-    pattern: /logout
-    defaults: { _controller: GZMainBundle:Main:logout }
+#logout:
+#   pattern: /logout
+#    defaults: { _controller: GZMainBundle:Main:logout }
 
-register:
-    pattern: /register
-    defaults: { _controller: GZMainBundle:Main:content }
+#register:
+#    pattern: /register
+#    defaults: { _controller: GZMainBundle:Main:content }
 
-registerattempt:
-    pattern: /registerattempt
-    defaults: { _controller: GZMainBundle:Main:register }
+#registerattempt:
+#    pattern: /registerattempt
+#    defaults: { _controller: GZMainBundle:Main:register }
 
 team:
     pattern: /team

@@ -1,3 +1,7 @@
 gz_main:
     resource: "@GZMainBundle/Resources/config/routing.yml"
     prefix:   /
+
+gz_user:
+    resource: "@GZUserBundle/Resources/config/routing.yml"
+    prefix:   /

@@ -9,11 +9,11 @@
 	{{ include('GZMainBundle::guest-topbar.html.twig') }}
 	{#titulo#}
 	<div class="title-div">
-		<h1>Registrooo</h1>
+		<h1>Registro</h1>
 	</div>
 	{#formulario de registro#}
 	<div id="reg-div">
-		{{ render(controller('GZMainBundle:Main:register')) }}
+		{{ render(controller('GZUserBundle:User:registerattempt')) }}
 	</div>
 	{#footer#}
 	{{ include('GZMainBundle::footer.html.twig') }}

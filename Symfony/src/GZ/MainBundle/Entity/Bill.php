@@ -16,7 +16,7 @@ class Bill
 {
 
     /**
-    * @ORM\ManyToOne(targetEntity="User", inversedBy="bills")
+    * @ORM\ManyToOne(targetEntity="\GZ\UserBundle\Entity\User", inversedBy="bills")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=FALSE)
     */
     private $user;
@@ -116,10 +116,10 @@ class Bill
     /**
      * Set user
      *
-     * @param \GZ\MainBundle\Entity\User $user
+     * @param \GZ\UserBundle\Entity\User $user
      * @return Bill
      */
-    public function setUser(\GZ\MainBundle\Entity\User $user)
+    public function setUser(\GZ\UserBundle\Entity\User $user)
     {
         $this->user = $user;
     
@@ -129,7 +129,7 @@ class Bill
     /**
      * Get user
      *
-     * @return \GZ\MainBundle\Entity\User 
+     * @return \GZ\UserBundle\Entity\User 
      */
     public function getUser()
     {

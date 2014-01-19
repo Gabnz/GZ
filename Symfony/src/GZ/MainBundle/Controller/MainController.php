@@ -3,29 +3,13 @@
 namespace GZ\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
-
 use Symfony\Component\HttpFoundation\Response;
-
-use GZ\MainBundle\Entity\User;
-
-use GZ\MainBundle\Form\Type\UserType;
-
-use GZ\MainBundle\Entity\Login;
-
-use GZ\MainBundle\Form\Type\LoginType;
-
 use GZ\MainBundle\Entity\Reserve;
-
 use GZ\MainBundle\Form\Type\ReserveType;
-
 use GZ\MainBundle\Entity\Contact;
-
 use GZ\MainBundle\Form\Type\ContactType;
-
 use Symfony\Component\Form\FormError;
-
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class MainController extends Controller{
@@ -40,52 +24,35 @@ class MainController extends Controller{
 			return $this->render('GZMainBundle:'.$_route.':'.$_route.'.html.twig', array('prefix' => 'user', 'user' => $session->get('user')));
 	}
 
-	public function loginAction(Request $request){
+	/*public function loginattemptAction(Request $request){
 
-		$login = new Login();
+		$response = $this->forward('GZUserBundle:User:loginattempt',
+			array('request' => $request));
 
-		$form = $this->createForm(new LoginType(), $login);
+		$r = unserialize($response->getContent());
 
-        $form->handleRequest($request);
+		if($r == true){
+			//parte que realiza solo si el controlador es ejecutado por ajax
+			if($request->isXmlHttpRequest())
+		 	   return new Response($this->generateUrl('index'));
+			else
+		    	return $this->redirect($this->generateUrl('index'));
+		}
 
-        if($form->isValid()){
-	        //verifica si el correo esta registrado
-	        $repository = $this->getDoctrine()
-    		->getRepository('GZMainBundle:User');
-
-    		$user = $repository->findOneBy(array('email' => $login->getEmail(), 'pass' => $login->getPass()));
-
-    		if(!$user){
-
-    			$form->get('email')->addError(new FormError('Correo o contrasena invalida.'));
-
-    		}else{
-    			//inicia sesion con los datos del usuario que hizo login
-    			$session = $this->getRequest()->getSession();
-
-    			$session->set('user', $user);
-
-	    		/*parte que realiza solo si el controlador es ejecutado por ajax*/
-		        if($request->isXmlHttpRequest())
-		       		return new Response($this->generateUrl('index'));
-		        else
-		        	return $this->redirect($this->generateUrl('index'));
-    		}
-   		}
         return $this->render('GZMainBundle:login:form.html.twig',
-        	array('form' => $form->createView()));
-	}
+        	array('form' => $r));
+	}*/
 
-	public function logoutAction(){
+	/*public function logoutAction(){
 
 		$session = $this->getRequest()->getSession();
 
 		$session->clear();
 
 		return $this->redirect($this->generateUrl('index'));
-	}
+	}*/
 
-	public function registerAction(Request $request){
+	/*public function registerAction(Request $request){
 
 		$user = new User();
 
@@ -108,7 +75,7 @@ class MainController extends Controller{
     		$session = $this->getRequest()->getSession();
 
     		$session->set('user', $regiuser);
-			/*parte que realiza solo si el controlador es ejecutado por ajax*/
+			//parte que realiza solo si el controlador es ejecutado por ajax
 	        if($request->isXmlHttpRequest())
 	       		return new Response($this->generateUrl('index'));
 	        else
@@ -116,7 +83,7 @@ class MainController extends Controller{
 		}
         return $this->render('GZMainBundle:register:form.html.twig',
         	array('form' => $form->createView()));
-	}
+	}*/
 
 	public function contactAction(Request $request){
 
