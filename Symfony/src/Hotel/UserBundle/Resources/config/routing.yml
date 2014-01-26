@@ -1,3 +1,7 @@
 hotel_user_homepage:
-    pattern:  /hello/{name}
+    pattern:  /user/hello/{name}
     defaults: { _controller: HotelUserBundle:Default:index }
+
+HotelUserBundle_user:
+        resource: "@HotelUserBundle/Resources/config/routing/user.yml"
+        prefix:   /user

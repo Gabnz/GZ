@@ -1,0 +1,52 @@
+{% extends '::foundation.base.html.twig' %}
+
+{% block body -%}
+<div class="cover-div"
+    style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
+<div class="title-div">
+    <h1>Lista de Usuarios</h1>
+</div>
+
+<div align="center">
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Cedula</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.firstname }}</td>
+                <td>{{ entity.lastname }}</td>
+                <td>{{ entity.email }}</td>
+                <td>{{ entity.idcard }}</td>
+                <td>
+                <ul class="button-group">
+                    <li>
+                        <a href="{{ path('user_show', { 'id': entity.id }) }}" class="button small">mostrar</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('user_edit', { 'id': entity.id }) }}" class="button small">editar</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div align="center">
+    <a href="{{ path('user_new') }}" class="button">
+        Crear nuevo usuario
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends '::foundation.base.html.twig' %}
+
+{% block body -%}
+<div class="cover-div"
+	style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
+
+<div class="title-div">
+	<h1>Editar Usuario</h1>
+</div>
+
+{% include 'HotelUserBundle:User:form.html.twig' with {'form': edit_form} %}
+
+<div align="center">
+    {{ form(delete_form) }}
+</div>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('user') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}
