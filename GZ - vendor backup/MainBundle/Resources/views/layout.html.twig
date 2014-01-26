@@ -1,0 +1,26 @@
+{#capa que da formato y estilo#}
+
+{% extends '::new.base.html.twig' %}
+
+{% block title %}Bienvenido!{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/layout.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/foundation-icons/foundation-icons.css')}}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/foundation-5.0.2/css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/foundation-5.0.2/css/foundation.min.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/foundation-5.0.2/js/vendor/custom.modernizr.js') }}"></script>
+    <script src="{{ asset('bundles/foundation-5.0.2/js/vendor/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/foundation-5.0.2/js/foundation.min.js') }}"></script>
+	<script src="{{ asset('bundles/foundation-5.0.2/js/foundation/foundation.topbar.js') }}"></script>
+	<script src="{{ asset('bundles/foundation-5.0.2/js/foundation/foundation.abide.js') }}"></script>
+	<script src="{{ asset('bundles/stellar.js/jquery.stellar.min.js') }}"></script>
+	<script src="{{ asset('bundles/app.js') }}"></script>
+	<script>
+      $(document).foundation();
+    </script>
+{% endblock %}
+

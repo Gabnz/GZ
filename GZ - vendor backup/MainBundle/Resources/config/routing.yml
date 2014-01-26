@@ -1,0 +1,39 @@
+index:
+    pattern:  /index
+    defaults: { _controller: GZMainBundle:Main:content }
+
+#login:
+#    pattern:  /login
+#    defaults: { _controller: GZMainBundle:Main:content }
+
+#loginattempt:
+#    pattern: /loginattempt
+#    defaults: { _controller: GZMainBundle:Main:loginattempt }
+
+#logout:
+#   pattern: /logout
+#    defaults: { _controller: GZMainBundle:Main:logout }
+
+#register:
+#    pattern: /register
+#    defaults: { _controller: GZMainBundle:Main:content }
+
+#registerattempt:
+#    pattern: /registerattempt
+#    defaults: { _controller: GZMainBundle:Main:register }
+
+team:
+    pattern: /team
+    defaults: { _controller: GZMainBundle:Main:content }
+
+contactattempt:
+    pattern: /contactattempt
+    defaults: { _controller: GZMainBundle:Main:contact }
+
+reserve:
+    pattern: /reserve
+    defaults: { _controller: GZMainBundle:Main:content }
+
+bill:
+    pattern: /bill
+    defaults: { _controller: GZMainBundle:Main:content }

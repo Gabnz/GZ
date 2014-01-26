@@ -1,0 +1,16 @@
+{% extends 'GZMainBundle::layout.html.twig' %}
+
+{% block body %}
+	{#cover de factura#}
+	<div class="cover-div"
+	style="background-image:url({{ asset('bundles/img/bill.jpg') }});">
+	</div>
+	{#barra superior#}
+	{{ include('GZMainBundle::'~prefix~'-topbar.html.twig') }}
+	{#titulo#}
+	<div class="title-div">
+		<h1>Factura</h1>
+	</div>
+	{#footer#}
+	{{ include('GZMainBundle::footer.html.twig') }}
+{% endblock %}

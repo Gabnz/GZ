@@ -1,3 +1,19 @@
+hotel_main:
+    resource: "@HotelMainBundle/Resources/config/routing.yml"
+    prefix:   /main
+
+hotel_bill:
+    resource: "@HotelBillBundle/Resources/config/routing.yml"
+    prefix:   /bill
+
+hotel_room:
+    resource: "@HotelRoomBundle/Resources/config/routing.yml"
+    prefix:   /room
+
+hotel_user:
+    resource: "@HotelUserBundle/Resources/config/routing.yml"
+    prefix:   /user
+
 gz_main:
     resource: "@GZMainBundle/Resources/config/routing.yml"
     prefix:   /

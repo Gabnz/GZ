@@ -1,0 +1,18 @@
+{#formulario para contactar#}
+<form method="post" action="{{ path('contactattempt') }}" id="contact-form">
+	{% form_theme form 'GZMainBundle:Form:fields.html.twig' %}
+	<div class="row">
+		<div class="small-12 columns">
+			{{ form_row(form.email) }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="small-12 columns">
+			{{ form_row(form.message) }}
+		</div>
+	</div>
+	<div align="center">
+		<a class="button" id="contact-send-button">Enviar</a>
+	</div>
+	{{ form_rest(form) }}
+</form>	

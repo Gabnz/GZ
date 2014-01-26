@@ -1,0 +1,7 @@
+parameters:
+#    hotel_bill.example.class: Hotel\BillBundle\Example
+
+services:
+#    hotel_bill.example:
+#        class: %hotel_bill.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

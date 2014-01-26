@@ -1,0 +1,17 @@
+<form method="post" action="{{ path('loginattempt') }}" id="log-form">
+	{% form_theme form 'GZMainBundle:Form:fields.html.twig' %}
+	<div class="small-12 medium-5 large-5 small-centered medium-centered large-centered columns">
+		<div class="row">
+			<div class="small-12 columns">
+				{{ form_row(form.email) }}
+			</div>
+			<div class="small-12 columns">
+				{{ form_row(form.pass) }}
+			</div>
+		</div>
+		{{ form_rest(form) }}
+		<div align="center">
+			<a class="button" id="log-send-button">Ingresar</a>
+		</div>
+	</div>
+</form>

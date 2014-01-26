@@ -18,6 +18,10 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new GZ\MainBundle\GZMainBundle(),
             new GZ\UserBundle\GZUserBundle(),
+            new Hotel\UserBundle\HotelUserBundle(),
+            new Hotel\RoomBundle\HotelRoomBundle(),
+            new Hotel\BillBundle\HotelBillBundle(),
+            new Hotel\MainBundle\HotelMainBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
