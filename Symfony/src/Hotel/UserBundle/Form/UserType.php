@@ -30,7 +30,8 @@ class UserType extends AbstractType
         ->add('creditcard', 'text', array('label' => 'Numero de tarjeta de credito'))
         ->add('account', 'choice', array( 'choices' => array('current' => 'Corriente', 'saving' => 'Ahorro'),'label' => 'Tipo de cuenta'))
         ->add('nationality', 'choice', array('choices' => array('venezuelan' => 'Venezolano(a)', 'foreign' => 'Extranjero(a)'),'label' => 'Nacionalidad'))
-        ->add('rif', 'text', array('label' => 'RIF'));
+        ->add('rif', 'text', array('label' => 'RIF'))
+        ;
     }
     
     /**

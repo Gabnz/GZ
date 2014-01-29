@@ -162,10 +162,10 @@ class BillItems
     /**
      * Set bill
      *
-     * @param \GZ\MainBundle\Entity\Bill $bill
+     * @param \Hotel\BillBundle\Entity\Bill $bill
      * @return BillItems
      */
-    public function setBill(\GZ\MainBundle\Entity\Bill $bill)
+    public function setBill(\Hotel\BillBundle\Entity\Bill $bill)
     {
         $this->bill = $bill;
     
@@ -175,7 +175,7 @@ class BillItems
     /**
      * Get bill
      *
-     * @return \GZ\MainBundle\Entity\Bill 
+     * @return \Hotel\BillBundle\Entity\Bill 
      */
     public function getBill()
     {

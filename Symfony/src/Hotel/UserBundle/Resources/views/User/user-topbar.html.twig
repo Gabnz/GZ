@@ -2,7 +2,7 @@
   <nav class="top-bar" data-topbar>
     <ul class="title-area">
       <li class="name">
-        <h1><a>Hotel Symfonia</a></h1>
+        <h1><a href="#">Hotel Symfonia</a></h1>
       </li>
     </ul>
     
@@ -14,8 +14,8 @@
         <a href="#">{{user.firstname}}</a>
         <ul class="dropdown">
           <li><a href="#">Opciones intermedias</a></li>
-          <li><a href="{{ path('bill') }}">Mi factura</a></li>
-          <li><a href="{{ path('logout') }}">Cerrar sesion</a></li>
+          <li><a href="#">Mi factura</a></li>
+          <li><a href="{{ path('user_logout') }}">Cerrar sesion</a></li>
         </ul>
       </li>
       </ul>
@@ -23,11 +23,9 @@
       <!-- Left Nav Section -->
       <ul class="left">
         <li class="divider"></li>
-        <li><a href="{{ path('index') }}">Inicio</a></li>
+        <li><a href="#">Reservaciones</a></li>
         <li class="divider"></li>
-        <li><a href="{{ path('reserve') }}">Reservaciones</a></li>
-        <li class="divider"></li>
-        <li><a href="{{ path('team') }}">Equipo</a></li>
+        <li><a href="#">Equipo</a></li>
         <li class="divider"></li>
       </ul>
     </section>

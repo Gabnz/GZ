@@ -13,11 +13,3 @@ hotel_room:
 hotel_user:
     resource: "@HotelUserBundle/Resources/config/routing.yml"
     prefix:   /
-
-gz_main:
-    resource: "@GZMainBundle/Resources/config/routing.yml"
-    prefix:   /old
-
-gz_user:
-    resource: "@GZUserBundle/Resources/config/routing.yml"
-    prefix:   /old

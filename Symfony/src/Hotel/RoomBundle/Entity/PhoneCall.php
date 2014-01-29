@@ -192,10 +192,10 @@ class PhoneCall
     /**
      * Set reserve
      *
-     * @param \GZ\MainBundle\Entity\Reserve $reserve
+     * @param \Hotel\RoomBundle\Entity\Reserve $reserve
      * @return PhoneCall
      */
-    public function setReserve(\GZ\MainBundle\Entity\Reserve $reserve)
+    public function setReserve(\Hotel\RoomBundle\Entity\Reserve $reserve)
     {
         $this->reserve = $reserve;
     
@@ -205,7 +205,7 @@ class PhoneCall
     /**
      * Get reserve
      *
-     * @return \GZ\MainBundle\Entity\Reserve 
+     * @return \Hotel\RoomBundle\Entity\Reserve 
      */
     public function getReserve()
     {

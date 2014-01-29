@@ -10,21 +10,33 @@ user_new:
     pattern:  /new
     defaults: { _controller: "HotelUserBundle:User:new" }
 
-user_create:
-    pattern:  /create
-    defaults: { _controller: "HotelUserBundle:User:create" }
-    requirements: { _method: post }
+#user_create:
+#    pattern:  /create
+#    defaults: { _controller: "HotelUserBundle:User:create" }
+#    requirements: { _method: post }
 
 user_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "HotelUserBundle:User:edit" }
 
-user_update:
-    pattern:  /{id}/update
-    defaults: { _controller: "HotelUserBundle:User:update" }
-    requirements: { _method: post|put }
+#user_update:
+#    pattern:  /{id}/update
+#    defaults: { _controller: "HotelUserBundle:User:update" }
+#    requirements: { _method: post|put }
 
 user_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "HotelUserBundle:User:delete" }
     requirements: { _method: post|delete }
+
+user_login:
+    pattern:  /login
+    defaults: { _controller: "HotelUserBundle:User:login" }
+
+user_logout:
+    pattern:  /logout
+    defaults: { _controller: "HotelUserBundle:User:logout" }
+
+user_hello:
+    pattern:  /hello/{name}
+    defaults: { _controller: HotelUserBundle:Default:index }

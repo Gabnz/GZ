@@ -1,0 +1,18 @@
+{% extends '::foundation.base.html.twig' %}
+
+{% block body %}
+	{#cover de login#}
+	<div class="cover-div"
+	style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+	</div>
+
+	{{ include('HotelUserBundle:User:guest-topbar.html.twig') }}
+	{#titulo de login#}
+	<div class="title-div">
+		<h1>Login</h1>
+	</div>
+	{#formulario de login#}
+	{% include 'HotelUserBundle:User:login-form.html.twig' with {'form': form} %}
+	{#footer#}
+
+{% endblock %}

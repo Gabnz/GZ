@@ -198,10 +198,10 @@ class ConsumableStore
     /**
      * Add consumables
      *
-     * @param \GZ\MainBundle\Entity\Consumable $consumables
+     * @param \Hotel\RoomBundle\Entity\Consumable $consumables
      * @return ConsumableStore
      */
-    public function addConsumable(\GZ\MainBundle\Entity\Consumable $consumables)
+    public function addConsumable(\Hotel\RoomBundle\Entity\Consumable $consumables)
     {
         $this->consumables[] = $consumables;
     
@@ -211,9 +211,9 @@ class ConsumableStore
     /**
      * Remove consumables
      *
-     * @param \GZ\MainBundle\Entity\Consumable $consumables
+     * @param \Hotel\RoomBundle\Entity\Consumable $consumables
      */
-    public function removeConsumable(\GZ\MainBundle\Entity\Consumable $consumables)
+    public function removeConsumable(\Hotel\RoomBundle\Entity\Consumable $consumables)
     {
         $this->consumables->removeElement($consumables);
     }

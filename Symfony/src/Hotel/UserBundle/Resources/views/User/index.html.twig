@@ -4,6 +4,9 @@
 <div class="cover-div"
     style="background-image:url({{ asset('bundles/img/login.jpg') }});">
 </div>
+
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
 <div class="title-div">
     <h1>Lista de Usuarios</h1>
 </div>
@@ -46,7 +49,7 @@
 
 <div align="center">
     <a href="{{ path('user_new') }}" class="button">
-        Crear nuevo usuario
+        Registrar nuevo usuario
     </a>
 </div>
 {% endblock %}

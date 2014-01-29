@@ -2,7 +2,7 @@
   <nav class="top-bar" data-topbar>
     <ul class="title-area">
       <li class="name">
-        <h1><a>Hotel Symfonia</a></h1>
+        <h1><a href="#">Hotel Symfonia</a></h1>
       </li>
     </ul>
     
@@ -11,22 +11,20 @@
       <ul class="right">
       	<li class="divider"></li>
         	<li class="has-form">
-    			 <a href="{{ path('register') }}" class="button">Registrate</a>
+    			 <a href="{{ path('user_new') }}" class="button">Registrate</a>
   		    </li>
           <li class="divider"></li>
         	<li class="has-form">
-    			 <a href="{{ path('login') }}" class="button">Haz login</a>
+    			 <a href="{{ path('user_login') }}" class="button">Haz login</a>
   		    </li>
       </ul>
 
       <!-- Left Nav Section -->
       <ul class="left">
         <li class="divider"></li>
-        <li><a href="{{ path('index') }}">Inicio</a></li>
+        <li><a href="#">Reservaciones</a></li>
         <li class="divider"></li>
-        <li><a href="{{ path('reserve') }}">Reservaciones</a></li>
-        <li class="divider"></li>
-        <li><a href="{{ path('team') }}">Equipo</a></li>
+        <li><a href="#">Equipo</a></li>
         <li class="divider"></li>
       </ul>
     </section>

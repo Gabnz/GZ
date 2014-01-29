@@ -78,10 +78,10 @@ class Consumable
     /**
      * Set reserve
      *
-     * @param \GZ\MainBundle\Entity\Reserve $reserve
+     * @param \Hotel\RoomBundle\Entity\Reserve $reserve
      * @return Consumable
      */
-    public function setReserve(\GZ\MainBundle\Entity\Reserve $reserve)
+    public function setReserve(\Hotel\RoomBundle\Entity\Reserve $reserve)
     {
         $this->reserve = $reserve;
     
@@ -91,7 +91,7 @@ class Consumable
     /**
      * Get reserve
      *
-     * @return \GZ\MainBundle\Entity\Reserve 
+     * @return \Hotel\RoomBundle\Entity\Reserve 
      */
     public function getReserve()
     {
@@ -101,10 +101,10 @@ class Consumable
     /**
      * Set consumablestore
      *
-     * @param \GZ\MainBundle\Entity\ConsumableStore $consumablestore
+     * @param \Hotel\RoomBundle\Entity\ConsumableStore $consumablestore
      * @return Consumable
      */
-    public function setConsumablestore(\GZ\MainBundle\Entity\ConsumableStore $consumablestore)
+    public function setConsumablestore(\Hotel\RoomBundle\Entity\ConsumableStore $consumablestore)
     {
         $this->consumablestore = $consumablestore;
     
@@ -114,7 +114,7 @@ class Consumable
     /**
      * Get consumablestore
      *
-     * @return \GZ\MainBundle\Entity\ConsumableStore 
+     * @return \Hotel\RoomBundle\Entity\ConsumableStore 
      */
     public function getConsumablestore()
     {

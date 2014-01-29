@@ -116,10 +116,10 @@ class Bill
     /**
      * Set user
      *
-     * @param \GZ\UserBundle\Entity\User $user
+     * @param \Hotel\UserBundle\Entity\User $user
      * @return Bill
      */
-    public function setUser(\GZ\UserBundle\Entity\User $user)
+    public function setUser(\Hotel\UserBundle\Entity\User $user)
     {
         $this->user = $user;
     
@@ -129,7 +129,7 @@ class Bill
     /**
      * Get user
      *
-     * @return \GZ\UserBundle\Entity\User 
+     * @return \Hotel\UserBundle\Entity\User 
      */
     public function getUser()
     {
@@ -139,10 +139,10 @@ class Bill
     /**
      * Add billitems
      *
-     * @param \GZ\MainBundle\Entity\BillItems $billitems
+     * @param \Hotel\BillBundle\Entity\BillItems $billitems
      * @return Bill
      */
-    public function addBillitem(\GZ\MainBundle\Entity\BillItems $billitems)
+    public function addBillitem(\Hotel\BillBundle\Entity\BillItems $billitems)
     {
         $this->billitems[] = $billitems;
     
@@ -152,9 +152,9 @@ class Bill
     /**
      * Remove billitems
      *
-     * @param \GZ\MainBundle\Entity\BillItems $billitems
+     * @param \Hotel\BillBundle\Entity\BillItems $billitems
      */
-    public function removeBillitem(\GZ\MainBundle\Entity\BillItems $billitems)
+    public function removeBillitem(\Hotel\BillBundle\Entity\BillItems $billitems)
     {
         $this->billitems->removeElement($billitems);
     }

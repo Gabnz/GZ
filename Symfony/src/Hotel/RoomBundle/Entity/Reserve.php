@@ -238,10 +238,10 @@ class Reserve
     /**
      * Set user
      *
-     * @param \GZ\UserBundle\Entity\User $user
+     * @param \Hotel\UserBundle\Entity\User $user
      * @return Reserve
      */
-    public function setUser(\GZ\UserBundle\Entity\User $user = null)
+    public function setUser(\Hotel\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
     
@@ -251,7 +251,7 @@ class Reserve
     /**
      * Get user
      *
-     * @return \GZ\UserBundle\Entity\User 
+     * @return \Hotel\UserBundle\Entity\User 
      */
     public function getUser()
     {
@@ -330,10 +330,10 @@ class Reserve
     /**
      * Set room
      *
-     * @param \GZ\MainBundle\Entity\Room $room
+     * @param \Hotel\RoomBundle\Entity\Room $room
      * @return Reserve
      */
-    public function setRoom(\GZ\MainBundle\Entity\Room $room = null)
+    public function setRoom(\Hotel\RoomBundle\Entity\Room $room = null)
     {
         $this->room = $room;
     
@@ -343,7 +343,7 @@ class Reserve
     /**
      * Get room
      *
-     * @return \GZ\MainBundle\Entity\Room 
+     * @return \Hotel\RoomBundle\Entity\Room 
      */
     public function getRoom()
     {
@@ -353,10 +353,10 @@ class Reserve
     /**
      * Add phonecalls
      *
-     * @param \GZ\MainBundle\Entity\PhoneCall $phonecalls
+     * @param \Hotel\RoomBundle\Entity\PhoneCall $phonecalls
      * @return Reserve
      */
-    public function addPhonecall(\GZ\MainBundle\Entity\PhoneCall $phonecalls)
+    public function addPhonecall(\Hotel\RoomBundle\Entity\PhoneCall $phonecalls)
     {
         $this->phonecalls[] = $phonecalls;
     
@@ -366,9 +366,9 @@ class Reserve
     /**
      * Remove phonecalls
      *
-     * @param \GZ\MainBundle\Entity\PhoneCall $phonecalls
+     * @param \Hotel\RoomBundle\Entity\PhoneCall $phonecalls
      */
-    public function removePhonecall(\GZ\MainBundle\Entity\PhoneCall $phonecalls)
+    public function removePhonecall(\Hotel\RoomBundle\Entity\PhoneCall $phonecalls)
     {
         $this->phonecalls->removeElement($phonecalls);
     }
@@ -386,10 +386,10 @@ class Reserve
     /**
      * Add consumables
      *
-     * @param \GZ\MainBundle\Entity\Consumable $consumables
+     * @param \Hotel\RoomBundle\Entity\Consumable $consumables
      * @return Reserve
      */
-    public function addConsumable(\GZ\MainBundle\Entity\Consumable $consumables)
+    public function addConsumable(\Hotel\RoomBundle\Entity\Consumable $consumables)
     {
         $this->consumables[] = $consumables;
     
@@ -399,9 +399,9 @@ class Reserve
     /**
      * Remove consumables
      *
-     * @param \GZ\MainBundle\Entity\Consumable $consumables
+     * @param \Hotel\RoomBundle\Entity\Consumable $consumables
      */
-    public function removeConsumable(\GZ\MainBundle\Entity\Consumable $consumables)
+    public function removeConsumable(\Hotel\RoomBundle\Entity\Consumable $consumables)
     {
         $this->consumables->removeElement($consumables);
     }

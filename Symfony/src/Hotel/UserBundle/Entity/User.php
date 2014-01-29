@@ -3,12 +3,10 @@
 namespace Hotel\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use Doctrine\Common\Collections\ArrayCollection;
-
 use Symfony\Component\Validator\Constraints as Assert;
-
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Hotel\UserBundle\Validator\Constraints as UserAssert;
 
 /**
  * User
@@ -16,6 +14,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table()
  * @ORM\Entity
  * @UniqueEntity(fields="email", message="Este correo ya esta registrado.")
+ * @UniqueEntity(fields="idcard", message="Esta cedula ya esta registrada.")
+ * @UniqueEntity(fields="creditcard", message="Esta tarjeta de credito ya esta registrada.")
  */
 class User
 {
@@ -39,7 +39,6 @@ class User
         $this->role = 'standard';
     }
 
-
     /**
      * @var integer
      *
@@ -59,7 +58,11 @@ class User
      *      match=true,
      *      message="Porfavor introduzca una contrasena valida."
      *  )
-     * @Assert\Length(max = 4096)
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     *      minMessage = "Su contrasena debe tener minimo {{ limit }} caracteres.",
+     *      maxMessage = "Su contrasena debe tener maximo {{ limit }} caracteres.")
      */
     private $pass;
 
@@ -73,6 +76,11 @@ class User
      *      match=true,
      *      message="Porfavor introduzca un solo nombre que sea valido."
      *  )
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Su nombre debe tener minimo {{ limit }} caracteres.",
+     *      maxMessage = "Su nombre debe tener maximo {{ limit }} caracteres.")
      */
     private $firstname;
 
@@ -86,6 +94,11 @@ class User
      *      match=true,
      *      message="Porfavor introduzca un solo apellido que sea valido."
      *  )
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Su apellido debe tener minimo {{ limit }} caracteres.",
+     *      maxMessage = "Su apellido debe tener maximo {{ limit }} caracteres.")
      */
     private $lastname;
 
@@ -121,11 +134,12 @@ class User
     private $idcard;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
      * @ORM\Column(name="birthdate", type="date")
      * @Assert\NotBlank(message="Porfavor introduzca su fecha de nacimiento.")
      * @Assert\Date(message="Porfavor introduzca una fecha valida.")
+     * @UserAssert\IsUnderAge
      */
     private $birthdate;
 
@@ -182,6 +196,7 @@ class User
      *
      * @ORM\Column(name="role", type="string", length=10)
      * @Assert\NotBlank(message="Porfavor introduzca un rol.")
+     * @Assert\Choice(choices = {"standard", "admin"}, message = "Porfavor elija un rol valido.")
      */
     private $role;
 
@@ -475,10 +490,10 @@ class User
     /**
      * Add reserves
      *
-     * @param \GZ\MainBundle\Entity\Reserve $reserves
+     * @param \Hotel\RoomBundle\Entity\Reserve $reserves
      * @return User
      */
-    public function addReserve(\GZ\MainBundle\Entity\Reserve $reserves)
+    public function addReserve(\Hotel\RoomBundle\Entity\Reserve $reserves)
     {
         $this->reserves[] = $reserves;
     
@@ -488,9 +503,9 @@ class User
     /**
      * Remove reserves
      *
-     * @param \GZ\MainBundle\Entity\Reserve $reserves
+     * @param \Hotel\RoomBundle\Entity\Reserve $reserves
      */
-    public function removeReserve(\GZ\MainBundle\Entity\Reserve $reserves)
+    public function removeReserve(\Hotel\RoomBundle\Entity\Reserve $reserves)
     {
         $this->reserves->removeElement($reserves);
     }
@@ -510,10 +525,10 @@ class User
     /**
      * Add bills
      *
-     * @param \GZ\MainBundle\Entity\Bill $bills
+     * @param \Hotel\BillBundle\Entity\Bill $bills
      * @return User
      */
-    public function addBill(\GZ\MainBundle\Entity\Bill $bills)
+    public function addBill(\Hotel\BillBundle\Entity\Bill $bills)
     {
         $this->bills[] = $bills;
     
@@ -523,9 +538,9 @@ class User
     /**
      * Remove bills
      *
-     * @param \GZ\MainBundle\Entity\Bill $bills
+     * @param \Hotel\BillBundle\Entity\Bill $bills
      */
-    public function removeBill(\GZ\MainBundle\Entity\Bill $bills)
+    public function removeBill(\Hotel\BillBundle\Entity\Bill $bills)
     {
         $this->bills->removeElement($bills);
     }
