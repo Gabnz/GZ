@@ -1,6 +1,6 @@
 hotel_main:
     resource: "@HotelMainBundle/Resources/config/routing.yml"
-    prefix:   /main
+    prefix:   /
 
 hotel_bill:
     resource: "@HotelBillBundle/Resources/config/routing.yml"

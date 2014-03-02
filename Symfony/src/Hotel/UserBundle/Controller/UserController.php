@@ -60,13 +60,11 @@ class UserController extends Controller
                 $em->persist($entity);
                 $em->flush();
                 /*en este punto, si tiene un usuario entonces es un admin*/
-                if($session->has('user'))
-                /*en caso de ser admin, prosigue a realizar el registro y muestra la informacion del usuario*/
-                    return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
-
-                /*en caso de ser un invitado recien registrado, guarda la sesion y redirecciona a pagina de bienvenida*/
-                $session->set('user', $entity);
-                return $this->redirect($this->generateUrl('user_hello', array('name' => $entity->getFirstname())));
+                if(!$session->has('user'))
+                    /*en caso de ser un invitado recien registrado, guarda la sesion y redirecciona a pagina de bienvenida*/
+                    $session->set('user', $entity);
+                    
+                return $this->redirect($this->generateUrl('main_welcome'));
             }
 
             if(!$session->has('user')){
@@ -111,21 +109,6 @@ class UserController extends Controller
     }
 
     /**
-     * Displays a form to create a new User entity.
-     *
-     */
-    /*public function newAction()
-    {
-        $entity = new User();
-        $form   = $this->createCreateForm($entity);
-
-        return $this->render(('HotelUserBundle:User:new.html.twig'), array(
-            'entity' => $entity,
-           'form'   => $form->createView(),
-        ));
-    }*/
-
-    /**
      * Finds and displays a User entity.
      * Only available for admins and the user with the same id.
      */
@@ -162,30 +145,6 @@ class UserController extends Controller
         /*en caso de que sea un invitado, deniega la accion*/
         throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
     }
-
-    /**
-     * Displays a form to edit an existing User entity.
-     *
-     */
-    /*public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('HotelUserBundle:User')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('HotelUserBundle:User:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }*/
 
     /**
     * Creates a form to edit a User entity.
@@ -343,11 +302,8 @@ class UserController extends Controller
                     //inicia sesion con los datos del usuario que hizo login
                     $session = $this->getRequest()->getSession();
                     $session->set('user', $user);
-                    /*si ingresa un usuario estandar, se redirecciona a la pagina de bienvenida*/
-                    if($user->getRole() != 'admin')
-                        return $this->redirect($this->generateUrl('user_hello', array('name' => $user->getFirstname())));
-                    /*en caso de ser un admin, se redirecciona a la lista de usuarios*/
-                    return $this->redirect($this->generateUrl('user'));
+                    /*redirecciona a la pagina de bienvenida*/
+                    return $this->redirect($this->generateUrl('main_welcome'));
                 }
             }
 

@@ -1,3 +1,7 @@
-hotel_main_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: HotelMainBundle:Default:index }
+main_welcome:
+    pattern:  /
+    defaults: { _controller: "HotelMainBundle:Default:index" }
+
+HotelMainBundle_contact:
+    resource: "@HotelMainBundle/Resources/config/routing/contact.yml"
+    prefix:   /contact

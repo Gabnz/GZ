@@ -2,7 +2,7 @@
   <nav class="top-bar" data-topbar>
     <ul class="title-area">
       <li class="name">
-        <h1><a href="#">Hotel Symfonia</a></h1>
+        <h1><a href="{{ path('main_welcome') }}">Hotel Symfonia</a></h1>
       </li>
     </ul>
     
@@ -11,13 +11,24 @@
       <ul class="right">
       	<li class="divider"></li>
         <li class="has-dropdown">
-        <a href="#">{{user.firstname}}</a>
-        <ul class="dropdown">
-          <li><a href="#">Opciones intermedias</a></li>
-          <li><a href="#">Mi factura</a></li>
-          <li><a href="{{ path('user_logout') }}">Cerrar sesion</a></li>
-        </ul>
-      </li>
+          <a href="#">{{user.firstname}}</a>
+          <ul class="dropdown">
+            <li class="has-dropdown">
+              <a>Opciones de usuario</a>
+              <ul class="dropdown">
+                <li><a href="{{ path('user_show', {'id':user.id}) }}"><i class="fi-torso" style="font-size:150%; margin:7%;"></i>Mostrar mis datos</a></li>
+                <li><a href="{{ path('user_edit', {'id':user.id}) }}"><i class="fi-pencil" style="font-size:150%; margin:7%;"></i>Editar mis datos</a></li>
+                <li><a href="{{ path('user_delete', {'id':user.id}) }}"><i class="fi-x" style="font-size:150%; margin:7%;"></i>Eliminar mi cuenta</a></li>
+                {% if user.role == 'admin' %}
+                  <li><label>Opciones de Administrador</label></li>
+                  <li><a href="{{ path('user') }}"><i class="fi-results-demographics" style="font-size:150%; margin:7%;"></i>Lista de usuarios</a></li>
+                {% endif %}
+              </ul>
+            </li>
+            
+            <li><a href="{{ path('user_logout') }}"><i class="fi-lock" style="font-size:150%; margin:7%;"></i>Cerrar sesion</a></li>
+          </ul>
+        </li>
       </ul>
 
       <!-- Left Nav Section -->
