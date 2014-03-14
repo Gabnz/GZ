@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Room</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Roomtype</th>
+                <td>{{ entity.roomtype }}</td>
+            </tr>
+            <tr>
+                <th>Roomcategory</th>
+                <td>{{ entity.roomcategory }}</td>
+            </tr>
+            <tr>
+                <th>Tv</th>
+                <td>{{ entity.tv }}</td>
+            </tr>
+            <tr>
+                <th>Shower</th>
+                <td>{{ entity.shower }}</td>
+            </tr>
+            <tr>
+                <th>Jacuzzi</th>
+                <td>{{ entity.jacuzzi }}</td>
+            </tr>
+            <tr>
+                <th>Music</th>
+                <td>{{ entity.music }}</td>
+            </tr>
+            <tr>
+                <th>Massage</th>
+                <td>{{ entity.massage }}</td>
+            </tr>
+            <tr>
+                <th>Roomstatus</th>
+                <td>{{ entity.roomstatus }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('room') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('room_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

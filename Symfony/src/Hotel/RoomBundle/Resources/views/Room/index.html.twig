@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Room list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Roomtype</th>
+                <th>Roomcategory</th>
+                <th>Tv</th>
+                <th>Shower</th>
+                <th>Jacuzzi</th>
+                <th>Music</th>
+                <th>Massage</th>
+                <th>Roomstatus</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('room_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.roomtype }}</td>
+                <td>{{ entity.roomcategory }}</td>
+                <td>{{ entity.tv }}</td>
+                <td>{{ entity.shower }}</td>
+                <td>{{ entity.jacuzzi }}</td>
+                <td>{{ entity.music }}</td>
+                <td>{{ entity.massage }}</td>
+                <td>{{ entity.roomstatus }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('room_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('room_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('room_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

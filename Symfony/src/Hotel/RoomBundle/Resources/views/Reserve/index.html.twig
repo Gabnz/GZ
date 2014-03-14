@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Reserve list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Childbeds</th>
+                <th>Entrydate</th>
+                <th>Exitdate</th>
+                <th>Roomcategory</th>
+                <th>Roomtype</th>
+                <th>Roomstatus</th>
+                <th>Special</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('reserve_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.childbeds }}</td>
+                <td>{% if entity.entrydate %}{{ entity.entrydate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.exitdate %}{{ entity.exitdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.roomcategory }}</td>
+                <td>{{ entity.roomtype }}</td>
+                <td>{{ entity.roomstatus }}</td>
+                <td>{{ entity.special }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('reserve_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('reserve_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('reserve_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

@@ -7,8 +7,12 @@ hotel_bill:
     prefix:   /bill
 
 hotel_room:
-    resource: "@HotelRoomBundle/Resources/config/routing.yml"
+    resource: "@HotelRoomBundle/Resources/config/routing/room.yml"
     prefix:   /room
+
+hotel_reserve:
+    resource: "@HotelRoomBundle/Resources/config/routing/reserve.yml"
+    prefix:   /reserve    
 
 hotel_user:
     resource: "@HotelUserBundle/Resources/config/routing.yml"
