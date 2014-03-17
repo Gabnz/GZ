@@ -1,3 +1,4 @@
+
 {% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body -%}
@@ -7,6 +8,8 @@
 
 {#{ include('HotelUserBundle:User:user-topbar.html.twig') }#}
 {{ include('HotelUserBundle:User:'~prefix~'-topbar.html.twig') }}
+
+
     <h1>Reserve list</h1>
 
     <table class="records_list">
@@ -56,4 +59,4 @@
             </a>
         </li>
     </ul>
-    {% endblock %}
+{% endblock %}

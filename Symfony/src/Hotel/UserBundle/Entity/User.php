@@ -554,4 +554,12 @@ class User
     {
         return $this->bills;
     }
+
+    /*
+    public function __toString()
+    {
+      return $this->name;
+    }
+    */
+
 }

@@ -1,0 +1,55 @@
+{#formulario para cada categoria#}
+<form class="custom" action="{{ path('reserve') }}" method="post" id="res-form">
+	{% form_theme form 'HotelRoomBundle:Form:fields.html.twig' %}
+	<div class="row">
+		<div class="small-4 columns">
+			<div class="row">
+				<div class="small-8 small-centered columns">
+					{{ form_row(form.entrydate) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-8 small-centered columns">
+					{{ form_row(form.exitdate) }}
+				</div>
+			</div>
+		</div>
+		<div class="small-4 columns">
+			<div class="row">
+				<div class="small-6 small-centered columns">
+					{{ form_row(form.roomtype) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-6 small-centered columns">
+					{{ form_row(form.childbeds) }}
+				</div>
+			</div>
+		</div>
+		{{ form_rest(form) }}
+		<div class="small-4 columns">
+
+			<div class="small-12 columns">&nbsp;</div>
+			<div class="small-12 columns">&nbsp;</div>
+
+			<div class="row collapse">
+				<div class="small-5 push-2 columns">
+					<a class="button prefix" >Disponibilidad</a>
+				</div>
+				<div class="small-3 pull-2 columns">
+					<span class="postfix">-</span>
+				</div>
+			</div>
+			
+			<div class="small-12 columns">&nbsp;</div>
+
+			<div align="center">
+				{% if user != null %}
+					<a class="button" id="res-send-button">Reservar</a>
+				{% else %}
+					<h5 align="center">Ingresa a tu cuenta para reservar</h5>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</form>

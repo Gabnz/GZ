@@ -7,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Hotel\RoomBundle\Entity\Reserve;
 use Hotel\RoomBundle\Form\ReserveType;
-
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -22,39 +21,10 @@ class ReserveController extends Controller
      * Lists all Reserve entities.
      *
      */
-
-   
-     public function indexAction()
+    public function indexAction(Request $request, $category = null)
     {
-        
-        $session = $this->getRequest()->getSession();
-
-        //$em = $this->getDoctrine()->getManager();
-        //$entities = $em->getRepository('HotelRoomBundle:Reserve')->findAll();
-
-            if(!$session->has('user')){
-
-                return $this->render('HotelRoomBundle:Reserve:reserve.html.twig', array(
-                   // 'entities'   => $entities,
-                    'prefix' => 'guest',
-                ));
-            }else{
-
-                $user = $session->get('user');
-
-                return $this->render('HotelRoomBundle:Reserve:reserve.html.twig', array(
-                   // 'entities'   => $entities,
-                    'prefix' => 'user',
-                    'user' => $user,
-                ));
-            }
-
-    }   
-
-
-    public function reserveAction(Request $request, $category = null){
-
-
+        // $em = $this->getDoctrine()->getManager();
+        // $entities = $em->getRepository('HotelRoomBundle:Reserve')->findAll();
 
         $session = $this->getRequest()->getSession();
 
@@ -75,7 +45,7 @@ class ReserveController extends Controller
             if(!$session->has('user')){
 
                 $reserve->setUser($user);
-                return $this->render('HotelRoomBundle:Reserve:form.html.twig', array(
+                return $this->render('HotelRoomBundle:Reserve:reserve.html.twig', array(
                     'entity' => $entity,
                     'form'   => $form->createView(),
                     'prefix' => 'guest',
@@ -86,7 +56,7 @@ class ReserveController extends Controller
 
                 $user = $session->get('user');
 
-                return $this->render('HotelRoomBundle:Reserve:form.html.twig', array(
+                return $this->render('HotelRoomBundle:Reserve:reserve.html.twig', array(
                     'entity' => $entity,
                     'form'   => $form->createView(),
                     'prefix' => 'user',
@@ -103,12 +73,13 @@ class ReserveController extends Controller
             //  array('prefix' => 'guest' , 'entities' => $entities));
 
                 
-    
+    }
 
 
+/*
 
+    public function reserveAction(Request $request, $category = null){
 
-       /*
         $session = $this->getRequest()->getSession();
 
         $reserve = new Reserve();
@@ -147,51 +118,30 @@ class ReserveController extends Controller
             else
                 return $this->redirect($this->generateUrl('reserve'));
         }
-        return $this->render('HotelRoomBundle:reserve:form.html.twig',
+        return $this->render('GZMainBundle:reserve:form.html.twig',
             array('form' => $form->createView(), 'user' => $user, 'category' => $category));
-            **/
     }
+*/
 
-    /* index que muestra el header y la top bar correctamente
-     public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $session = $this->getRequest()->getSession();
 
-        $entities = $em->getRepository('HotelRoomBundle:Reserve')->findAll();
 
-            if(!$session->has('user')){
 
-                return $this->render('HotelRoomBundle:Reserve:index.html.twig', array(
-                    'entities'   => $entities,
-                    'prefix' => 'guest',
-                ));
-            }else{
 
-                $user = $session->get('user');
 
-                return $this->render('HotelRoomBundle:Reserve:index.html.twig', array(
-                    'entities'   => $entities,
-                    'prefix' => 'user',
-                    'user' => $user,
-                ));
-            }
 
-    }   
-    **/
 
-    /* la que trae por defecto
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('HotelRoomBundle:Reserve')->findAll();
 
-        return $this->render('HotelRoomBundle:Reserve:index.html.twig', array(
-            'entities' => $entities,
-        ));
-    }
-    **/
+
+
+
+
+
+
+
+
+
+
     /**
      * Creates a new Reserve entity.
      *
