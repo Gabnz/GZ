@@ -1,6 +1,7 @@
 reserve:
     pattern:  /
     defaults: { _controller: "HotelRoomBundle:Reserve:index" }
+   
 
 reserve_show:
     pattern:  /{id}/show

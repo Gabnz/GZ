@@ -74,7 +74,7 @@ class ReserveController extends Controller
 
             if(!$session->has('user')){
 
-                $reserve->setUser($user);
+                $entity->setUser($user);
                 return $this->render('HotelRoomBundle:Reserve:form.html.twig', array(
                     'entity' => $entity,
                     'form'   => $form->createView(),
