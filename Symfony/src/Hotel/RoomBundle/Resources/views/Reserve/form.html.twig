@@ -2,6 +2,7 @@
 <form class="custom" action="{{ path('reserve') }}" method="post" id="res-form">
 	{% form_theme form 'HotelRoomBundle:Form:fields.html.twig' %}
 	<div class="row">
+		
 		<div class="small-4 columns">
 			<div class="row">
 				<div class="small-8 small-centered columns">
@@ -26,7 +27,8 @@
 				</div>
 			</div>
 		</div>
-		{{ form_rest(form) }}
+
+		
 		<div class="small-4 columns">
 
 			<div class="small-12 columns">&nbsp;</div>
@@ -50,6 +52,7 @@
 					<h5 align="center">Ingresa a tu cuenta para reservar</h5>
 				{% endif %}
 			</div>
-		</div>
+		</div> 
 	</div>
 </form>
+		{{ form_rest(form) }}

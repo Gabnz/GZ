@@ -553,13 +553,6 @@ class User
     public function getBills()
     {
         return $this->bills;
-    }
-
-    
-    public function __toString()
-    {
-      return $this->name;
-    }
-    
+    }    
 
 }
