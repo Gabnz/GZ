@@ -22,6 +22,7 @@
                 {% if user.role == 'admin' %}
                   <li><label>Opciones de Administrador</label></li>
                   <li><a href="{{ path('user') }}"><i class="fi-results-demographics" style="font-size:150%; margin:7%;"></i>Lista de usuarios</a></li>
+                  <li><a href="{{ path('room') }}"><i class="fi-results" style="font-size:150%; margin:7%;"></i>Lista de habitaciones</a></li>                  
                 {% endif %}
               </ul>
             </li>

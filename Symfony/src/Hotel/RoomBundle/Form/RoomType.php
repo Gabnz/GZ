@@ -15,15 +15,21 @@ class RoomType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('roomtype')
-            ->add('roomcategory')
-            ->add('tv')
-            ->add('shower')
-            ->add('jacuzzi')
-            ->add('music')
-            ->add('massage')
-            ->add('roomstatus')
+            ->add('roomtype','choice',array('choices' => array('individual' => 'Individual',
+             'double' => 'Doble'),'label'=>'Tipo'))
+            ->add('roomcategory','choice',array('choices' => array('standard' => 'Estandar',
+             'bussiness' => 'Bussiness', 'high' => 'Alta'), 'label'=>'Categoria'))
+            ->add('tv', 'checkbox', array( 'label' => 'tv'))
+            ->add('shower',  'checkbox', array( 'label' => 'Baño'))
+            ->add('jacuzzi',  'checkbox', array( 'label' => 'Jacuzzi'))
+            ->add('music',  'checkbox', array( 'label' => 'Musica'))
+            ->add('massage',  'checkbox', array( 'label' => 'Masaje'))
+            ->add('roomstatus', 'choice',array('choices' => array('active' => 'Activo',
+             'occupied' => 'Ocupado', 'closed' => 'Cerrado', 'canceled' => 'Cancelado'),
+            'label'=>'Estatus'))
+
         ;
+
     }
     
     /**
@@ -41,6 +47,6 @@ class RoomType extends AbstractType
      */
     public function getName()
     {
-        return 'hotel_roombundle_room';
+        return 'room_form';
     }
 }

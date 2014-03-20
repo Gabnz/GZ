@@ -1,8 +1,17 @@
-{% extends '::base.html.twig' %}
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body -%}
-    <h1>Room</h1>
+<div class="cover-div"
+    style="background-image:url({{ asset('bundles/img/reservations.jpg') }});">
+</div>
 
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+<div class="title-div">
+    <h1>Habitacion</h1>
+</div>
+
+<div align="center">
     <table class="record_properties">
         <tbody>
             <tr>
@@ -10,11 +19,11 @@
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Roomtype</th>
+                <th>Tipo</th>
                 <td>{{ entity.roomtype }}</td>
             </tr>
             <tr>
-                <th>Roomcategory</th>
+                <th>Categoria</th>
                 <td>{{ entity.roomcategory }}</td>
             </tr>
             <tr>
@@ -22,7 +31,7 @@
                 <td>{{ entity.tv }}</td>
             </tr>
             <tr>
-                <th>Shower</th>
+                <th>Baño</th>
                 <td>{{ entity.shower }}</td>
             </tr>
             <tr>
@@ -30,31 +39,34 @@
                 <td>{{ entity.jacuzzi }}</td>
             </tr>
             <tr>
-                <th>Music</th>
+                <th>Musica</th>
                 <td>{{ entity.music }}</td>
             </tr>
             <tr>
-                <th>Massage</th>
+                <th>Masaje</th>
                 <td>{{ entity.massage }}</td>
             </tr>
             <tr>
-                <th>Roomstatus</th>
+                <th>Estatus</th>
                 <td>{{ entity.roomstatus }}</td>
             </tr>
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('room') }}">
-            Back to the list
+    <div align="center">
+        <a href="{{ path('room_edit', { 'id': entity.id }) }}" class="button">
+            Editar
         </a>
-    </li>
-    <li>
-        <a href="{{ path('room_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+        {{ form(delete_form) }}
+    </div>
+
+</div>
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('room') }}">
+                Regresar a la lista
+            </a>
+        </li>
+    </ul>
+
 {% endblock %}

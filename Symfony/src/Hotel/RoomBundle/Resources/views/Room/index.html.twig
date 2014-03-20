@@ -1,21 +1,33 @@
-{% extends '::base.html.twig' %}
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body -%}
-    <h1>Room list</h1>
+<div class="cover-div"
+    style="background-image:url({{ asset('bundles/img/reservations.jpg') }});">
+</div>
+
+{#{ include('HotelUserBundle:User:user-topbar.html.twig') }#}
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+
+<div class="title-div">
+    <h1>Lista de Habitaciones</h1>
+</div>
+
+<div align="center">
 
     <table class="records_list">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Roomtype</th>
-                <th>Roomcategory</th>
+                <th>Tipo</th>
+                <th>Categoria</th>
                 <th>Tv</th>
-                <th>Shower</th>
+                <th>Baño</th>
                 <th>Jacuzzi</th>
-                <th>Music</th>
-                <th>Massage</th>
-                <th>Roomstatus</th>
-                <th>Actions</th>
+                <th>Musica</th>
+                <th>Masaje</th>
+                <th>Estatus</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -31,12 +43,12 @@
                 <td>{{ entity.massage }}</td>
                 <td>{{ entity.roomstatus }}</td>
                 <td>
-                <ul>
+                <ul class="button-group">
                     <li>
-                        <a href="{{ path('room_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('room_show', { 'id': entity.id }) }}" class="button small">mostrar</a>
                     </li>
                     <li>
-                        <a href="{{ path('room_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('room_edit', { 'id': entity.id }) }}" class="button small">editar</a>
                     </li>
                 </ul>
                 </td>
@@ -44,12 +56,12 @@
         {% endfor %}
         </tbody>
     </table>
+</div>    
 
-        <ul>
-        <li>
-            <a href="{{ path('room_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+<div align="center">
+    <a href="{{ path('room_new') }}" class="button">
+        Registrar nueva habitacion
+    </a>
+</div>
+
     {% endblock %}

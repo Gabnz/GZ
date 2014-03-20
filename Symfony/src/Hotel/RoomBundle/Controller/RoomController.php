@@ -15,20 +15,32 @@ use Hotel\RoomBundle\Form\RoomType;
 class RoomController extends Controller
 {
 
-    /**
+    /*
      * Lists all Room entities.
      *
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+    */
+    public function indexAction(){
 
-        $entities = $em->getRepository('HotelRoomBundle:Room')->findAll();
+        $session = $this->getRequest()->getSession();
 
-        return $this->render('HotelRoomBundle:Room:index.html.twig', array(
-            'entities' => $entities,
-        ));
+        if($session->has('user')){
+
+            $user = $session->get('user');
+            /*si no es admin, no puede ver la lista de usuarios registrados*/
+            if($user->getRole() != 'admin')
+                throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
+            /*en caso de ser admin, prosigue*/
+            $em = $this->getDoctrine()->getManager();
+            $entities = $em->getRepository('HotelRoomBundle:Room')->findAll();
+            /*muestra una lista de los usuarios registrados*/
+            return $this->render('HotelRoomBundle:Room:index.html.twig', array(
+                'entities' => $entities, 'user' => $user));
+        }
+        /*si es invitado, no puede ver la lista de usuarios registrados*/
+        throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
     }
+
+
     /**
      * Creates a new Room entity.
      *
@@ -53,6 +65,7 @@ class RoomController extends Controller
         ));
     }
 
+
     /**
     * Creates a form to create a Room entity.
     *
@@ -72,6 +85,7 @@ class RoomController extends Controller
         return $form;
     }
 
+
     /**
      * Displays a form to create a new Room entity.
      *
@@ -87,50 +101,45 @@ class RoomController extends Controller
         ));
     }
 
+
     /**
      * Finds and displays a Room entity.
      *
      */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+    public function showAction($id){
 
-        $entity = $em->getRepository('HotelRoomBundle:Room')->find($id);
+        $session = $this->getRequest()->getSession();
+        /*si es un usuario estandar o un admin, prosigue con la accion*/
+        if($session->has('user')){
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Room entity.');
+            if($session->get('user')->getRole() == 'admin'){
+
+                $em = $this->getDoctrine()->getManager();
+
+               $entity = $em->getRepository('HotelRoomBundle:Room')->find($id);
+
+                if (!$entity) {
+                    throw $this->createNotFoundException('habitacion no encontrada.');
+                }
+
+                $deleteForm = $this->createDeleteForm($id);
+
+                $user = $session->get('user');
+
+                return $this->render('HotelRoomBundle:Room:show.html.twig', array(
+                    'entity'      => $entity,
+                    'delete_form' => $deleteForm->createView(),
+                    'user' => $user,
+                    ));
+            }
+            /*en caso de que no sea un admin, deniega la accion*/
+            throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
+
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('HotelRoomBundle:Room:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+        /*en caso de que sea un invitado, deniega la accion*/
+        throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
     }
 
-    /**
-     * Displays a form to edit an existing Room entity.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('HotelRoomBundle:Room')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Room entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('HotelRoomBundle:Room:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
 
     /**
     * Creates a form to edit a Room entity.
@@ -146,10 +155,61 @@ class RoomController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+
+
+        $form->add('submit', 'submit', array('label' => 'Actualizar'));
 
         return $form;
     }
+
+
+    /**
+     * Displays a form to edit an existing Room entity.
+     *
+     */
+    public function editAction(Request $request, $id){
+
+        $session = $this->getRequest()->getSession();
+        /*si es un usuario admin, prosigue con la accion*/
+        if($session->has('user')){
+
+            if($session->get('user')->getRole() == 'admin'){
+
+                $em = $this->getDoctrine()->getManager();
+
+                $entity = $em->getRepository('HotelRoomBundle:Room')->find($id);
+
+                if (!$entity) {
+                    throw $this->createNotFoundException('habitacion no encontrada.');
+                }
+
+                $deleteForm = $this->createDeleteForm($id);
+                $editForm = $this->createEditForm($entity);
+                $editForm->handleRequest($request);
+
+                if ($editForm->isValid()) {
+                    $em->flush();
+
+                    return $this->redirect($this->generateUrl('room_show', array('id' => $id)));
+                }
+
+                $user = $session->get('user');
+
+                return $this->render('HotelRoomBundle:Room:edit.html.twig', array(
+                    'entity'      => $entity,
+                    'edit_form'   => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                    'user' => $user,
+                ));
+            }
+            /*en caso de que no sea un admin, deniega la accion*/
+            throw $this->createNotFoundException('ANo eres administrador, pagina no disponible.');
+        }
+        /*en caso de que sea un invitado, deniega la accion*/
+        throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
+    }
+
+    
     /**
      * Edits an existing Room entity.
      *
@@ -171,7 +231,7 @@ class RoomController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('room_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('room_show', array('id' => $id)));
         }
 
         return $this->render('HotelRoomBundle:Room:edit.html.twig', array(
@@ -199,7 +259,7 @@ class RoomController extends Controller
 
             $em->remove($entity);
             $em->flush();
-        }
+        } 
 
         return $this->redirect($this->generateUrl('room'));
     }
@@ -216,7 +276,7 @@ class RoomController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('room_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Eliminar'))
             ->getForm()
         ;
     }
