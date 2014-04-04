@@ -1,0 +1,34 @@
+bill:
+    pattern:  /
+    defaults: { _controller: "HotelBillBundle:Bill:index" }
+
+bill_pdf:
+    pattern:  /pdf
+    defaults: { _controller: "HotelBillBundle:Bill:pdf" }
+
+bill_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "HotelBillBundle:Bill:show" }
+
+bill_new:
+    pattern:  /new
+    defaults: { _controller: "HotelBillBundle:Bill:new" }
+
+bill_create:
+    pattern:  /create
+    defaults: { _controller: "HotelBillBundle:Bill:create" }
+    requirements: { _method: post }
+
+bill_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "HotelBillBundle:Bill:edit" }
+
+bill_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "HotelBillBundle:Bill:update" }
+    requirements: { _method: post|put }
+
+bill_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "HotelBillBundle:Bill:delete" }
+    requirements: { _method: post|delete }

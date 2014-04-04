@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Bill</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Issuedate</th>
+                <td>{{ entity.issuedate|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Billstatus</th>
+                <td>{{ entity.billstatus }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('bill') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('bill_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
