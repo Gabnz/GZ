@@ -6,6 +6,10 @@ bill_pdf:
     pattern:  /pdf
     defaults: { _controller: "HotelBillBundle:Bill:pdf" }
 
+bill_pdf2:
+    pattern:  /pdf2
+    defaults: { _controller: "HotelBillBundle:Bill:pdf2" }
+
 bill_show:
     pattern:  /{id}/show
     defaults: { _controller: "HotelBillBundle:Bill:show" }

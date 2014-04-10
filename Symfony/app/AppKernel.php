@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Hotel\RoomBundle\HotelRoomBundle(),
             new Hotel\BillBundle\HotelBillBundle(),
             new Hotel\MainBundle\HotelMainBundle(),
+            new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

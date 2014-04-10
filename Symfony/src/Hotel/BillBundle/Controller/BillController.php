@@ -2,8 +2,13 @@
 
 namespace Hotel\BillBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 use Hotel\BillBundle\Entity\Bill;
 use Hotel\BillBundle\Form\BillType;
@@ -16,12 +21,57 @@ use Hotel\BillBundle\Form\BillType;
 class BillController extends Controller
 {
 
+    public function pdfAction(){
 
+        $this->get('knp_snappy.pdf')->generate('http://www.google.fr', '/Symfony/file.pdf');
+    }
+
+
+    public function pdf2Action(){
+
+        $html = $this->renderView('HotelBillBundle:Bill:pdf.html.twig');
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'attachment; filename="file.pdf"'
+            )
+        );
+    }    
 
     /**
      * Lists all Bill entities.
      *
      */
+
+
+    public function indexAction(){
+
+        $session = $this->getRequest()->getSession();
+
+        if($session->has('user')){
+
+            $user = $session->get('user');
+            /*si no es un usuario registrado, no puede ver la lista de facturas*/
+            if($user->getRole() != 'guest'){
+
+                return $this->render('HotelBillBundle:Bill:bill.html.twig', array(
+                'prefix' => 'user',
+                'user' => $user));  
+
+
+            }else
+             throw $this->createNotFoundException('No eres usuario registrado, pagina no disponible.');
+
+        }
+        /*si es invitado, no puede ver las facturas*/
+        throw $this->createNotFoundException('No eres usuario registrado, pagina no disponible.');
+    }
+
+
+    /*
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -32,6 +82,7 @@ class BillController extends Controller
             'entities' => $entities,
         ));
     }
+    */
     /**
      * Creates a new Bill entity.
      *
