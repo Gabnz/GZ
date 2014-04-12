@@ -1,2 +1,4 @@
 Symfony/app/cache/*
 Symfony/app/logs/*
+Symfony/bin/*
+Symfony/vendor/*

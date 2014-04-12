@@ -2,6 +2,10 @@
 
 ##Comandos
 
+###Composer
+Instalar dependencias del proyecto (Estando en la raiz de Symfony)
+`composer install`
+
 ###Symfony
 Limpiar cache de produccion:
 `php app/console cache:clear --env=prod --no-debug`
