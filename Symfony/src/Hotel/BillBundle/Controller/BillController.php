@@ -29,7 +29,10 @@ class BillController extends Controller
 
     public function pdf2Action(){
 
+
+
         $html = $this->renderView('HotelBillBundle:Bill:pdf.html.twig');
+    
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
