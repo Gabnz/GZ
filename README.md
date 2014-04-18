@@ -32,12 +32,6 @@ Generar getters, setters y algo mas en las entidades (de 3 formas):
 Actualizar tablas en la BD:
 `php app/console doctrine:schema:update --force`
 
-##Cosas por hacer
-
-1. Agregar la restriccion personalizada de fecha de entrada < fecha de salida y probarla.
-
-2. Agregar al registro restriccion de cedula, RIF y tarjeta de credito unica.
-
 ##Informacion adicional
 
 Para visualizar archivos .md en el navegador chrome visitar [Markdown Preview](https://chrome.google.com/webstore/detail/markdown-preview/jmchmkecamhbiokiopfpnfgbidieafmd)

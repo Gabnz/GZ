@@ -10,21 +10,10 @@ room_new:
     pattern:  /new
     defaults: { _controller: "HotelRoomBundle:Room:new" }
 
-room_create:
-    pattern:  /create
-    defaults: { _controller: "HotelRoomBundle:Room:create" }
-    requirements: { _method: post }
-
 room_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "HotelRoomBundle:Room:edit" }
 
-room_update:
-    pattern:  /{id}/update
-    defaults: { _controller: "HotelRoomBundle:Room:update" }
-    requirements: { _method: post|put }
-
 room_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "HotelRoomBundle:Room:delete" }
-    requirements: { _method: post|delete }

@@ -39,7 +39,7 @@ class UserController extends Controller
                 'entities' => $entities, 'user' => $user));
         }
         /*si es invitado, no puede ver la lista de usuarios registrados*/
-        throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
+        throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
     }
     /**
      * Creates a new User entity.
@@ -59,12 +59,15 @@ class UserController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
-                /*en este punto, si tiene un usuario entonces es un admin*/
-                if(!$session->has('user'))
-                    /*en caso de ser un invitado recien registrado, guarda la sesion y redirecciona a pagina de bienvenida*/
+                /*en este punto, si no tiene un usuario entonces es un invitado*/
+                if(!$session->has('user')){
+                    /*guarda la sesion y redirecciona a pagina de bienvenida*/
                     $session->set('user', $entity);
-                    
-                return $this->redirect($this->generateUrl('main_welcome'));
+                    return $this->redirect($this->generateUrl('main_welcome'));
+                }else{
+                    /*en caso de que sea un admin, muestra los datos del usuario registrado*/
+                    return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
+                }
             }
 
             if(!$session->has('user')){
@@ -192,6 +195,13 @@ class UserController extends Controller
                 if ($editForm->isValid()) {
                     $em->flush();
 
+                    /*en caso de que un usuario este editando su propia informacion, la actualiza*/
+                    if($session->get('user')->getId() == $id){
+                        $session->clear();
+                        $session->set('user', $entity);
+                    }
+
+                    /*muestra los datos editados*/
                     return $this->redirect($this->generateUrl('user_show', array('id' => $id)));
                 }
 
@@ -236,10 +246,10 @@ class UserController extends Controller
                     $em->remove($entity);
                     $em->flush();
                 }
-                /*si es admin, regresa a la lista de usuarios*/
-                if($session->get('user')->getRole() == 'admin')
+                /*si es admin y no elimina su propia cuenta, regresa a la lista de usuarios*/
+                if($session->get('user')->getRole() == 'admin' && $session->get('user')->getId() != $id)
                     return $this->redirect($this->generateUrl('user'));
-                /*si es un usuario estandar, cierra sesion*/
+                /*si es un usuario estandar o un admin que esta borrando su propia cuenta, cierra sesion*/
                 return $this->redirect($this->generateUrl('user_logout'));
             }
             /*en caso de que no sea un admin y quiera eliminar una entidad distinta a la suya, deniega la accion*/

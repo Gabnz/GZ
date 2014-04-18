@@ -10,19 +10,9 @@ user_new:
     pattern:  /new
     defaults: { _controller: "HotelUserBundle:User:new" }
 
-#user_create:
-#    pattern:  /create
-#    defaults: { _controller: "HotelUserBundle:User:create" }
-#    requirements: { _method: post }
-
 user_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "HotelUserBundle:User:edit" }
-
-#user_update:
-#    pattern:  /{id}/update
-#    defaults: { _controller: "HotelUserBundle:User:update" }
-#    requirements: { _method: post|put }
 
 user_delete:
     pattern:  /{id}/delete

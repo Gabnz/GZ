@@ -16,4 +16,4 @@ hotel_reserve:
 
 hotel_user:
     resource: "@HotelUserBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /user

@@ -1,9 +1,18 @@
-{% extends '::base.html.twig' %}
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body -%}
-    <h1>Room creation</h1>
 
-    {{ form(form) }}
+<div class="cover-div"
+	style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
+
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+<div class="title-div">
+	<h1>Creacion de habitacion</h1>
+</div>
+
+{% include 'HotelRoomBundle:Room:form.html.twig' with {'form': form } %}
 
         <ul class="record_actions">
     <li>

@@ -35,6 +35,15 @@ class Room
      */
     private $roomcategory;
 
+    public function __construct()
+    {
+        $this->tv = false;
+        $this->shower = false;
+        $this->jacuzzi = false;
+        $this->music = false;
+        $this->massage = false;
+    }
+
     /**
      * @var boolean
      *
