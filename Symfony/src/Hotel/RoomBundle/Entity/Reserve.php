@@ -3,24 +3,19 @@
 namespace Hotel\RoomBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
-use Symfony\Component\Validator\Constraints as Assert;
-
 use Symfony\Component\Validator\ExecutionContextInterface;
-
 use Doctrine\Common\Collections\ArrayCollection;
-
-/**
- * @Assert\Callback(methods={"isDateValid"})
- */
+use Symfony\Component\Validator\Constraints as Assert;
+use Hotel\RoomBundle\Validator\Constraints as RoomAssert;
 
 /**
  * Reserve
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @RoomAssert\ValidDate
+ * @ORM\Entity(repositoryClass="Hotel\RoomBundle\Entity\ReserveRepository")
  */
-
 class Reserve
 {
     /**
@@ -45,17 +40,6 @@ class Reserve
     */
     private $consumables;
 
-    public function __construct()
-    {
-        $this->phonecalls = new ArrayCollection();
-
-        $this->consumables = new ArrayCollection();
-
-        $this->special = false;
-
-        $this->roomstatus = 'active';
-    }
-
     /**
      * @var integer
      *
@@ -66,17 +50,11 @@ class Reserve
     private $id;
 
     /**
-     * @var integer
+     * @var boolean
      *
-     * @ORM\Column(name="childbeds", type="integer")
-     * @Assert\NotBlank(message="Porfavor introduzca una cantidad.")
-     * @Assert\Range(
-     *          min = 0,
-     *          max = 3,
-     *          minMessage = "Porfavor introduzca una cantidad mayor o igual a cero.",
-     *          maxMessage = "Porfavor introduzca una cantidad menor o igual a 3.")
+     * @ORM\Column(name="childbed", type="boolean")
      */
-    private $childbeds;
+    private $childbed;
 
     /**
      * @var \DateTime
@@ -117,11 +95,11 @@ class Reserve
     /**
      * @var string
      *
-     * @ORM\Column(name="roomstatus", type="string", length=10)
-     * @Assert\NotBlank(message="Porfavor introduzca un status.")
-     * @Assert\Choice(choices = {"active", "occupied", "closed", "canceled"}, message = "Porfavor elija un status valido.")
+     * @ORM\Column(name="restatus", type="string", length=10)
+     * @Assert\NotBlank(message="Porfavor introduzca un estado.")
+     * @Assert\Choice(choices = {"active", "occupied", "canceled", "complete"}, message = "Porfavor elija un estado valido.")
      */
-    private $roomstatus;
+    private $restatus;
 
     /**
      * @var boolean
@@ -130,6 +108,23 @@ class Reserve
      */
     private $special;
 
+    /**constructor*/
+    public function __construct()
+    {
+        $this->phonecalls = new ArrayCollection();
+
+        $this->consumables = new ArrayCollection();
+
+        $this->special = false;
+
+        $this->childbed = false;
+
+        $this->restatus = 'active';
+
+        $this->entrydate = new \DateTime("now");
+
+        $this->exitdate = new \DateTime("tomorrow");
+    }
 
     /**
      * Get id
@@ -142,26 +137,26 @@ class Reserve
     }
 
     /**
-     * Set childbeds
+     * Set childbed
      *
-     * @param integer $childbeds
+     * @param integer $childbed
      * @return Reserve
      */
-    public function setChildbeds($childbeds)
+    public function setChildbed($childbed)
     {
-        $this->childbeds = $childbeds;
+        $this->childbed = $childbed;
     
         return $this;
     }
 
     /**
-     * Get childbeds
+     * Get childbed
      *
      * @return integer 
      */
-    public function getChildbeds()
+    public function getChildbed()
     {
-        return $this->childbeds;
+        return $this->childbed;
     }
 
     /**
@@ -305,26 +300,26 @@ class Reserve
     }
 
     /**
-     * Set roomstatus
+     * Set restatus
      *
-     * @param string $roomstatus
+     * @param string $restatus
      * @return Reserve
      */
-    public function setRoomstatus($roomstatus)
+    public function setRestatus($restatus)
     {
-        $this->roomstatus = $roomstatus;
+        $this->restatus = $restatus;
     
         return $this;
     }
 
     /**
-     * Get roomstatus
+     * Get restatus
      *
      * @return string 
      */
-    public function getRoomstatus()
+    public function getRestatus()
     {
-        return $this->roomstatus;
+        return $this->restatus;
     }
 
     /**
@@ -414,12 +409,5 @@ class Reserve
     public function getConsumables()
     {
         return $this->consumables;
-    }
-    /*validacion de las fechas de entrada y salida, verificando que la de entrada siempre sea la menor.*/
-    public function isDateValid(ExecutionContextInterface $context)
-    {
-        if ($this->entrydate >= $this->exitdate){
-            $context->addViolationAt('exitdate', 'La fecha de salida debe ser posterior a la de entrada.', array(), null);
-        }
     }
 }

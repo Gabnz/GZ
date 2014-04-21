@@ -24,12 +24,9 @@ class RoomType extends AbstractType
             ->add('jacuzzi',  'checkbox', array( 'label' => 'Jacuzzi'))
             ->add('music',  'checkbox', array( 'label' => 'Musica'))
             ->add('massage',  'checkbox', array( 'label' => 'Masaje'))
-            ->add('roomstatus', 'choice',array('choices' => array('active' => 'Activo',
-             'occupied' => 'Ocupado', 'closed' => 'Cerrado', 'canceled' => 'Cancelado'),
-            'label'=>'Estatus'))
-
+            ->add('roomstatus', 'choice',array('choices' => array('free' => 'Libre','occupied' => 'Ocupada'),
+            'label'=>'Estado'))
         ;
-
     }
     
     /**

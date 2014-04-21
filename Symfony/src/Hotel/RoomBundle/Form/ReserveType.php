@@ -11,18 +11,16 @@ class ReserveType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('entrydate', 'date', array('empty_value' => array('year' => 'Anio', 'month' => 'Mes', 'day' => 'Dia'),
-            'label' => 'Fecha de entrada','years' => range(date('Y'),date('Y') + 1),
-            'widget' => 'single_text',
-            ))
-        ->add('exitdate','date',array('empty_value' => array('year' => 'Anio', 'month' => 'Mes', 'day' => 'Dia'),
-            'label' => 'Fecha de salida','years' => range(date('Y'),date('Y') + 1),
-            'widget' => 'single_text',
-            ))
-        ->add('roomcategory', 'hidden')
+        $builder->add('entrydate', 'date', array('label' => 'Fecha de entrada', 'widget' => 'choice'))
+        ->add('exitdate','date',array('label' => 'Fecha de salida','widget' => 'choice'))
+        ->add('roomcategory','choice',array('choices' => array('standard' => 'Estandar', 'bussiness' => 'Bussiness', 'high' => 'Alta'),
+            'label'=>'Categoria'))
         ->add('roomtype','choice',array('choices' => array('individual' => 'Individual', 'double' => 'Doble'),
             'label'=>'Tipo'))
-        ->add('childbeds','choice',array( 'choices' => array(0 => '0', 1 => '1', 2 => '2', 3 => '3'), 'label' => 'Camas infantiles'));
+        ->add('childbed', 'checkbox', array( 'label' => 'Cama infantil'))
+        //->add('restatus','choice',array('choices' => array('active' => 'Activa', 'occupied' => 'Ocupada', 'canceled' => 'Cancelada', 'complete' => 'Completa'),
+        //    'label'=>'Estado'))
+        ;
     }
 
     /**

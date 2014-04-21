@@ -10,16 +10,28 @@
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Childbeds</th>
-                <td>{{ entity.childbeds }}</td>
+                <th>Id usuario</th>
+                <td>{{ entity.user.id }}</td>
+            </tr>
+            <tr>
+                <th>Id habitacion</th>
+                {% if entity.room is null %}
+                    <td></td>
+                {% else %}
+                    <td><a href="{{ path('room_show', { 'id': entity.room.id }) }}">{{ entity.room.id }}</a></td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Childbed</th>
+                <td>{{ entity.childbed }}</td>
             </tr>
             <tr>
                 <th>Entrydate</th>
-                <td>{{ entity.entrydate|date('Y-m-d H:i:s') }}</td>
+                <td>{{ entity.entrydate|date('Y-m-d') }}</td>
             </tr>
             <tr>
                 <th>Exitdate</th>
-                <td>{{ entity.exitdate|date('Y-m-d H:i:s') }}</td>
+                <td>{{ entity.exitdate|date('Y-m-d') }}</td>
             </tr>
             <tr>
                 <th>Roomcategory</th>
@@ -31,7 +43,7 @@
             </tr>
             <tr>
                 <th>Roomstatus</th>
-                <td>{{ entity.roomstatus }}</td>
+                <td>{{ entity.restatus }}</td>
             </tr>
             <tr>
                 <th>Special</th>
@@ -42,7 +54,7 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('reserve') }}">
+        <a href="{{ path('reserve_admin') }}">
             Back to the list
         </a>
     </li>

@@ -1,13 +1,35 @@
-{% extends '::base.html.twig' %}
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body -%}
-    <h1>Reserve creation</h1>
 
-    {{ form(form) }}
+<div class="cover-div"
+	style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
+
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+<div class="title-div">
+	<h1>Creacion de reserva</h1>
+</div>
+
+{{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+	{% form_theme form 'HotelRoomBundle:Form:fields.html.twig' %}
+
+	<div class="row">
+		<div class="small-12 medium-6 columns">
+
+			{{ form_row(form.userlist) }}
+
+			{{ form_rest(form) }}
+		</div>
+	</div>
+
+	
+{{ form_end(form) }}
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('reserve') }}">
+        <a href="{{ path('reserve_admin') }}">
             Back to the list
         </a>
     </li>

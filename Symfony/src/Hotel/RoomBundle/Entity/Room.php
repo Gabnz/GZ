@@ -3,6 +3,7 @@
 namespace Hotel\RoomBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Room
@@ -25,6 +26,8 @@ class Room
      * @var string
      *
      * @ORM\Column(name="roomtype", type="string", length=10)
+     * @Assert\NotBlank(message = "Porfavor introduzca un tipo.")
+     * @Assert\Choice(choices = {"individual", "double"}, message = "Porfavor elija un tipo valido.")
      */
     private $roomtype;
 
@@ -32,17 +35,10 @@ class Room
      * @var string
      *
      * @ORM\Column(name="roomcategory", type="string", length=10)
+     * @Assert\NotBlank(message = "Porfavor introduzca una categoria.")
+     * @Assert\Choice(choices = {"standard", "bussiness","high"}, message = "Porfavor elija una categoria valida.")
      */
     private $roomcategory;
-
-    public function __construct()
-    {
-        $this->tv = false;
-        $this->shower = false;
-        $this->jacuzzi = false;
-        $this->music = false;
-        $this->massage = false;
-    }
 
     /**
      * @var boolean
@@ -83,9 +79,20 @@ class Room
      * @var string
      *
      * @ORM\Column(name="roomstatus", type="string", length=10)
+     * @Assert\NotBlank(message = "Porfavor introduzca un estado.")
+     * @Assert\Choice(choices = {"free", "occupied"}, message = "Porfavor elija un estado valido.")
      */
     private $roomstatus;
 
+    /**constructor*/
+    public function __construct()
+    {
+        $this->tv = false;
+        $this->shower = false;
+        $this->jacuzzi = false;
+        $this->music = false;
+        $this->massage = false;
+    }
 
     /**
      * Get id
@@ -96,8 +103,6 @@ class Room
     {
         return $this->id;
     }
-
-   
 
     /**
      * Set tv

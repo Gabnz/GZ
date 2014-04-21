@@ -1,5 +1,6 @@
 {#formulario para cada categoria#}
-<form class="custom" action="{{ path('reserve') }}" method="post" id="res-form">
+{{ form_start(form, {'attr': {novalidate: 'novalidate', 'class':'custom'}}) }}
+{#<form class="custom" action="{{ path('reserve_user') }}" method="post" id="res-form">#}
 	{% form_theme form 'HotelRoomBundle:Form:fields.html.twig' %}
 	<div class="row">
 		
@@ -23,7 +24,7 @@
 			</div>
 			<div class="row">
 				<div class="small-6 small-centered columns">
-					{{ form_row(form.childbeds) }}
+					{{ form_row(form.childbed) }}
 				</div>
 			</div>
 		</div>
@@ -36,7 +37,7 @@
 
 			<div class="row collapse">
 				<div class="small-5 push-2 columns">
-					<a class="button prefix" >Disponibilidad</a>
+					<a class="button prefix" >{{ form_row(form.available) }}</a>
 				</div>
 				<div class="small-3 pull-2 columns">
 					<span class="postfix">-</span>
@@ -47,12 +48,13 @@
 
 			<div align="center">
 				{% if user != null %}
-					<a class="button" id="res-send-button">Reservar</a>
+					{{ form_row(form.submit) }}
 				{% else %}
 					<h5 align="center">Ingresa a tu cuenta para reservar</h5>
 				{% endif %}
 			</div>
 		</div> 
 	</div>
-</form>
-		{{ form_rest(form) }}
+
+{{ form_rest(form) }}
+{{ form_end(form) }}

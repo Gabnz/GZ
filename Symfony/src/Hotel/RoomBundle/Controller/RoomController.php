@@ -27,16 +27,23 @@ class RoomController extends Controller
         if($session->has('user') && $session->get('user')->getRole() == 'admin'){
 
             $user = $session->get('user');
+            
             $em = $this->getDoctrine()->getManager();
-            $entities = $em->getRepository('HotelRoomBundle:Room')->findAll();
+            $qb = $em->createQueryBuilder();
+
+            $rooms = $qb->select('r')
+            ->from('HotelRoomBundle:Room', 'r')
+            ->addOrderBy('r.roomtype', 'DESC')
+            ->addOrderBy('r.roomcategory', 'ASC')
+            ->getQuery()
+            ->getResult();
             /*muestra una lista de los usuarios registrados*/
             return $this->render('HotelRoomBundle:Room:index.html.twig', array(
-                'entities' => $entities, 'user' => $user));
+                'entities' => $rooms, 'user' => $user));
         }
         /*si no es admin, no puede ver la lista de habitaciones*/
         throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
     }
-
 
     /**
      * Creates a new Room entity.

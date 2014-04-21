@@ -1,12 +1,11 @@
-
 {% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body -%}
+
 <div class="cover-div"
     style="background-image:url({{ asset('bundles/img/reservations.jpg') }});">
 </div>
 
-{#{ include('HotelUserBundle:User:user-topbar.html.twig') }#}
 {{ include('HotelUserBundle:User:'~prefix~'-topbar.html.twig') }}
 
 	{#titulo#}
@@ -66,8 +65,7 @@
 				</div>
 				{#formulario de disponibilidad y reserva#}
 				<div id="res-div">
-					{{ render(controller('HotelRoomBundle:Reserve:reserve', {'category':rooms_cat[i]})) }}
-
+					{% include 'HotelRoomBundle:Reserve:form.html.twig' with {'form': form, 'category':rooms_cat[i]} %}
 				</div>
 		    </div>
 		  </li>
