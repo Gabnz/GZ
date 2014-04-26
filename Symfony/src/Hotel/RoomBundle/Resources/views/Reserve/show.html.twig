@@ -1,68 +1,122 @@
-{% extends '::base.html.twig' %}
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body -%}
-    <h1>Reserve</h1>
+<div class="cover-div"
+    style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
 
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+<div class="title-div">
+    <h1>Reserva</h1>
+</div>
+
+<div align="center">
     <table class="record_properties">
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ entity.id }}</td>
+                <td align="center">{{ entity.id }}</td>
             </tr>
             <tr>
                 <th>Id usuario</th>
-                <td>{{ entity.user.id }}</td>
+                <td align="center"><a href="{{ path('user_show', { 'id': entity.user.id }) }}">{{ entity.user.id }}</a></td>
             </tr>
             <tr>
                 <th>Id habitacion</th>
                 {% if entity.room is null %}
-                    <td></td>
+                    <td align="center">---</td>
                 {% else %}
-                    <td><a href="{{ path('room_show', { 'id': entity.room.id }) }}">{{ entity.room.id }}</a></td>
+                    <td align="center"><a href="{{ path('room_show', { 'id': entity.room.id }) }}">{{ entity.room.id }}</a></td>
                 {% endif %}
             </tr>
             <tr>
-                <th>Childbed</th>
-                <td>{{ entity.childbed }}</td>
-            </tr>
-            <tr>
-                <th>Entrydate</th>
+                <th>Fecha de entrada</th>
                 <td>{{ entity.entrydate|date('Y-m-d') }}</td>
             </tr>
             <tr>
-                <th>Exitdate</th>
+                <th>Fecha de salida</th>
                 <td>{{ entity.exitdate|date('Y-m-d') }}</td>
             </tr>
             <tr>
-                <th>Roomcategory</th>
-                <td>{{ entity.roomcategory }}</td>
+                <th>Tipo</th>
+                <td>
+                    {% if entity.roomtype == "individual" %}
+                        Individual
+                    {% else %}
+                        Doble
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Roomtype</th>
-                <td>{{ entity.roomtype }}</td>
+                <th>Categoria</th>
+                <td>
+                    {% if entity.roomcategory == "standard" %}
+                        Estandar
+                    {% elseif entity.roomcategory == "bussiness" %}
+                        Bussiness
+                    {% else %}
+                        Alta
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Roomstatus</th>
-                <td>{{ entity.restatus }}</td>
+                <th>Cama infantil</th>
+                <td>
+                    {% if entity.childbed == false %}
+                        No
+                    {% else %}
+                        Si
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Special</th>
-                <td>{{ entity.special }}</td>
+                <th>Estado</th>
+                <td>
+                    {% if entity.restatus == "active" %}
+                        Activa
+                    {% elseif entity.restatus == "occupied" %}
+                        Ocupada
+                    {% elseif entity.restatus =="canceled" %}
+                        Cancelada
+                    {% else %}
+                        Completa
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Caso especial</th>
+                <td>
+                    {% if entity.special == false %}
+                        No
+                    {% else %}
+                        Si
+                    {% endif %}
+                </td>
             </tr>
         </tbody>
     </table>
+</div>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('reserve_admin') }}">
-            Back to the list
+<div class="row">
+    <div class="small-12 medium-6 medium-centered columns">
+        <div align="center">
+        <a href="{{ path('reserve_edit', { 'id': entity.id }) }}" class="button">
+            Editar
         </a>
-    </li>
-    <li>
-        <a href="{{ path('reserve_edit', { 'id': entity.id }) }}">
-            Edit
+        </div>
+        <div  align="center">
+            {{ form(delete_form) }}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-6 medium-4 columns">
+        <a href="{{ path('reserve_admin') }}" class="success button">
+            Regresar
         </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    </div>
+</div>
+
 {% endblock %}

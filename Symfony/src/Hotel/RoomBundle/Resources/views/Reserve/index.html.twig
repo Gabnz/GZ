@@ -12,43 +12,56 @@
 </div>
 
 <div align="center">
-
     <table class="records_list">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Id usuario</th>
-                <th>Id habitacion</th>
-                <th>Cama infantil</th>
-                <th>Fecha de entrada</th>
-                <th>Fecha de salida</th>
-                <th>Categoria</th>
+                <th>Reserva</th>
+                <th>Usuario</th>
                 <th>Tipo</th>
+                <th>Categoria</th>
+                <th>Fecha entrada</th>
+                <th>Fecha salida</th>
                 <th>Estado</th>
-                <th>Especial</th>
-                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('reserve_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td><a href="{{ path('user_show', { 'id': entity.user.id }) }}">{{ entity.user.id }}</a></td>
+                <td align="center"><a href="{{ path('reserve_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td align="center"><a href="{{ path('user_show', { 'id': entity.user.id }) }}">{{ entity.user.id }}</a></td>
 
-                {% if entity.room is null %}
-                    <td></td>
-                {% else %}
-                    <td><a href="{{ path('room_show', { 'id': entity.room.id }) }}">{{ entity.room.id }}</a></td>
-                {% endif %}
+                <td>
+                    {% if entity.roomtype == "individual" %}
+                        Individual
+                    {% else %}
+                        Doble
+                    {% endif %}
+                </td>
 
-                <td>{{ entity.childbed }}</td>
+                <td>
+                    {% if entity.roomcategory == "standard" %}
+                        Estandar
+                    {% elseif entity.roomcategory == "bussiness" %}
+                        Bussiness
+                    {% else %}
+                        Alta
+                    {% endif %}
+                </td>
                 <td>{% if entity.entrydate %}{{ entity.entrydate|date('Y-m-d') }}{% endif %}</td>
                 <td>{% if entity.exitdate %}{{ entity.exitdate|date('Y-m-d') }}{% endif %}</td>
-                <td>{{ entity.roomcategory }}</td>
-                <td>{{ entity.roomtype }}</td>
-                <td>{{ entity.restatus }}</td>
-                <td>{{ entity.special }}</td>
+
                 <td>
+                    {% if entity.restatus == "active" %}
+                        Activa
+                    {% elseif entity.restatus == "occupied" %}
+                        Ocupada
+                    {% elseif entity.restatus =="canceled" %}
+                        Cancelada
+                    {% else %}
+                        Completa
+                    {% endif %}
+                </td>
+                {#<td>
                 <ul>
                     <li>
                         <a href="{{ path('reserve_show', { 'id': entity.id }) }}">show</a>
@@ -57,7 +70,7 @@
                         <a href="{{ path('reserve_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
-                </td>
+                </td>#}
             </tr>
         {% endfor %}
         </tbody>
@@ -65,11 +78,9 @@
 
 </div>
 
-        <ul>
-        <li>
-            <a href="{{ path('reserve_admin_new') }}">
-                Crear nueva reserva
-            </a>
-        </li>
-    </ul>
+<div align="center">        
+    <a class="button" href="{{ path('reserve_admin_new') }}">
+        Crear nueva reserva
+    </a>
+</div>
     {% endblock %}

@@ -15,14 +15,51 @@ class ReserveRepository extends EntityRepository
 	public function availableCount($roomtype, $roomcategory, $entrydate, $exitdate){
 
 		/*total de habitaciones libres del tipo y categoria de la reserva que se quiere hacer*/
-        $em = $this->getEntityManager();
+    $em = $this->getEntityManager();
+    $freeRooms = $em->getRepository('HotelRoomBundle:Room')->findBy(
+        array('roomtype' => $roomtype,
+            'roomcategory' => $roomcategory,
+            'roomstatus' => 'free')
+    );
+    
+    /*total de reservaciones activas/ocupadas que chocan con la reserva que se quiere hacer*/
+    $qb = $em->createQueryBuilder();
+
+    $reserves = $qb->select('r')
+       ->from('HotelRoomBundle:Reserve', 'r')
+       ->where('r.roomtype = :roomtype')
+       ->andWhere('r.roomcategory = :roomcategory')
+       ->andWhere($qb->expr()->orX(
+        $qb->expr()->between('r.entrydate', ':entrydate', ':exitdate'),
+        $qb->expr()->between('r.exitdate', ':entrydate', ':exitdate')))
+       ->andWhere($qb->expr()->orX(
+        $qb->expr()->eq('r.restatus', ':active'),
+        $qb->expr()->eq('r.restatus', ':occupied')))
+       ->setParameter('roomtype', $roomtype)
+       ->setParameter('roomcategory', $roomcategory)
+       ->setParameter('entrydate', $entrydate)
+       ->setParameter('exitdate', $exitdate)
+       ->setParameter('active', 'active')
+       ->setParameter('occupied', 'occupied')
+       ->getQuery()
+       ->getResult();
+
+    $result = array();
+
+    $result['count'] = count($freeRooms) - count($reserves);
+    $result['special'] = false;
+
+    /*si no hay reservaciones disponibles del tipo individual, se busca del tipo doble
+    y se toma en cuenta (caso especial)*/
+    
+    if($result['count'] == 0 && $roomtype == "individual"){
+
         $freeRooms = $em->getRepository('HotelRoomBundle:Room')->findBy(
-            array('roomtype' => $roomtype,
+            array('roomtype' => 'double',
                 'roomcategory' => $roomcategory,
                 'roomstatus' => 'free')
         );
-        
-        /*total de reservaciones activas/ocupadas que chocan con la reserva que se quiere hacer*/
+
         $qb = $em->createQueryBuilder();
 
         $reserves = $qb->select('r')
@@ -35,7 +72,7 @@ class ReserveRepository extends EntityRepository
            ->andWhere($qb->expr()->orX(
             $qb->expr()->eq('r.restatus', ':active'),
             $qb->expr()->eq('r.restatus', ':occupied')))
-           ->setParameter('roomtype', $roomtype)
+           ->setParameter('roomtype', 'double')
            ->setParameter('roomcategory', $roomcategory)
            ->setParameter('entrydate', $entrydate)
            ->setParameter('exitdate', $exitdate)
@@ -44,43 +81,11 @@ class ReserveRepository extends EntityRepository
            ->getQuery()
            ->getResult();
 
-        $result = count($freeRooms) - count($reserves);
+        $result['count'] = count($freeRooms) - count($reserves);
 
-        /*si no hay reservaciones disponibles del tipo individual, se busca del tipo doble
-        y se toma en cuenta (caso especial)*/
-        
-        if($result == 0 && $roomtype == "individual"){
-
-            $freeRooms = $em->getRepository('HotelRoomBundle:Room')->findBy(
-                array('roomtype' => 'double',
-                    'roomcategory' => $roomcategory,
-                    'roomstatus' => 'free')
-            );
-
-            $qb = $em->createQueryBuilder();
-
-            $reserves = $qb->select('r')
-               ->from('HotelRoomBundle:Reserve', 'r')
-               ->where('r.roomtype = :roomtype')
-               ->andWhere('r.roomcategory = :roomcategory')
-               ->andWhere($qb->expr()->orX(
-                $qb->expr()->between('r.entrydate', ':entrydate', ':exitdate'),
-                $qb->expr()->between('r.exitdate', ':entrydate', ':exitdate')))
-               ->andWhere($qb->expr()->orX(
-                $qb->expr()->eq('r.restatus', ':active'),
-                $qb->expr()->eq('r.restatus', ':occupied')))
-               ->setParameter('roomtype', 'double')
-               ->setParameter('roomcategory', $roomcategory)
-               ->setParameter('entrydate', $entrydate)
-               ->setParameter('exitdate', $exitdate)
-               ->setParameter('active', 'active')
-               ->setParameter('occupied', 'occupied')
-               ->getQuery()
-               ->getResult();
-
-            $result = count($freeRooms) - count($reserves);
-        }
-        
-        return $result;
+        if($result['count'] > 0)
+          $result['special'] = true;
+    }
+    return $result;
 	}
 }

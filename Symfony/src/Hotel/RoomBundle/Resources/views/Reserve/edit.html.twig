@@ -1,16 +1,62 @@
-{% extends '::base.html.twig' %}
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body -%}
-    <h1>Reserve edit</h1>
+<div class="cover-div"
+    style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
 
-    {{ form(edit_form) }}
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('reserve_admin') }}">
-            Back to the list
+<div class="title-div">
+    <h1>Editar reserva</h1>
+</div>
+
+{{ form_start(edit_form, {'attr': {novalidate: 'novalidate'}}) }}
+	{% form_theme edit_form 'HotelRoomBundle:Form:fields.html.twig' %}
+
+	<div class="row">
+		<div class="small-12 medium-6 medium-centered columns">
+			<div class="row">
+				<div class="small-12 medium-6 columns">
+					{{ form_row(edit_form.entrydate) }}
+				</div>
+				<div class="small-12 medium-6 columns">
+					{{ form_row(edit_form.exitdate) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 medium-6 columns">
+					{{ form_row(edit_form.roomtype) }}
+				</div>
+				<div class="small-12 medium-6 columns">
+					{{ form_row(edit_form.roomcategory) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 medium-6 columns">
+					{{ form_row(edit_form.restatus) }}
+				</div>
+				<div class="small-12 medium-6 columns">
+					<div align="center">
+						{{ form_row(edit_form.childbed) }}
+					</div>
+				</div>
+			</div>
+
+			<div align="center">
+				{{ form_row(edit_form.submit) }}
+				{{ form(delete_form) }}
+			</div>
+			{{ form_rest(edit_form) }}
+		</div>
+	</div>
+{{ form_end(edit_form) }}
+
+<div class="row">
+    <div class="small-6 medium-4 columns">
+        <a href="{{ path('reserve_show', { 'id': entity.id }) }}" class="success button">
+            Regresar
         </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    </div>
+</div>
 {% endblock %}

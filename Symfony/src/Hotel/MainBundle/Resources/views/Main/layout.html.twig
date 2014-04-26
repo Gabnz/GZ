@@ -3,10 +3,38 @@
 {% block title %}
 Hotel Symfonia
 {% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('bundles/jquery-ui-1.10.4.custom/css/smoothness/jquery-ui-1.10.4.custom.css') }}" rel="stylesheet">
+{% endblock %}
 {% block sticker %}
 <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 {% endblock %}
 
 {% block footer %}
 {{ include('HotelMainBundle:Main:footer.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js') }}"></script>
+<script>
+	$(function() {
+		$( ".datepicker" ).datepicker({
+			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
+			dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],
+			dateFormat: "yy-mm-dd",
+			monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+			monthNamesShort: [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" ],
+		});
+		$( ".birthdatepicker" ).datepicker({
+			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
+			dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],
+			dateFormat: "yy-mm-dd",
+			monthNames: [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ],
+			monthNamesShort: [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" ],
+			changeMonth: true,
+			changeYear: true,
+			defaultDate: "-18y",
+		});
+	});
+</script>
 {% endblock %}

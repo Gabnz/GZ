@@ -214,34 +214,6 @@ class ReserveController extends Controller
             **/
     }
 
-    /* index que muestra el header y la top bar correctamente
-     public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $session = $this->getRequest()->getSession();
-
-        $entities = $em->getRepository('HotelRoomBundle:Reserve')->findAll();
-
-            if(!$session->has('user')){
-
-                return $this->render('HotelRoomBundle:Reserve:index.html.twig', array(
-                    'entities'   => $entities,
-                    'prefix' => 'guest',
-                ));
-            }else{
-
-                $user = $session->get('user');
-
-                return $this->render('HotelRoomBundle:Reserve:index.html.twig', array(
-                    'entities'   => $entities,
-                    'prefix' => 'user',
-                    'user' => $user,
-                ));
-            }
-
-    }   
-    **/
-
     /**
      * Creates a new Reserve entity (for now, only for admins).
      *
@@ -268,7 +240,7 @@ class ReserveController extends Controller
 
             if($form->isValid()) {
 
-                $availableCount = $em->getRepository('HotelRoomBundle:Reserve')
+                $available = $em->getRepository('HotelRoomBundle:Reserve')
                     ->availableCount($entity->getRoomtype(), $entity->getRoomcategory(),
                         $entity->getEntrydate(), $entity->getExitdate());
 
@@ -279,19 +251,35 @@ class ReserveController extends Controller
                 /*si solo se desea verificar la disponibilidad*/
                 if($availableAction){
 
-                    return new Response('<html><body>Hello '.$availableCount.'!</body></html>');
+                    return $this->render('HotelRoomBundle:Reserve:new.html.twig', array(
+                        'entity' => $entity,
+                        'form'   => $form->createView(),
+                        'user' => $selected,
+                        'availableCount' => $available['count'],
+                    ));
 
                 }else{
                     /*si hay disponibilidad, reserva.*/
-                    if($availableCount > 0){
+                    if($available['count'] > 0){
+
+                        /*en caso de que sea un caso especial, se toma en cuenta*/
+                        if($available['special'] == true){
+                            $entity->setRoomtype('double');
+                            $entity->setSpecial(true);
+                        }
 
                         $em->persist($entity);
                         $em->flush();
                         return $this->redirect($this->generateUrl('reserve_show', array('id' => $entity->getId())));
 
                     }else{
-                        /*pagina de error*/
-                        throw $this->createNotFoundException('No hay habitaciones disponibles para la reserva.');
+                        /*si no hay disponibilidad, lo notifica.*/
+                        return $this->render('HotelRoomBundle:Reserve:new.html.twig', array(
+                        'entity' => $entity,
+                        'form'   => $form->createView(),
+                        'user' => $selected,
+                        'reserved' => false,
+                    ));
                     }
                 }
             }
@@ -299,7 +287,7 @@ class ReserveController extends Controller
             return $this->render('HotelRoomBundle:Reserve:new.html.twig', array(
                 'entity' => $entity,
                 'form'   => $form->createView(),
-                'user' => $user,
+                'user' => $selected,
             ));
         }
         /*si no es admin, no puede crear reservas de esta forma*/
@@ -315,7 +303,7 @@ class ReserveController extends Controller
     */
     private function createReserveForm(Reserve $entity){
 
-        $form = $this->createForm(new ReserveType(), $entity, array(
+        $form = $this->createForm(new ReserveType('new'), $entity, array(
             'action' => $this->generateUrl('reserve_admin_new'),
             'method' => 'POST',
         ));
@@ -334,69 +322,39 @@ class ReserveController extends Controller
 
         $form->add('userlist', 'choice', array('choices' => $list, 'label' => 'usuario', 'mapped' => false, 'data' => $user->getId()))
              ->add('submit', 'submit', array('label' => 'Reservar'))
-             ->add('available', 'submit', array('label' => 'Disponibilidad'));
+             ->add('available', 'submit', array('label' => 'Disponibilidad', 'attr' => array('class' => 'small')));
 
         return $form;
     }
 
     /**
-     * Displays a form to create a new Reserve entity.
-     *
-     */
-    /*public function newAction()
-    {
-        $entity = new Reserve();
-        $form   = $this->createReserveForm($entity);
-
-        return $this->render('HotelRoomBundle:Reserve:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }*/
-
-    /**
      * Finds and displays a Reserve entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id){
+
+        $session = $this->getRequest()->getSession();
+
+        /*si es admin, puede ver la reserva de esta forma*/
+        if($session->has('user') && $session->get('user')->getRole() == 'admin'){
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('HotelRoomBundle:Reserve')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Reserve entity.');
+            throw $this->createNotFoundException('Pagina no encontrada.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('HotelRoomBundle:Reserve:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
-    }
-
-    /**
-     * Displays a form to edit an existing Reserve entity.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('HotelRoomBundle:Reserve')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Reserve entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('HotelRoomBundle:Reserve:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+            'user' => $session->get('user')));
+        }
+        /*si no es admin, no puede ver la reserva de esta forma*/
+        throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
     }
 
     /**
@@ -406,17 +364,14 @@ class ReserveController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Reserve $entity)
-    {
-        $form = $this->createForm(new ReserveType(), $entity, array(
-            'action' => $this->generateUrl('reserve_update', array('id' => $entity->getId())),
+    private function createEditForm(Reserve $entity){
+
+        $form = $this->createForm(new ReserveType('edit'), $entity, array(
+            'action' => $this->generateUrl('reserve_edit', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'))
-        ->add('restatus','choice',array('choices' => array('active' => 'Activa', 'occupied' => 'Ocupada', 'canceled' => 'Cancelada', 'complete' => 'Completa'),
-            'label'=>'Estado'))
-        ;
+        $form->add('submit', 'submit', array('label' => 'Actualizar'));
 
         return $form;
     }
@@ -424,31 +379,46 @@ class ReserveController extends Controller
      * Edits an existing Reserve entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
+    public function editAction(Request $request, $id){
 
-        $entity = $em->getRepository('HotelRoomBundle:Reserve')->find($id);
+        $session = $this->getRequest()->getSession();
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Reserve entity.');
+        /*si es admin, puede editar la reserva de esta forma*/
+        if($session->has('user') && $session->get('user')->getRole() == 'admin'){
+
+            $em = $this->getDoctrine()->getManager();
+
+            $entity = $em->getRepository('HotelRoomBundle:Reserve')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Pagina no encontrada.');
+            }
+
+            $actualRestatus = $entity->getRestatus();
+
+            $deleteForm = $this->createDeleteForm($id);
+            $editForm = $this->createEditForm($entity);
+            $editForm->handleRequest($request);
+
+            if ($editForm->isValid()) {
+
+                return new Response('<html><body>Quieres pasar de '.$actualRestatus.' a '.$editForm['restatus']->getData().'</body></html>');
+                //return new Response('<html><body>hola</body></html>');
+
+                //$em->flush();
+
+                //return $this->redirect($this->generateUrl('reserve_edit', array('id' => $id)));
+            }
+
+            return $this->render('HotelRoomBundle:Reserve:edit.html.twig', array(
+                'entity'      => $entity,
+                'edit_form'   => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+                'user' => $session->get('user'),
+            ));
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('reserve_edit', array('id' => $id)));
-        }
-
-        return $this->render('HotelRoomBundle:Reserve:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        /*si no es admin, no puede ver la reserva de esta forma*/
+        throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
     }
     /**
      * Deletes a Reserve entity.
@@ -471,7 +441,7 @@ class ReserveController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('reserve'));
+        return $this->redirect($this->generateUrl('reserve_admin'));
     }
 
     /**
@@ -486,7 +456,7 @@ class ReserveController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('reserve_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Eliminar', 'attr' => array('class' => 'alert button')))
             ->getForm()
         ;
     }
