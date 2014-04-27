@@ -52,7 +52,7 @@ class ReserveRepository extends EntityRepository
     /*si no hay reservaciones disponibles del tipo individual, se busca del tipo doble
     y se toma en cuenta (caso especial)*/
     
-    if($result['count'] == 0 && $roomtype == "individual"){
+    if($result['count'] <= 0 && $roomtype == "individual"){
 
         $freeRooms = $em->getRepository('HotelRoomBundle:Room')->findBy(
             array('roomtype' => 'double',
@@ -86,6 +86,10 @@ class ReserveRepository extends EntityRepository
         if($result['count'] > 0)
           $result['special'] = true;
     }
+    /*en caso de que no hayan habitaciones libres la resta con las reservaciones daria negativo*/
+    if($result['count'] < 0)
+      $result['count'] = 0;
+
     return $result;
 	}
 
