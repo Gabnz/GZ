@@ -88,4 +88,110 @@ class ReserveRepository extends EntityRepository
     }
     return $result;
 	}
+
+  public function updateReserve($actualRestatus, $newRestatus, $id){
+
+    $em = $this->getEntityManager();
+    $reserve = $em->getRepository('HotelRoomBundle:Reserve')->find($id);
+
+    $roomtype = $reserve->getRoomtype();
+    $roomcategory = $reserve->getRoomcategory();
+    $date = new \DateTime("today");
+
+    $update['status'] = true;
+    $update['message'] = null;
+
+    if($newRestatus != $actualRestatus){
+
+      switch($actualRestatus){
+
+          case 'active':
+            /*de activa a completa no se pude*/
+            if($newRestatus == 'complete'){
+                $update['status'] = false;
+                $update['message'] = 'Se debe ocupar la habitacion antes de completar la reservacion.';
+            }
+
+            if($newRestatus == 'occupied' && ($date < $reserve->getEntrydate() || $date > $reserve->getExitdate())){
+              $update['status'] = false;
+              $update['message'] = 'No puede se puede ocupar la habitacion antes o despues de las fechas de reserva.';
+            }
+
+            break;
+
+          case 'occupied':
+            if($newRestatus == 'active'){
+                $update['status'] = false;
+                $update['message'] = 'La reserva no se puede activar de nuevo.';
+            }
+
+            if($newRestatus == 'canceled'){
+                $update['status'] = false;
+                $update['message'] = 'No se puede cancelar una reserva ocupada.';
+            }
+            break;
+
+          case 'canceled':
+            /*si el estado actual es cancelada, no se puede cambiar*/
+            if($newRestatus == 'active'){
+                $update['status'] = false;
+                $update['message'] = 'No se puede activar una reserva cancelada.';
+            }
+            if($newRestatus == 'occupied'){
+                $update['status'] = false;
+                $update['message'] = 'No se puede ocupar una reserva cancelada.';
+            }
+            if($newRestatus == 'complete'){
+                $update['status'] = false;
+                $update['message'] = 'No se puede completar una reserva cancelada.';
+            }
+            break;
+
+          case 'complete':
+            /*si el estado actual es completa, no se puede cambiar*/
+            if($newRestatus == 'active'){
+                $update['status'] = false;
+                $update['message'] = 'No se puede activar una reserva completa.';
+            }
+            if($newRestatus == 'occupied'){
+                $update['status'] = false;
+                $update['message'] = 'No se puede ocupar una reserva completa.';
+            }
+            if($newRestatus == 'canceled'){
+                $update['status'] = false;
+                $update['message'] = 'No se puede cancelar una reserva completa.';
+            }
+            break;
+        }
+    }
+
+    if($update['status'] == true){
+      
+      if($newRestatus == 'occupied'){
+        /*si la reserva se va a ocupar, se asigna una habitacion*/
+        $selectedRoom = $em->getRepository('HotelRoomBundle:Room')->findOneBy(
+          array('roomtype' => $roomtype,
+            'roomcategory' => $roomcategory,
+            'roomstatus' => 'free')
+        );
+
+        $reserve->setRoom($selectedRoom);
+
+        $selectedRoom->setRoomstatus('occupied');
+      }elseif($newRestatus == 'complete'){
+        /*si la reserva se va a completar, se libera la habitacion que tiene asignada*/
+
+        $selectedRoom = $reserve->getRoom();
+
+        $selectedRoom = $em->getRepository('HotelRoomBundle:Room')->find($selectedRoom->getId());
+
+        $selectedRoom->setRoomstatus('free');
+
+        $reserve->setRoom(null);
+      }
+      /*se persisten los datos en la BD*/
+      $em->flush();
+    }
+    return $update;
+  }
 }

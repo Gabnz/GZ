@@ -4,6 +4,7 @@ namespace Hotel\RoomBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Hotel\RoomBundle\Validator\Constraints as RoomAssert;
@@ -96,8 +97,8 @@ class Reserve
      * @var string
      *
      * @ORM\Column(name="restatus", type="string", length=10)
-     * @Assert\NotBlank(message="Porfavor introduzca un estado.")
-     * @Assert\Choice(choices = {"active", "occupied", "canceled", "complete"}, message = "Porfavor elija un estado valido.")
+     * @Assert\NotBlank(message="Porfavor introduzca un estado.", groups={"edit"})
+     * @Assert\Choice(choices = {"active", "occupied", "canceled", "complete"}, message = "Porfavor elija un estado valido.", groups={"edit"})
      */
     private $restatus;
 
@@ -204,8 +205,6 @@ class Reserve
     {
         return $this->exitdate;
     }
-
-   
 
     /**
      * Set special

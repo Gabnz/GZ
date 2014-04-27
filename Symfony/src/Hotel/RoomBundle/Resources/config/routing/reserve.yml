@@ -14,10 +14,6 @@ reserve_show:
     pattern:  /{id}/show/
     defaults: { _controller: "HotelRoomBundle:Reserve:show" }
 
-#reserve_edit:
-#    pattern:  /{id}/edit
-#    defaults: { _controller: "HotelRoomBundle:Reserve:edit" }
-
 reserve_edit:
     pattern:  /{id}/edit/
     defaults: { _controller: "HotelRoomBundle:Reserve:edit" }
