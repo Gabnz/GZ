@@ -21,18 +21,64 @@ use Hotel\BillBundle\Form\BillType;
 class BillController extends Controller
 {
 
-    public function pdfAction(){
-
-        $this->get('knp_snappy.pdf')->generate('http://www.google.fr', '/Symfony/file.pdf');
+    public function testAction(){            
+        return $this->render('HotelBillBundle:Bill:test.html.twig');       
     }
 
+    public function generateAction(){
+
+        $session = $this->getRequest()->getSession();
+
+        /*si eres usuario registrado */
+        if($session->has('user')){
+
+            $user = $session->get('user');
+            $em = $this->getDoctrine()->getManager();
+
+            $selected = $em->getRepository('HotelRoomBundle:Reserve')->findBy(
+            array('user' => $user->getId())
+            );           
+
+            if (count($selected) > 0) {
+
+                // actualiza el estatus a 'expire' de todas las facturas
+                $aux = $em->getRepository('HotelBillBundle:Bill')->updatebillstatus($user->getId());               
+
+                // agregando la factura con el id del usuario
+                $selected = $em->getRepository('HotelUserBundle:User')->findOneBy(
+                   array('id' => $user->getId())
+                   );
+
+                $newbill = new Bill();
+                $newbill->setUser($selected);
+                $newbill->setBillstatus('actual');
+                $date = new \DateTime("today");
+                $newbill->setIssuedate($date);
+                $em->persist($newbill);
+                $em->flush();
+
+                // obtener el id de la factura recien agregada
+                $bill_id = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
+                   array(
+                    'user' => $user->getId(),
+                    'billstatus' => 'actual'
+                    ));
+
+                //return $this->redirect($this->generateUrl('bill_pdf2'));
+
+            }else
+
+             throw $this->createNotFoundException('No tienes reservas asociadas.');
+
+        }
+        /*si es invitado, no puede generar facturas*/
+        throw $this->createNotFoundException('No eres usuario registrado, pagina no disponible.');
+
+    }
 
     public function pdf2Action(){
 
-
-
         $html = $this->renderView('HotelBillBundle:Bill:pdf.html.twig');
-    
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
@@ -54,13 +100,24 @@ class BillController extends Controller
 
         $session = $this->getRequest()->getSession();
 
+      
         if($session->has('user')){
+
+
+            $id = $session->get('user')->getId();
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('HotelUserBundle:User')->find($id); 
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Usuario no encontrado.');
+            }            
 
             $user = $session->get('user');
             /*si no es un usuario registrado, no puede ver la lista de facturas*/
             if($user->getRole() != 'guest'){
 
                 return $this->render('HotelBillBundle:Bill:bill.html.twig', array(
+                'entity'      => $entity,
                 'prefix' => 'user',
                 'user' => $user));  
 

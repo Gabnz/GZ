@@ -11,12 +11,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Hotel\BillBundle\Entity\BillRepository")
  */
 class Bill
 {
 
+    // ManyToOne(targetEntity="\Hotel\UserBundle\Entity\User", cascade={"persist"}, inversedBy="bills")
     /**
-    * @ORM\ManyToOne(targetEntity="\Hotel\UserBundle\Entity\User", inversedBy="bills")
+    * @ORM\ManyToOne(targetEntity="\Hotel\UserBundle\Entity\User", cascade={"persist"}, inversedBy="bills")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=FALSE)
     */
     private $user;

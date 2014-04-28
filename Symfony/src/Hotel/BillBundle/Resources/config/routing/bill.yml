@@ -2,9 +2,13 @@ bill:
     pattern:  /
     defaults: { _controller: "HotelBillBundle:Bill:index" }
 
-bill_pdf:
-    pattern:  /pdf
-    defaults: { _controller: "HotelBillBundle:Bill:pdf" }
+bill_test:
+    pattern:  /test
+    defaults: { _controller: "HotelBillBundle:Bill:test" }
+
+bill_generate:
+    pattern:  /generate
+    defaults: { _controller: "HotelBillBundle:Bill:generate" }
 
 bill_pdf2:
     pattern:  /pdf2
