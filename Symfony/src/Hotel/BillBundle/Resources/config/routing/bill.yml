@@ -10,9 +10,9 @@ bill_generate:
     pattern:  /generate
     defaults: { _controller: "HotelBillBundle:Bill:generate" }
 
-bill_pdf2:
-    pattern:  /pdf2
-    defaults: { _controller: "HotelBillBundle:Bill:pdf2" }
+bill_pdf:
+    pattern:  /pdf
+    defaults: { _controller: "HotelBillBundle:Bill:pdf" }
 
 bill_show:
     pattern:  /{id}/show

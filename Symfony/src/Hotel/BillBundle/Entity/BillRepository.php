@@ -12,19 +12,277 @@ use Doctrine\ORM\EntityRepository;
  */
 class BillRepository extends EntityRepository
 {
-	// actualiza el estatus a 'expire' de todas las facturas
-	public function updatebillstatus($user_id){
+	// Actualiza el estatus a 'expire' de todas las facturas
+	 function updatebillstatus($user_id){
 
 		$em = $this->getEntityManager();
-		$query = $em->createQuery("UPDATE HotelBillBundle:Bill r set r.billstatus = :expire WHERE r.user = :user_id");
+		$query = $em->createQuery("UPDATE HotelBillBundle:Bill r set r.billstatus = :expire 
+		WHERE r.user = :user_id");
 		$query->setParameter('user_id', $user_id);
 		$query->setParameter('expire', 'expire');
 		$numUpdated = $query->execute();
 		$em->flush(); // Executes all updates.
         $em->clear(); // Detaches all objects from Doctrine!
-        
-		return $numUpdated;
-	} 
+
+		return 0;
+	}// end updatebillstatus
+
+	// Genera la factura
+	public function bill_generate($user_id, $reser_id){
+
+		$em = $this->getEntityManager();
+
+		$info_rese;	/* contiene la siguiente informacion referente a la reserva
+				     * cantidad de dias
+					 * tipo de habitacion
+					 * categoria de la habitacion
+					 * id de la habitacion
+					**/
+
+		$cost_habi_t; /* contiene el precio del tipo de habitacion
+					   **/
+
+		$cost_habi_c; /* contiene el precio de la categoria de habitacion
+					   **/		
+		
+		$num_minibar; /* contiene la cantidad de cada item en el minibar asociado a la reserva
+					   **/
+
+		$des_minibar; /* contiene la descripcion de cada item en el minibar asociado a la reserva
+					   **/	
+
+		$phonecall;
+
+		$call_i_cost;
+
+		$call_n_cost;			   	
 
 
-}
+        //-----------------------------------------------------------------------------------------------//
+
+		// Consulta informacion de la reserva
+		$query = $em->createQuery('SELECT DATEDIFF(r.exitdate, r.entrydate) AS days, r.roomtype AS type,
+		 r.roomcategory AS category, IDENTITY(r.room) AS room_id 
+		 FROM HotelRoomBundle:Reserve r  WHERE  r.id = :id');		
+		$query->setParameter('id', $reser_id);
+		$info_rese = $query->getResult();
+		$em->flush(); // Executes all updates.
+        $em->clear(); // Detaches all objects from Doctrine!
+
+
+        //-----------------------------------------------------------------------------------------------//
+
+        // Consulta el precio del tipo de habitacion
+		$query = $em->createQuery('SELECT r.price AS type_cost FROM HotelRoomBundle:ConsumableStore r
+		  WHERE  r.name = :name');		
+		$query->setParameter('name', $info_rese[0]['type']);
+		$cost_habi_t = $query->getResult();
+		$em->flush(); // Executes all updates.
+        $em->clear(); // Detaches all objects from Doctrine!
+
+
+ 		//-----------------------------------------------------------------------------------------------//
+
+        // Consulta el precio de la categoria de la habitacion
+		$query = $em->createQuery('SELECT r.price AS category_cost FROM HotelRoomBundle:ConsumableStore r
+		  WHERE  r.name = :name');	
+		$query->setParameter('name', $info_rese[0]['category']);
+		$cost_habi_c = $query->getResult();
+		$em->flush(); // Executes all updates.
+        $em->clear(); // Detaches all objects from Doctrine!
+
+ 		//-----------------------------------------------------------------------------------------------//
+
+      	// Cantidad de cada item en el minibar
+		$query = $em->createQuery('SELECT  IDENTITY(r.consumablestore) AS consumablestore, r.amount AS amount
+			FROM HotelRoomBundle:Consumable r WHERE  r.reserve = :reserve ORDER BY r.consumablestore ASC ');
+		$query->setParameter('reserve', $reser_id);
+		$num_minibar = $query->getResult();
+		$em->flush(); // Executes all updates.
+        $em->clear(); // Detaches all objects from Doctrine!
+
+		$result['num_minibar'] = (count($num_minibar));
+		$num_items = (count($num_minibar));
+
+
+ 		//-----------------------------------------------------------------------------------------------//
+
+        // Consulta las llamadas telefonicas pertenecientes a la reserva
+		$query = $em->createQuery('SELECT p.starttime AS starttime, p.endtime AS endtime, p.calltype AS calltype 
+			FROM HotelRoomBundle:PhoneCall p
+		    WHERE  p.reserve = :reserve');	
+		$query->setParameter('reserve', $reser_id);
+		$phonecall = $query->getResult();
+		$em->flush(); // Executes all updates.
+        $em->clear(); // Detaches all objects from Doctrine!
+
+
+ 		//-----------------------------------------------------------------------------------------------//
+
+          if(count($phonecall) > 0){
+
+	        // Consulta el precio de las llamadas internacionales
+			$query = $em->createQuery('SELECT r.price AS call_i_cost FROM HotelRoomBundle:ConsumableStore r
+			  WHERE  r.name = :name');	
+			$query->setParameter('name', 'llamada_internacional');
+			$call_i_cost = $query->getResult();
+			$em->flush(); // Executes all updates.
+	        $em->clear(); // Detaches all objects from Doctrine!
+
+
+	        // Consulta el precio de las llamadas nacionales
+			$query = $em->createQuery('SELECT r.price AS call_n_cost FROM HotelRoomBundle:ConsumableStore r
+			  WHERE  r.name = :name');	
+			$query->setParameter('name', 'llamada_nacional');
+			$call_n_cost = $query->getResult();
+			$em->flush(); // Executes all updates.
+	        $em->clear(); // Detaches all objects from Doctrine!	
+
+       
+           }
+
+ 		//-----------------------------------------------------------------------------------------------//
+
+           	$num_call = count($phonecall);
+            $num_calls_int = 0;
+            $num_calls_nac = 0;
+            $total_int = 0;
+            $total_nac = 0;
+            $mins_total = 0;
+
+            //recorrido por la lista de llamadas 
+
+           	for ($i=0; $i < $num_call; $i++) { 
+
+		      $stmt = $this->getEntityManager()
+		                   ->getConnection()
+		                   ->prepare('SELECT TIMEDIFF(:endtime, :starttime) as time');
+		      $stmt->bindValue('endtime', $phonecall[$i]['endtime']->format('Y-m-d H:i:s'));
+		      $stmt->bindValue('starttime', $phonecall[$i]['starttime']->format('Y-m-d H:i:s'));
+		      $stmt->execute();
+		      $rs_time = $stmt->fetchAll();  
+	      
+		      
+		      $stmt = $this->getEntityManager()
+		                   ->getConnection()
+		                   ->prepare('SELECT HOUR(:hour) as hour');
+		      $stmt->bindValue('hour', $rs_time[0]['time']);
+		      $stmt->execute();
+		      $rs_hour = $stmt->fetchAll();  
+		   
+
+		      $stmt = $this->getEntityManager()
+		                   ->getConnection()
+		                   ->prepare('SELECT MINUTE(:minute) as minute');
+		      $stmt->bindValue('minute', $rs_time[0]['time']);
+		      $stmt->execute();
+		      $rs_minute = $stmt->fetchAll(); 
+
+		
+
+           		$mins_total = 60*$rs_hour[0]['hour'] + $rs_minute[0]['minute'];
+
+                //cuando la llamada no dura más de un minuto
+                if($mins_total == 0){
+                   $mins_total = 1;
+                }
+
+                //acumulando el precio
+                if($phonecall[$i]['calltype'] == 'international'){//internacional
+                    $total_int += $mins_total * $call_i_cost[0]['call_i_cost'];
+                    $num_calls_int++;
+                }else{//nacional
+                    $total_nac += $mins_total * $call_n_cost[0]['call_n_cost'];
+                    $num_calls_nac++;
+                }                
+
+				
+           	}
+
+
+ 		//-----------------------------------------------------------------------------------------------//
+
+        // Consulta las descripcion de los items del minibar en el almacen
+        $query = $em->createQuery('SELECT r.price AS price, r.id AS id,
+        r.name AS name, r.brand AS brand FROM HotelRoomBundle:ConsumableStore r WHERE r.id IN
+        	( 
+        	SELECT IDENTITY(rc.consumablestore) FROM HotelRoomBundle:Consumable rc 
+        	WHERE rc.reserve = :reserve
+        	) 
+        ORDER BY r.id ASC ');
+		$query->setParameter('reserve', $reser_id);
+		$des_minibar = $query->getResult();
+		$em->flush(); // Executes all updates.
+        $em->clear(); // Detaches all objects from Doctrine!
+
+
+ 		//-----------------------------------------------------------------------------------------------//
+        //				      EMPEZANDO ARMAR LA FACTURA Y LOS ITEMS DE LA FACTURA  			        //
+
+
+        // Consulta la factura recien agregada
+    	$newbill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
+       		array(
+       		'user' => $user_id,
+       		'billstatus' => 'actual'
+       	));       
+
+    	// asigna los valores de la factura a la entidad Bill (factura) ya creada.
+        $newbill->setCategory($info_rese[0]['category']);
+        $newbill->setCategoryCost($cost_habi_c[0]['category_cost']);
+        $newbill->setType($info_rese[0]['type']);
+        $newbill->setTypeCost($cost_habi_t[0]['type_cost']);
+        $newbill->setHousingDays($info_rese[0]['days']);
+        $newbill->setHousingCost($info_rese[0]['days'] * 
+        	( $cost_habi_t[0]['type_cost'] * $cost_habi_c[0]['category_cost']) );                                
+
+
+        // le asigna todos los items del minibar a la factura, asocinado los BillItems (recien creados)
+        // a la factura.
+		for ($i = 0; $i < $num_items; ++$i) {
+    		$billitems = new BillItems();
+    		$billitems->setBill($newbill);
+    		$billitems->setName($des_minibar[$i]['name']. ' - ' .$des_minibar[$i]['brand']);
+    		$billitems->setPrice($des_minibar[$i]['price']*$num_minibar[$i]['amount']);
+    		$billitems->setAmount($num_minibar[$i]['amount']);
+    		$billitems->setRoomId($info_rese[0]['room_id']);
+    		$em->persist($billitems);
+   		
+   			 if ($i  == $num_items - 1) {
+        		$em->flush();
+        		$em->clear(); // Detaches all objects from Doctrine!
+    		}
+		}       
+
+		return 0;
+	} //end bill_generate
+
+
+
+	// Consulta todos los items asociado a una factura actual
+	 function billitems($user_id){
+
+		$em = $this->getEntityManager();
+
+
+        // Consulta la factura recien agregada
+    	$newbill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
+       		array(
+       		'user' => $user_id,
+       		'billstatus' => 'actual'
+       	)); 
+
+		$query = $em->createQuery('SELECT b  FROM HotelBillBundle:BillItems b WHERE b.bill = :bill');
+		$query->setParameter('bill', $newbill->getId());
+		$aux = $query->getResult();
+		$em->flush(); // Executes all updates.
+        $em->clear(); // Detaches all objects from Doctrine!
+
+		return $aux;
+	}// end updatebillstatus
+
+
+
+
+
+}//end

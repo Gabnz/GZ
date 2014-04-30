@@ -1,7 +1,14 @@
 
-{% extends '::base.html.twig' %}
+{# {% extends '::base.html.twig' %} #} 
+
+{# {% extends '::foundation.base.html.twig' %} #}
+
+{# {% extends 'HotelMainBundle:Main:layout.html.twig' %} #}
 
 
+
+
+{# 
 {% block body -%}
 	  
   	<div style="margin: 0% 0% 0% 4%;">	
@@ -11,23 +18,23 @@
 
 	<div style="margin: 3% 5% 0% 5%;">
 		<p style="font-size:small;"> Symfony - final Av. Siempre vivas Edfi. C.N.T Caracas Tefl: 500.11 - RIF-J004134-5 www.thechive.com</p>
-	<hr></div> 
+	<hr></div> 	
 
 
 	<div style="margin:0% 5% 0% 5%;">
-		<pre><b> Codigo de usuario:</b>                                                                     	 2123123123 </pre>
+		<pre><b> Codigo de usuario:</b>                                                                     	 {{ entity_user.id }} </pre>
 
-		<pre><b> Nombre:           </b>                                                                     	       Nombre de usuario </pre>
+		<pre><b> Nombre:           </b>                                                                     	       {{ entity_user.firstname }} {{ entity_user.lastname }} </pre>
 
-		<pre><b> Cedula:           </b>                                                                     	        2123123123 </pre>	
+		<pre><b> Cedula:           </b>                                                                     	        {{ entity_user.idcard }} </pre>	
+			
 
-		<pre><b> Telefono:         </b>                                                                     	        2123123123 </pre>			
+		<pre><b> Fecha de emision: </b>                                                                     	  {{ entity_bill.billstatus }} </pre>
 
-		<pre><b> Fecha de emision: </b>                                                                     	  03/04/2014 </pre>
-
-		<pre><b> Factura numero:   </b>                                                                     	   F-47465 </pre>		
+		<pre><b> Factura numero:   </b>                                                                     	   {{ entity_bill.id }} </pre>		
 
 	<hr></div> 
+
 
 	<div style="margin:0% 5% 0% 5%;">
 		<pre><b> Resumen de Facturacion</b> </pre>
@@ -45,5 +52,30 @@
 		<pre><b> Factura numero:   </b>                                                                     	   F-47465 </pre>		
 
 	<hr></div>
+
+	<div style="margin:0% 5% 0% 5%;">
+		<pre><b> Resumen de Bebidas</b> </pre>
+
+
+	 	{% if billitems|length > 0 %}
+
+	        {% for items in billitems %}
+	           <pre> {{ items.amount }}   {{ items.name }}     <b> Costo: {{ items.price }} </b> </pre> 
+		    {% endfor %}
+		{% endif %}	
+
+		
+
+	<hr></div>
 	
 {% endblock %}
+#}
+
+{% extends '::foundation.base.html.twig' %}
+
+{% block body -%}
+            
+      <a href="{{ path('bill_generate') }}">   Test..test  </a>
+
+{% endblock %} 
+

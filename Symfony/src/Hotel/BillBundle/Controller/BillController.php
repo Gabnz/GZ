@@ -39,16 +39,18 @@ class BillController extends Controller
             array('user' => $user->getId())
             );           
 
+            // verifica si el usuario tiene reserva
             if (count($selected) > 0) {
 
                 // actualiza el estatus a 'expire' de todas las facturas
                 $aux = $em->getRepository('HotelBillBundle:Bill')->updatebillstatus($user->getId());               
 
-                // agregando la factura con el id del usuario
+                // consultando usuario para agregarlo a la factura
                 $selected = $em->getRepository('HotelUserBundle:User')->findOneBy(
                    array('id' => $user->getId())
                    );
 
+                // creando la factura
                 $newbill = new Bill();
                 $newbill->setUser($selected);
                 $newbill->setBillstatus('actual');
@@ -57,14 +59,33 @@ class BillController extends Controller
                 $em->persist($newbill);
                 $em->flush();
 
-                // obtener el id de la factura recien agregada
-                $bill_id = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
-                   array(
-                    'user' => $user->getId(),
-                    'billstatus' => 'actual'
-                    ));
+                // generando la factura  y sus billitems (minibar, telefono, alojamiento) correspondientes
+                $result = $em->getRepository('HotelBillBundle:Bill')->bill_generate($user->getId(), 1); 
 
-                //return $this->redirect($this->generateUrl('bill_pdf2'));
+/*
+                echo "--";
+                echo $result['aux4'];
+                echo "--";
+
+                echo "--";
+                echo $result['aux5'];
+                echo "--";                
+
+
+                echo "--";
+                echo $result['aux1'];
+                echo "--";
+                echo "--";
+                echo $result['aux2'];
+                echo "--"; 
+                echo "--";
+                echo $result['aux3'];
+                echo "--";                                
+                echo " EXITO ";
+ */  
+echo " EXITO ";
+                //return $this->redirect($this->generateUrl('bill_pdf'));
+
 
             }else
 
@@ -76,9 +97,32 @@ class BillController extends Controller
 
     }
 
-    public function pdf2Action(){
+    public function pdfAction(){
 
-        $html = $this->renderView('HotelBillBundle:Bill:pdf.html.twig');
+            $session = $this->getRequest()->getSession();
+
+
+            $id = $session->get('user')->getId();
+            $em = $this->getDoctrine()->getManager();
+            // obtener el usuario
+            $entity_user = $em->getRepository('HotelUserBundle:User')->find($id); 
+
+            // obtener la factura recien agregada
+            $entity_bill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
+               array(
+                  'user' => $entity_user->getId(),
+                   'billstatus' => 'actual'
+            ));
+
+         // consulta todos los items asociado a la factura actual del usuario
+        $selected = $em->getRepository('HotelBillBundle:Bill')->billitems($entity_user->getId());
+
+
+        $html = $this->renderView('HotelBillBundle:Bill:pdf.html.twig', array(
+            'entity_user' => $entity_user,
+            'entity_bill' => $entity_bill,
+            'billitems' => $selected
+            ));       
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html),

@@ -57,6 +57,14 @@ doctrine:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
 
+        dql:
+            datetime_functions:
+                datediff: Hotel\BillBundle\DQL\DateDiff
+                timediff: Hotel\BillBundle\DQL\TimeDiff
+                hour: Hotel\BillBundle\DQL\Hour
+                minute: Hotel\BillBundle\DQL\Minute
+
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: %mailer_transport%

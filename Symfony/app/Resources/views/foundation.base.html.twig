@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--[if IE 9]<html class="lt-ie10" lang="es"> <![endif]-->
 <html class="no-js" lang="es">
@@ -28,3 +29,37 @@
     </script>
   </body>
 </html>
+
+
+
+{#
+<!DOCTYPE html>
+<!--[if IE 9]<html class="lt-ie10" lang="es"> <![endif]-->
+<html class="no-js" lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Titulo base{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('bundles/layout.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/foundation-icons/foundation-icons.css')}}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/foundation-5.0.2/css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/foundation-5.0.2/css/foundation.min.css') }}">
+    {% block stylesheets %}{% endblock %}
+    {% block sticker %}{% endblock %}
+  </head>
+  <body>
+    {% block body %}{% endblock %}
+    {% block footer %}{% endblock %}
+    <script src="{{ asset('bundles/foundation-5.0.2/js/vendor/custom.modernizr.js') }}"></script>
+    <script src="{{ asset('bundles/foundation-5.0.2/js/vendor/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/foundation-5.0.2/js/foundation.min.js') }}"></script>
+    <script src="{{ asset('bundles/foundation-5.0.2/js/foundation/foundation.topbar.js') }}"></script>
+    <script src="{{ asset('bundles/foundation-5.0.2/js/foundation/foundation.abide.js') }}"></script>
+    {% block javascripts %}{% endblock %}
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
+
+#}
