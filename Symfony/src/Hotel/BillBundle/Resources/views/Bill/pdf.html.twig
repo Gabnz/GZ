@@ -1,81 +1,135 @@
 
-{# {% extends '::base.html.twig' %} #} 
+{% extends '::base.html.twig' %}  
 
-{# {% extends '::foundation.base.html.twig' %} #}
-
-{# {% extends 'HotelMainBundle:Main:layout.html.twig' %} #}
-
-
-
-
-{# 
 {% block body -%}
-	  
+
+<style>
+	table,th,td
+	{
+		border:0px;
+	}
+	th,td
+	{
+		padding:1px;
+	}
+	th
+	{
+		text-align:left;
+	}
+</style>
+
   	<div style="margin: 0% 0% 0% 4%;">	
-  		<pre> <img src="{{ app.request.schemeAndHttpHost ~ asset('bundles/img/apple-touch-icon.png') }}" alt="some_text" width="80" height="80">                                                                                                     <b> <font size="6"> FACTURA  </font> </b> </pre> 
+  		<pre> <img src="{{ app.request.schemeAndHttpHost ~ asset('bundles/img/apple-touch-icon.png') }}" alt="some_text" width="70" height="70">                                                                                                     <b> <font size="6"> FACTURA  </font> </b> </pre> 
 	</div>
 
 
-	<div style="margin: 3% 5% 0% 5%;">
-		<p style="font-size:small;"> Symfony - final Av. Siempre vivas Edfi. C.N.T Caracas Tefl: 500.11 - RIF-J004134-5 www.thechive.com</p>
-	<hr></div> 	
-
-
-	<div style="margin:0% 5% 0% 5%;">
-		<pre><b> Codigo de usuario:</b>                                                                     	 {{ entity_user.id }} </pre>
-
-		<pre><b> Nombre:           </b>                                                                     	       {{ entity_user.firstname }} {{ entity_user.lastname }} </pre>
-
-		<pre><b> Cedula:           </b>                                                                     	        {{ entity_user.idcard }} </pre>	
-			
-
-		<pre><b> Fecha de emision: </b>                                                                     	  {{ entity_bill.billstatus }} </pre>
-
-		<pre><b> Factura numero:   </b>                                                                     	   {{ entity_bill.id }} </pre>		
-
+	<div style="margin: 2% 5% 0% 5%;">
+		<p style="font-size:x-small;"> Symfony - final Av. Siempre vivas Edfi. C.N.T Caracas Tefl: 500.11 - RIF-J004134-5 www.thechive.com</p>
 	<hr></div> 
 
 
 	<div style="margin:0% 5% 0% 5%;">
-		<pre><b> Resumen de Facturacion</b> </pre>
+		<pre style="font-size:large" ><b> Resumen cuenta de usuario </b> </pre>
+		<table style="width:600px">
 
-		<pre><b> Codigo de usuario:</b>                                                                     	 2123123123 </pre>
+		<tr>
+			<td>  nombre: </td>
+		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_user.firstname }} {{ entity_user.lastname }} </td>		
+			</tr>
+		<tr>
+		  	<td>  cedula: </td>		
+		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_user.idcard }} </td>
+			</tr>
+		<tr>
+		  	<td> fecha de emision: </td>		
+		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_bill.Issuedate |date('Y-m-d') }} </td>
+			</tr>
+		<tr>
+		  	<td> tipo de la factura: </td>		
+		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_bill.TypeBill }} </td>
+			</tr>
+		<tr>
+		  	<td> estatus de la factura: </td>		
+		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_bill.Billstatus }} </td>
+			</tr>									
+		<tr>
+		  	<td> factura numero: </td>		
+		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_bill.id }} </td>
+			</tr>	
+		</table>
+	<hr> </div>	
 
-		<pre><b> Nombre:           </b>                                                                     	       Nombre de usuario </pre>
-
-		<pre><b> Cedula:           </b>                                                                     	        2123123123 </pre>	
-
-		<pre><b> Telefono:         </b>                                                                     	        2123123123 </pre>			
-
-		<pre><b> Fecha de emision: </b>                                                                     	  03/04/2014 </pre>
-
-		<pre><b> Factura numero:   </b>                                                                     	   F-47465 </pre>		
-
-	<hr></div>
 
 	<div style="margin:0% 5% 0% 5%;">
-		<pre><b> Resumen de Bebidas</b> </pre>
+		<pre style="font-size:large" ><b> Resumen alojamiento </b> </pre>
+		<table style="width:600px">
 
+	 	<tr> <th> nombre </th>  <th style="text-align:right" > descripcion </th> <th style="text-align:right"> monto </th> </tr>			
+
+		<tr>
+			<td>  tipo habitacion: </td> <td style="text-align:right"> {{ entity_bill.Type}} </td>
+		  	<td style="text-align:right" > {{ entity_bill.TypeCost }} </td>		
+			</tr>
+		<tr>
+			<td>  categoria habitacion: </td> <td style="text-align:right"> {{ entity_bill.Category}} </td>
+		  	<td style="text-align:right" > {{ entity_bill.CategoryCost }}  </td>		
+			</tr>			
+		<tr>
+			<td>  dias reservados: </td> <td style="text-align:right"> {{ entity_bill.HousingDays}} </td>
+		  	<td style="text-align:right" > Dias*Tipo*Categoria  </td>		
+			</tr>
+		<tr>
+        	<th> total alojamiento </th>  <td> </td> <td style="text-align:right"  >  Bfs. {{ entity_bill.HousingCost }} </td>
+            </tr>			
+
+		</table>
+	<hr> </div>	
+
+
+
+	<div style="margin:0% 5% 0% 5%;">
+		<pre style="font-size:large"><b> Resumen de la consumos </b> </pre>	
+		
 
 	 	{% if billitems|length > 0 %}
 
+	 		<table style="width:600px">
+	 		<tr> <th> nombre </th>  <th style="text-align:right" > cantidad </th> <th style="text-align:right"> monto </th> </tr>
 	        {% for items in billitems %}
-	           <pre> {{ items.amount }}   {{ items.name }}     <b> Costo: {{ items.price }} </b> </pre> 
+	           <tr>
+	            <td>  {{ items.name }} </td>  <td style="text-align:right" >  {{ items.amount }} </td> <td style="text-align:right">  {{ items.price }} </td>
+	           </tr> 
+	          
 		    {% endfor %}
+		    	<tr>
+	            	<th> total consumibles </th>  <td> </td> <td style="text-align:right"  > Bfs. {{ entity_bill.ItemsCost }} </td>
+	           </tr>
+		    </table>
+		{% else %}
+		   <pre><b> No existe consumos asociados a la factura </b> </pre>
 		{% endif %}	
 
-		
+	<hr></div>	
 
-	<hr></div>
-	
+
+	<div style="margin:0% 5% 0% 5%;">
+		<pre style="font-size:large" ><b> Costo total de la reservacion </b> </pre>
+		<table style="width:600px">
+
+	    	<tr>
+            	<th> monto consumibles </th>  <td> </td> <td style="text-align:right"  >  {{ entity_bill.ItemsCost }} </td>
+           </tr>
+
+			<tr>
+        		<th> monto alojamiento </th>  <td> </td> <td style="text-align:right"  >  {{ entity_bill.HousingCost }} </td>
+            </tr>
+			
+			<tr>
+        		<th>  Monto total </th>  <td> </td> <td style="text-align:right"  > <b> Bfs. {{ entity_bill.TotalCost }} </td>
+            </tr>
+
+		</table>
+	<hr> <hr> </div>	
+
 {% endblock %}
-#}
-
-{% extends '::foundation.base.html.twig' %}
-
-{% block body -%}
-            
-      <a href="{{ path('bill_generate') }}">   Test..test  </a>
-
-{% endblock %} 
 

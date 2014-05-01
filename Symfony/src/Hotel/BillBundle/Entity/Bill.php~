@@ -61,44 +61,51 @@ class Bill
      /**
      * @var string
      *
-     * @ORM\Column(name="category", type="string", length=20)
+     * @ORM\Column(name="category", type="string", length=20, nullable=TRUE)
      */
     private $category;
     
      /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=20)
+     * @ORM\Column(name="type", type="string", length=20, nullable=TRUE)
      */
     private $type;
 
      /**
      * @var string
      *
-     * @ORM\Column(name="category_cost", type="string", length=20)
+     * @ORM\Column(name="category_cost", type="string", length=20, nullable=TRUE)
      */
     private $category_cost;
     
      /**
      * @var string
      *
-     * @ORM\Column(name="type_cost", type="string", length=20)
+     * @ORM\Column(name="type_cost", type="string", length=20, nullable=TRUE)
      */
     private $type_cost; 
 
     /**
      * @var string
      *
-     * @ORM\Column(name="housing_days", type="string", length=20)
+     * @ORM\Column(name="housing_days", type="string", length=20, nullable=TRUE)
      */
     private $housing_days;               
 
     /**
      * @var string
      *
-     * @ORM\Column(name="housing_cost", type="string", length=20)
+     * @ORM\Column(name="housing_cost", type="string", length=20, nullable=TRUE)
      */
     private $housing_cost;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="items_cost", type="string", length=20, nullable=TRUE)
+     */
+    private $items_cost;    
 
     /**
      * Get id
@@ -211,4 +218,144 @@ class Bill
     {
         return $this->billitems;
     }
+
+    /**
+     * Set category
+     *
+     * @param string $category
+     * @return Bill
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return string 
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Bill
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set category_cost
+     *
+     * @param string $categoryCost
+     * @return Bill
+     */
+    public function setCategoryCost($categoryCost)
+    {
+        $this->category_cost = $categoryCost;
+    
+        return $this;
+    }
+
+    /**
+     * Get category_cost
+     *
+     * @return string 
+     */
+    public function getCategoryCost()
+    {
+        return $this->category_cost;
+    }
+
+    /**
+     * Set type_cost
+     *
+     * @param string $typeCost
+     * @return Bill
+     */
+    public function setTypeCost($typeCost)
+    {
+        $this->type_cost = $typeCost;
+    
+        return $this;
+    }
+
+    /**
+     * Get type_cost
+     *
+     * @return string 
+     */
+    public function getTypeCost()
+    {
+        return $this->type_cost;
+    }
+
+    /**
+     * Set housing_days
+     *
+     * @param string $housingDays
+     * @return Bill
+     */
+    public function setHousingDays($housingDays)
+    {
+        $this->housing_days = $housingDays;
+    
+        return $this;
+    }
+
+    /**
+     * Get housing_days
+     *
+     * @return string 
+     */
+    public function getHousingDays()
+    {
+        return $this->housing_days;
+    }
+
+    /**
+     * Set housing_cost
+     *
+     * @param string $housingCost
+     * @return Bill
+     */
+    public function setHousingCost($housingCost)
+    {
+        $this->housing_cost = $housingCost;
+    
+        return $this;
+    }
+
+    /**
+     * Get housing_cost
+     *
+     * @return string 
+     */
+    public function getHousingCost()
+    {
+        return $this->housing_cost;
+    }
+
+
 }

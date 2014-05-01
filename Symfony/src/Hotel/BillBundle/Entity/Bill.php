@@ -61,6 +61,13 @@ class Bill
      /**
      * @var string
      *
+     * @ORM\Column(name="type_bill", type="string", length=20, nullable=TRUE)
+     */
+    private $type_bill;    
+
+     /**
+     * @var string
+     *
      * @ORM\Column(name="category", type="string", length=20, nullable=TRUE)
      */
     private $category;
@@ -99,6 +106,27 @@ class Bill
      * @ORM\Column(name="housing_cost", type="string", length=20, nullable=TRUE)
      */
     private $housing_cost;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="items_cost", type="string", length=20, nullable=TRUE)
+     */
+    private $items_cost;    
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="total_cost", type="string", length=20, nullable=TRUE)
+     */
+    private $total_cost;  
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fail_cost", type="string", length=20, nullable=TRUE)
+     */
+    private $fail_cost; 
 
     /**
      * Get id
@@ -349,4 +377,103 @@ class Bill
     {
         return $this->housing_cost;
     }
+
+
+
+    /**
+     * Set items_cost
+     *
+     * @param string $itemsCost
+     * @return Bill
+     */
+    public function setItemsCost($itemsCost)
+    {
+        $this->items_cost = $itemsCost;
+    
+        return $this;
+    }
+
+    /**
+     * Get items_cost
+     *
+     * @return string 
+     */
+    public function getItemsCost()
+    {
+        return $this->items_cost;
+    }
+
+    /**
+     * Set total_cost
+     *
+     * @param string $totalCost
+     * @return Bill
+     */
+    public function setTotalCost($totalCost)
+    {
+        $this->total_cost = $totalCost;
+    
+        return $this;
+    }
+
+    /**
+     * Get total_cost
+     *
+     * @return string 
+     */
+    public function getTotalCost()
+    {
+        return $this->total_cost;
+    }
+
+
+    /**
+     * Set type_bill
+     *
+     * @param string $type_bill
+     * @return Bill
+     */
+    public function setTypeBill($typeBill)
+    {
+        $this->type_bill = $typeBill;
+    
+        return $this;
+    }
+
+    /**
+     * Get type_bill
+     *
+     * @return string 
+     */
+    public function getTypeBill()
+    {
+        return $this->type_bill;
+    }
+
+
+    /**
+     * Set fail_cost
+     *
+     * @param string $failCost
+     * @return Bill
+     */
+    public function setFailCost($failCost)
+    {
+        $this->fail_cost = $failCost;
+    
+        return $this;
+    }
+
+    /**
+     * Get fail_cost
+     *
+     * @return string 
+     */
+    public function getFailCost()
+    {
+        return $this->fail_cost;
+    }
+
+
+
 }

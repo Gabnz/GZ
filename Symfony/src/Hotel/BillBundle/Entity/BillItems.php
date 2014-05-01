@@ -14,7 +14,7 @@ class BillItems
 {
 
     /**
-    * @ORM\ManyToOne(targetEntity="Bill", inversedBy="billitems")
+    * @ORM\ManyToOne(targetEntity="Bill", cascade={"persist"}, inversedBy="billitems")
     * @ORM\JoinColumn(name="bill_id", referencedColumnName="id", nullable=FALSE)
     */
     private $bill;

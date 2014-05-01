@@ -45,6 +45,23 @@ class BillController extends Controller
                 // actualiza el estatus a 'expire' de todas las facturas
                 $aux = $em->getRepository('HotelBillBundle:Bill')->updatebillstatus($user->getId());               
 
+                // id de la reserva (motivos de pruebas)
+                $reser_id = 2;
+
+                // consultando el tipo de reserva (completada o cancelada)
+                $result = $em->getRepository('HotelBillBundle:Bill')->reser_status($reser_id); 
+/*
+                echo "--";
+                echo $result['restatus'];
+                echo "--;"; $result['restatus'] = 'nada';
+
+        throw $this->createNotFoundException('No tienes reservas asociadas.'); **/
+
+                if ($result['restatus'] == 'occupied') 
+                    $result['restatus'] = 'complete';
+                else
+                    $result['restatus'] = 'canceled';
+
                 // consultando usuario para agregarlo a la factura
                 $selected = $em->getRepository('HotelUserBundle:User')->findOneBy(
                    array('id' => $user->getId())
@@ -53,6 +70,7 @@ class BillController extends Controller
                 // creando la factura
                 $newbill = new Bill();
                 $newbill->setUser($selected);
+                $newbill->setTypeBill($result['restatus']);
                 $newbill->setBillstatus('actual');
                 $date = new \DateTime("today");
                 $newbill->setIssuedate($date);
@@ -60,7 +78,8 @@ class BillController extends Controller
                 $em->flush();
 
                 // generando la factura  y sus billitems (minibar, telefono, alojamiento) correspondientes
-                $result = $em->getRepository('HotelBillBundle:Bill')->bill_generate($user->getId(), 1); 
+                $result = $em->getRepository('HotelBillBundle:Bill')->bill_generate($user->getId(), $reser_id); 
+
 
 /*
                 echo "--";
@@ -82,9 +101,10 @@ class BillController extends Controller
                 echo $result['aux3'];
                 echo "--";                                
                 echo " EXITO ";
- */  
-echo " EXITO ";
-                //return $this->redirect($this->generateUrl('bill_pdf'));
+ */ 
+
+
+                return $this->redirect($this->generateUrl('bill_pdf'));
 
 
             }else

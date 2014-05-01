@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 29-04-2014 a las 02:16:30
+-- Tiempo de generación: 01-05-2014 a las 03:26:46
 -- Versión del servidor: 5.5.36-MariaDB-log
 -- Versión de PHP: 5.5.11
 
@@ -37,9 +37,13 @@ CREATE TABLE IF NOT EXISTS `Bill` (
   `type_cost` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `housing_days` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `housing_cost` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `items_cost` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `total_cost` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `type_bill` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fail_cost` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_DA13B6DDA76ED395` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=55 ;
 
 -- --------------------------------------------------------
 
@@ -56,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `BillItems` (
   `room_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_C145C5B1A8C12F5` (`bill_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=425 ;
 
 -- --------------------------------------------------------
 
@@ -157,7 +161,7 @@ INSERT INTO `ConsumableStore` (`id`, `name`, `price`, `roomcategory`, `amount`, 
 (11, 'refresco', 20, 'standard', 864, 'Pepsi-Cola'),
 (12, 'llamada_internacional', 10, 'standard', 0, NULL),
 (13, 'llamada_nacional', 5, 'standard', 0, NULL),
-(14, 'cama_niño', 20, 'standard', 0, NULL),
+(14, 'cama_niño', 50, 'standard', 100, NULL),
 (15, 'individual', 100, 'standard', 0, NULL),
 (16, 'double', 200, 'standard', 0, NULL),
 (17, 'standard', 2, 'standard', 0, NULL),
@@ -201,13 +205,13 @@ CREATE TABLE IF NOT EXISTS `PhoneCall` (
 
 INSERT INTO `PhoneCall` (`id`, `reserve_id`, `calldate`, `starttime`, `endtime`, `phonenumber`, `calltype`) VALUES
 (1, 1, '2014-04-16', '12:22:01', '12:23:00', '9532132132168', 'international'),
-(2, 2, '2014-04-17', '12:40:00', '12:50:00', '04265842524', 'national'),
+(2, 1, '2014-04-17', '12:40:00', '12:50:00', '04265842524', 'national'),
 (3, 3, '2014-04-18', '12:22:01', '12:23:00', '04264484827', 'national'),
 (4, 4, '2014-04-19', '12:40:00', '13:40:00', '04145844721', 'national'),
 (5, 5, '2014-04-20', '22:40:00', '22:50:00', '892312132131', 'international'),
 (6, 6, '2014-04-16', '09:30:00', '09:50:22', '02418236631', 'national'),
 (7, 1, '2014-04-17', '09:30:00', '09:50:22', '04145855539', 'national'),
-(8, 2, '2014-04-20', '12:30:00', '12:40:34', '04120388544', 'international');
+(8, 3, '2014-04-20', '12:30:00', '12:40:34', '04120388544', 'international');
 
 -- --------------------------------------------------------
 
@@ -236,22 +240,22 @@ CREATE TABLE IF NOT EXISTS `Reserve` (
 --
 
 INSERT INTO `Reserve` (`id`, `entrydate`, `exitdate`, `special`, `user_id`, `roomcategory`, `roomtype`, `restatus`, `room_id`, `childbed`) VALUES
-(1, '2014-04-15', '2014-05-20', 0, 8, 'standard', 'individual', 'occupied', 8, 0),
-(2, '2014-04-15', '2014-05-20', 0, 9, 'standard', 'double', 'occupied', 28, 1),
-(3, '2014-04-15', '2014-05-20', 0, 8, 'bussiness', 'individual', 'occupied', 48, 0),
-(4, '2014-04-15', '2014-05-20', 0, 9, 'bussiness', 'double', 'occupied', 68, 2),
+(1, '2014-04-15', '2014-05-20', 0, 8, 'standard', 'individual', 'occupied', 8, 1),
+(2, '2014-04-15', '2014-05-20', 0, 9, 'standard', 'double', 'occupied', 28, 0),
+(3, '2014-04-15', '2014-05-20', 0, 8, 'business', 'individual', 'occupied', 48, 0),
+(4, '2014-04-15', '2014-05-20', 0, 9, 'business', 'double', 'occupied', 68, 1),
 (5, '2014-04-15', '2014-05-20', 0, 8, 'high', 'individual', 'occupied', 88, 0),
 (6, '2014-04-15', '2014-05-20', 0, 9, 'high', 'double', 'occupied', 108, 0),
 (7, '2014-04-15', '2014-05-20', 0, 10, 'standard', 'individual', 'canceled', NULL, 1),
 (8, '2014-04-15', '2014-05-20', 0, 10, 'standard', 'double', 'canceled', NULL, 0),
-(9, '2014-04-15', '2014-05-20', 0, 10, 'bussiness', 'individual', 'canceled', NULL, 2),
-(10, '2014-04-15', '2014-05-20', 0, 10, 'bussiness', 'double', 'canceled', NULL, 0),
+(9, '2014-04-15', '2014-05-20', 0, 10, 'business', 'individual', 'canceled', NULL, 2),
+(10, '2014-04-15', '2014-05-20', 0, 10, 'business', 'double', 'canceled', NULL, 0),
 (11, '2014-04-15', '2014-05-20', 0, 10, 'high', 'individual', 'canceled', NULL, 0),
 (12, '2014-04-15', '2014-05-20', 0, 10, 'high', 'double', 'canceled', NULL, 0),
 (13, '2014-04-15', '2014-05-20', 0, 11, 'standard', 'individual', 'active', NULL, 0),
 (14, '2014-04-15', '2014-05-20', 0, 11, 'standard', 'double', 'active', NULL, 0),
-(15, '2014-04-15', '2014-05-20', 0, 11, 'bussiness', 'individual', 'active', NULL, 0),
-(16, '2014-04-15', '2014-05-20', 0, 11, 'bussiness', 'double', 'active', NULL, 0),
+(15, '2014-04-15', '2014-05-20', 0, 11, 'business', 'individual', 'active', NULL, 0),
+(16, '2014-04-15', '2014-05-20', 0, 11, 'business', 'double', 'active', NULL, 0),
 (17, '2014-04-15', '2014-05-20', 0, 11, 'high', 'individual', 'active', NULL, 0),
 (18, '2014-04-15', '2014-05-20', 0, 11, 'high', 'double', 'active', NULL, 0);
 
@@ -272,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `Room` (
   `roomcategory` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `roomstatus` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=122 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=121 ;
 
 --
 -- Volcado de datos para la tabla `Room`
@@ -421,7 +425,7 @@ CREATE TABLE IF NOT EXISTS `User` (
   `rif` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `role` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
 
 --
 -- Volcado de datos para la tabla `User`
