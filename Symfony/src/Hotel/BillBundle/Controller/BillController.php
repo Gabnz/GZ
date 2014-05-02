@@ -46,16 +46,11 @@ class BillController extends Controller
                 $aux = $em->getRepository('HotelBillBundle:Bill')->updatebillstatus($user->getId());               
 
                 // id de la reserva (motivos de pruebas)
-                $reser_id = 2;
+                $reser_id = 13;
 
                 // consultando el tipo de reserva (completada o cancelada)
                 $result = $em->getRepository('HotelBillBundle:Bill')->reser_status($reser_id); 
-/*
-                echo "--";
-                echo $result['restatus'];
-                echo "--;"; $result['restatus'] = 'nada';
 
-        throw $this->createNotFoundException('No tienes reservas asociadas.'); **/
 
                 if ($result['restatus'] == 'occupied') 
                     $result['restatus'] = 'complete';
@@ -121,7 +116,6 @@ class BillController extends Controller
 
             $session = $this->getRequest()->getSession();
 
-
             $id = $session->get('user')->getId();
             $em = $this->getDoctrine()->getManager();
             // obtener el usuario
@@ -159,31 +153,45 @@ class BillController extends Controller
      *
      */
 
-
     public function indexAction(){
 
         $session = $this->getRequest()->getSession();
-
       
         if($session->has('user')){
 
-
             $id = $session->get('user')->getId();
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('HotelUserBundle:User')->find($id); 
+            $entity_user = $em->getRepository('HotelUserBundle:User')->find($id); 
 
-            if (!$entity) {
+            if (!$entity_user) {
                 throw $this->createNotFoundException('Usuario no encontrado.');
             }            
 
             $user = $session->get('user');
             /*si no es un usuario registrado, no puede ver la lista de facturas*/
-            if($user->getRole() != 'guest'){
+            if($user->getRole() != 'guest'){ 
+
+                $id = $session->get('user')->getId();
+                $entity_user = $em->getRepository('HotelUserBundle:User')->find($id);                
+
+            // obtener la factura recien agregada
+            $entity_bill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
+               array(
+                  'user' => $entity_user->getId(),
+                   'billstatus' => 'actual'
+            ));
+
+
+                // consulta todos los items asociado a la factura actual del usuario
+                $selected = $em->getRepository('HotelBillBundle:Bill')->billitems($entity_user->getId());
 
                 return $this->render('HotelBillBundle:Bill:bill.html.twig', array(
-                'entity'      => $entity,
+                'entity_user' => $entity_user,
+                'entity_bill' => $entity_bill,
                 'prefix' => 'user',
-                'user' => $user));  
+                'user' => $user,
+                'billitems' => $selected
+            ));                     
 
 
             }else

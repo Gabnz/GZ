@@ -360,7 +360,7 @@ class BillRepository extends EntityRepository
 
 			}
 
-     }// fin del if
+    }// fin del if
 
    		// Asigna las caracteristicas de la factura a la entidad Bill (factura) ya creada.
 
@@ -380,33 +380,52 @@ class BillRepository extends EntityRepository
 	        $newbill->setTypeCost($cost_habi_t[0]['type_cost']);
 	        $newbill->setHousingDays($info_rese[0]['days']);
 	        $newbill->setHousingCost($info_rese[0]['days'] * 
-	        	( $cost_habi_t[0]['type_cost'] * $cost_habi_c[0]['category_cost']) );  
+	        	( $cost_habi_t[0]['type_cost'] * $cost_habi_c[0]['category_cost']) );
 
+
+		    	$newbill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
+		       		array(
+		       		'user' => $user_id,
+		       		'billstatus' => 'actual'
+		       	));
+
+		    $aux_typebill = $newbill->getTypeBill();
 
 	// si la reserva es cancelada		
 	if($aux_typebill == 'canceled') {
 
+
+
+		 	$result['aux1'] = "entro a canceled";
 
 			$query = $em->createQuery('SELECT DATEDIFF(r.entrydate, CURRENT_DATE() ) AS days 
 			 FROM HotelRoomBundle:Reserve r  WHERE  r.id = :id');		
 			$query->setParameter('id', $reser_id);
 			$info_rese_c = $query->getResult();
 			$em->flush(); // Executes all updates.
-	        $em->clear(); // Detaches all objects from Doctrine!	        
+	        $em->clear(); // Detaches all objects from Doctrine!
+
+		 	$newbill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
+	       		array(
+	       		'user' => $user_id,
+	       		'billstatus' => 'actual'
+	       	)); 
+
 
                 if($info_rese_c[0]['days']  == 0){//100%
                     $newbill->setFailCost(" 100%");
                 }elseif($info_rese_c[0]['days'] == 1){//30% 1 día antes
-                    $newbill->setHousingCost( $newbill->getHousingCost() * (0.30) );
+                    $newbill->setTotalCost ( $newbill->getTotalCost() * (0.30 ) );
                     $newbill->setFailCost(" 30%");
                 }elseif($info_rese_c[0]['days'] >= 2 && 
                         $info_rese_c[0]['days'] <= 4){//10% 2-5 días antes
-                   $newbill->setHousingCost( $newbill->getHousingCost() * (0.10) );
-                    $newbill->setFailCost(" 10%");
+                   $newbill->setTotalCost( $newbill->getTotalCost() * (0.10 ) );
+                   $newbill->setFailCost(" 10%");
                 }else{// > 5 días 0%
-                    $newbill->setHousingCost(0);
+                    $newbill->setTotalCost(0);                	
                     $newbill->setFailCost(" 0%");
                 }
+
 
 	}// end else
 
@@ -429,19 +448,16 @@ class BillRepository extends EntityRepository
 
 			$em = $this->getEntityManager();
 			$query = $em->createQuery("UPDATE HotelRoomBundle:Reserve r set r.restatus = :restatus_new 
-			WHERE r.user = :user_id AND r.restatus = :restatus_old AND r.id = :reser_id ");
+			WHERE r.user = :user_id AND r.id = :reser_id ");
 			$query->setParameter('user_id', $user_id);
 			$query->setParameter('reser_id', $reser_id);
 
 				// si la reserva esta ocupada
-				if ($aux_typebill == 'complete'){
-					$query->setParameter('restatus_old', 'occupied');			
+				if ($aux_typebill == 'complete')			
 					$query->setParameter('restatus_new', 'complete');
-				}else{ // si la reserva fue cancelada
-					$query->setParameter('restatus_old', 'active');			
+				else // si la reserva fue cancelada		
 					$query->setParameter('restatus_new', 'canceled');
-				}
-
+				
 			$numUpdated = $query->execute();
 			$em->flush(); // Executes all updates.
 	        $em->clear(); // Detaches all objects from Doctrine!
@@ -456,8 +472,6 @@ class BillRepository extends EntityRepository
 	 function billitems($user_id){
 
 		$em = $this->getEntityManager();
-
-
         // Consulta la factura recien agregada
     	$newbill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
        		array(

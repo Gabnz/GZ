@@ -41,12 +41,8 @@
 		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_user.idcard }} </td>
 			</tr>
 		<tr>
-		  	<td> fecha de emision: </td>		
-		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_bill.Issuedate |date('Y-m-d') }} </td>
-			</tr>
-		<tr>
-		  	<td> tipo de la factura: </td>		
-		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_bill.TypeBill }} </td>
+		  	<td> tipo de facturacion: </td>		
+		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_bill.TypeBill }} Reserva </td>
 			</tr>
 		<tr>
 		  	<td> estatus de la factura: </td>		
@@ -55,7 +51,11 @@
 		<tr>
 		  	<td> factura numero: </td>		
 		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_bill.id }} </td>
-			</tr>	
+			</tr>
+		<tr>
+		  	<td> fecha de emision: </td>		
+		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_bill.Issuedate |date('d-m-Y') }} </td>
+			</tr>				
 		</table>
 	<hr> </div>	
 
@@ -86,7 +86,6 @@
 	<hr> </div>	
 
 
-
 	<div style="margin:0% 5% 0% 5%;">
 		<pre style="font-size:large"><b> Resumen de la consumos </b> </pre>	
 		
@@ -106,7 +105,7 @@
 	           </tr>
 		    </table>
 		{% else %}
-		   <pre><b> No existe consumos asociados a la factura </b> </pre>
+		   <pre><b> No existen consumos asociados a la factura </b> </pre>
 		{% endif %}	
 
 	<hr></div>	
@@ -116,9 +115,19 @@
 		<pre style="font-size:large" ><b> Costo total de la reservacion </b> </pre>
 		<table style="width:600px">
 
+		{% if entity_bill.TypeBill == 'complete' %}	
+
 	    	<tr>
             	<th> monto consumibles </th>  <td> </td> <td style="text-align:right"  >  {{ entity_bill.ItemsCost }} </td>
            </tr>
+
+        {% else %}
+
+	    	<tr>
+            	<th> penalizacion </th>  <td> </td> <td style="text-align:right"  >  {{ entity_bill.FailCost }} del monto de alojamiento </td>
+           </tr>
+
+        {% endif %}
 
 			<tr>
         		<th> monto alojamiento </th>  <td> </td> <td style="text-align:right"  >  {{ entity_bill.HousingCost }} </td>

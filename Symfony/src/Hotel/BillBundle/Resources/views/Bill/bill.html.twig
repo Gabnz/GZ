@@ -1,6 +1,7 @@
 {% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body -%}
+
 <div class="cover-div"
     style="background-image:url({{ asset('bundles/img/payment3.jpg') }});">
 </div>
@@ -10,156 +11,173 @@
 
 
 	{#titulo#}
-	<div class="title-div">
-		<h1>Facturas</h1>
-	</div>
-
+	<div class="title-div">	<h1>Facturas</h1> </div>
 
 	<div class="row">
-
 	  	<div class="small-6 columns">
 	  		<div style="margin:0% 0% 0% 10%;"> 
 	  		<img src="{{ asset('bundles/img/apple-touch-icon.png') }}" alt="some_text" width="100" height="100">
 	  		{#<h3> logo symfony </h3>#}
 	  		</div>
 	  	</div>	
-	  
 	  	<div class="small-6 columns">
 	  		<div style="margin:0% 0% 0% 40%;">   <h2> FACTURA </h2> 	</div>
 		</div>
-
 	</div>
 
 	<div class="row">
-
 		<div  class="small-12 columns" style="margin: 2% 0% 0% 5%;">
 			<p style="font-size:small;"> Symfony - final Av. Siempre vivas Edfi. C.N.T Caracas Tefl: 500.1111 - RIF-J00124134-5 www.thechive.com</p>
 		</div>
 		<hr>
 	</div>
 
-	<div  class="row" >
-		<div class="small-6 columns" >
-			<div style="margin:0% 0% 0% 10%;" >
-				<h5> Codigo de usuario: </h5>
+	<div class="row" >
+		<h5  style="margin:0% 0% 1% 5%;"> <b> Resumen cuenta de usuario </h5>
+		
+		<div  style="margin:0% 0% 0% 4%" class="row" >
+			<div class="small-6 columns" >	<h5> nombre: </h5> </div>
+			<div class="small-6 columns"> <h5> {{ entity_user.firstname }} {{ entity_user.lastname }} </h5> 
 			</div>
 		</div>
 
-		<div class="small-6 columns">
-			<div style="margin:0% 0% 0% 0%;">
-			<p> {{ entity.id }} </p>
-			</div>
+		<div  style="margin:0% 0% 0% 4%" class="row">
+			<div class="small-6 columns" >  <h5> cedula: </h5> </div>
+			<div class="small-6 columns">	<h5> {{ entity_user.idcard }} </h5>	</div>	
+		</div>
+
+		<div style="margin:0% 0% 0% 4%" class="row">
+			<div class="small-6 columns" >	<h5> tipo de facturacion: </h5>	</div>
+			<div class="small-6 columns">	<h5> {{ entity_bill.TypeBill }} Reserva </h5> </div>	
 		</div>	
 
+		<div style="margin:0% 0% 0% 4%" class="row">
+			<div class="small-6 columns" >	<h5> estatus de la reserva: </h5> </div>
+			<div class="small-6 columns">	<h5> {{ entity_bill.Billstatus }} </h5>	</div>	
+		</div>		
+
+		<div style="margin:0% 0% 0% 4%" class="row">
+			<div class="small-6 columns" >  <h5> factura numero: </h5>	</div>
+			<div class="small-6 columns">	<h5> {{ entity_bill.id }} </h5> </div>
+		</div>	
+
+		<div style="margin:0% 0% 0% 4%" class="row">
+			<div class="small-6 columns" >	<h5> fecha de emision: </h5>  </div>
+			<div class="small-6 columns">	<h5> {{ entity_bill.Issuedate |date('d-m-Y') }} </h5> </div>
+			<hr>
+		</div>	
 	</div>
-
-	<div class="row">
-
-		<div class="small-6 columns" >
-			<div style="margin:0% 0% 0% 10%;" >
-				<h5> Nombre: </h5>
-			</div>
-		</div>
-
-		<div class="small-6 columns">
-			<div style="margin:0% 0% 0% 0%;">
-			<p> {{ entity.firstname }} {{ entity.lastname }}</p>
-			</div>
-		</div>	
-
-	</div>
-
-	<div class="row">
-
-		<div class="small-6 columns" >
-			<div style="margin:0% 0% 0% 10%;" >
-				<h5> Cedula: </h5>
-			</div>
-		</div>
-
-		<div class="small-6 columns">
-			<div style="margin:0% 0% 0% 0%;">
-			<p> {{ entity.idcard }} </p>
-			</div>
-		</div>	
-
-	</div>	
-
-	<div class="row">
-
-		<div class="small-6 columns" >
-			<div style="margin:0% 0% 0% 10%;" >
-				<h5> Email: </h5>
-			</div>
-		</div>
-
-		<div class="small-6 columns">
-			<div style="margin:0% 0% 0% 0%;">
-			<p> {{ entity.email }} </p>
-			</div>
-		</div>	
-
-	</div>		
-
-
-	<div class="row">
-
-		<div class="small-6 columns" >
-			<div style="margin:0% 0% 0% 10%;" >
-				<h5> Fecha de emision: </h5>
-			</div>
-		</div>
-
-		<div class="small-6 columns">
-			<div style="margin:0% 0% 0% 0%;">
-			<p> 03/04/2014 </p>
-			</div>
-		</div>	
-
-	</div>	
-
-
-	<div class="row">
-
-		<div class="small-6 columns" >
-			<div style="margin:0% 0% 0% 10%;" >
-				<h5> Factura numero: </h5>
-			</div>
-		</div>
-
-		<div class="small-6 columns">
-			<div style="margin:0% 0% 0% 0%;">
-			<p> F-232 </p>
-			</div>
-		</div>	
-		<hr>
-	</div>	
 
 	<div class="row" >
-		<h5  style="margin:0% 0% 0% 6%;"> Resumen de Facturacion </h5>
-		<div class="small-6 columns" >
-			<div style="margin:0% 0% 0% 10%;" >
-				<h5> Factura numero: </h5>
-			</div>
+		<h5  style="margin:0% 0% 1% 5%;"> <b> Resumen de alojamiento </h5>
+
+		<div style="margin:0% 0% 0% 4%" class="row">
+			<div class ="small-4 columns"> <h5> <b> nombre </h5> </div>
+			<div class ="small-4 columns"> <h5> <b> descripcion </h5> </div>
+			<div class ="small-4 columns"> <h5> <b> monto </h5> </div>
 		</div>
 
-		<div class="small-6 columns">
-			<div style="margin:0% 0% 0% 0%;">
-			<p> F-232 </p>
-			</div>
-		</div>	
-		
+		<div style="margin:0% 0% 0% 4%" class="row" >
+			<div class="small-4 columns" >	<h5> tipo habitacion: </h5>	</div>
+			<div class="small-4 columns">	<h5> {{ entity_bill.Type}} </h5> </div>	
+			<div class="small-4 columns">	<h5> {{ entity_bill.TypeCost }} </h5> </div>
+		</div>
+
+		<div style="margin:0% 0% 0% 4%" class="row" >
+			<div class="small-4 columns" >  <h5> categoria habitacion: </h5> </div>
+			<div class="small-4 columns">  <h5> {{ entity_bill.Category}} </h5> </div>
+			<div class="small-4 columns">  <h5> {{ entity_bill.CategoryCost }} </h5> </div>
+		</div>
+
+		<div style="margin:0% 0% 0% 4%" class="row" >
+			<div class="small-4 columns" >	<h5> dias reservados: </h5>	</div>
+			<div class="small-4 columns">	<h5> {{ entity_bill.HousingDays }} </h5> </div>
+			<div class="small-4 columns">	<h5> (Dias * Tipo * Categoria) </h5> </div>
+		</div>		
+
+		<div style="margin:0% 0% 0% 4%" class="row" >
+			<div class="small-4 columns" >	<h5> <b> total alojamiento: </h5> </div>
+			<div class="small-4 columns">	<p>  </p> </div>
+			<div class="small-4 columns">	<h5> Bfs. {{ entity_bill.HousingCost }} </h5> </div>
+		</div>
+		<hr> 
 	</div>	
 
 
+	<div class="row" >
+		<h5  style="margin:0% 0% 1% 5%;"> <b> Resumen de los consumos </h5>
+
+		{% if billitems|length > 0 %}
+
+			<div style="margin:0% 0% 0% 4%" class="row">
+				<div class ="small-4 columns"> <h5> <b> nombre </h5> </div>
+				<div class ="small-4 columns"> <h5> <b> cantidad </h5> </div>
+				<div class ="small-4 columns"> <h5> <b> monto </h5> </div>
+			</div>	
+
+			 {% for items in billitems %}
+
+				<div style="margin:0% 0% 0% 4%" class="row" >
+					<div class="small-4 columns" >  <h5> {{ items.name }} </h5> </div>
+					<div class="small-4 columns">  <h5> {{ items.amount }} </h5> </div>
+					<div class="small-4 columns">  <h5> {{ items.price }} </h5> </div>
+				</div>
+
+			 {% endfor %}
+
+				<div style="margin:0% 0% 0% 4%" class="row" >
+					<div class="small-4 columns" >	<h5> <b> total consumibles: </h5> </div>
+					<div class="small-4 columns">	<p>  </p> </div>
+					<div class="small-4 columns">	<h5> Bfs. {{ entity_bill.ItemsCost }} </h5> </div>
+				</div>
+
+		{% else %}
+			<h6  style="margin:0% 0% 1% 7%;"> <b> No existen consumos asociados a la factura </h6>
+		{% endif %}
+
+	<hr></div>
 
 
+	<div class="row" >
+		<h5  style="margin:0% 0% 1% 5%;"> <b> Resumen de los consumos </h5>
 
+		{% if entity_bill.TypeBill == 'complete' %}	
+
+			<div style="margin:0% 0% 0% 4%" class="row" >
+				<div class="small-4 columns" >	<h5> <b> monto consumibles: </h5> </div>
+				<div class="small-4 columns">	<p>  </p> </div>
+				<div class="small-4 columns">	<h5> Bfs. {{ entity_bill.ItemsCost }} </h5> </div>
+			</div>
+
+		{% else %}
+
+			<div style="margin:0% 0% 0% 4%" class="row" >
+				<div class="small-4 columns" >	<h5> <b> penalizacion: </h5> </div>
+				<div class="small-4 columns">	<p>  </p> </div>
+				<div class="small-4 columns">	<h5> Bfs. {{ entity_bill.FailCost }} del monto de alojamiento 
+				</h5> </div>
+			</div>		
+
+	 	{% endif %}
+
+			<div style="margin:0% 0% 0% 4%" class="row" >
+				<div class="small-4 columns" >	<h5> <b> monto alojamiento: </h5> </div>
+				<div class="small-4 columns">	<p>  </p> </div>
+				<div class="small-4 columns">	<h5> Bfs. {{ entity_bill.HousingCost }} </h5> </div>
+			</div>
+
+			<div style="margin:0% 0% 0% 4%" class="row" >
+				<div class="small-4 columns" >	<h5> <b> Monto total: </h5> </div>
+				<div class="small-4 columns">	<p>  </p> </div>
+				<div class="small-4 columns">	<h5> Bfs. {{ entity_bill.TotalCost }} </h5> </div>
+			</div>			
+
+	<hr> <hr></div>
 
 	<div class="row">
 		<div class ="small-12 columns" >
 			<div style="margin:0% 0% 0% 0%;">
-	    		<a href="{{ path('bill_pdf2') }}">
+	    		<a href="{{ path('bill_pdf') }}">
 	    		<i class="fi-page-export-pdf" style="margin: 10% 0% 0% 50%; color:black; font-size:500%;"> </i></a>
 	    	</div>
 	    </div>
