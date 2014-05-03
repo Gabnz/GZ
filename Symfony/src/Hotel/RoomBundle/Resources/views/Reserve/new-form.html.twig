@@ -1,0 +1,74 @@
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
+
+{% block body -%}
+
+<div class="largecover-div"
+    style="background-image:url({{ asset('bundles/img/'~category~'.jpg') }});">
+</div>
+
+{{ include('HotelUserBundle:User:'~prefix~'-topbar.html.twig') }}
+
+{#titulo#}
+<div class="title-div">
+	<h1>Habitacion
+		{% if category == 'standard' %}
+			Estandar
+		{% elseif category == 'bussiness'%}
+			Bussiness
+		{% else %}
+			Alta
+		{% endif %}
+	</h1>
+</div>
+
+{{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+	{% form_theme form 'HotelRoomBundle:Form:fields.html.twig' %}
+
+<div class="row">
+	<div class="small-12 medium-6 medium-centered columns">
+		<div class="row">
+			<div class="small-12 medium-6 columns">
+				{{ form_row(form.entrydate) }}
+			</div>
+			<div class="small-12 medium-6 columns">
+				{{ form_row(form.exitdate) }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="small-12 medium-6 columns">
+				{{ form_row(form.roomtype) }}
+			</div>
+			<div class="small-12 medium-6 columns">
+				<div align="center">
+					{{ form_row(form.childbed) }}
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+				<div class="medium-4 columns">
+					{{ form_row(form.available) }}
+				</div>
+				<div class="medium-4 medium-pull-4 columns">
+					{% if availableCount is not defined %}
+						<a class="secondary small button" disabled>---</a>
+	                {% else %}
+	                	<a class="secondary small button" disabled>{{ availableCount }}</a>
+	                {% endif %}
+				</div>
+				
+		</div>
+		<div align="center">
+			{% if form.submit is defined %}
+				{{ form_row(form.submit) }}
+			{% else %}
+				<h5 align="center">Ingresa a tu cuenta para reservar</h5>
+			{% endif %}
+		</div>
+
+		{{ form_rest(form) }}
+	</div>
+</div>
+{{ form_end(form) }}
+
+{% endblock %}

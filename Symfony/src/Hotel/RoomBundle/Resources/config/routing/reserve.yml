@@ -1,14 +1,18 @@
+reserve_user:
+    pattern:  /
+    defaults: { _controller: "HotelRoomBundle:Reserve:reserve" }
+
+reserve_new:
+    pattern:  /{category}
+    defaults: { _controller: HotelRoomBundle:Reserve:new, category: standard }
+
 reserve_admin:
     pattern:  /admin/
     defaults: { _controller: "HotelRoomBundle:Reserve:index" }
 
-reserve_admin_new:
+reserve_new_admin:
     pattern:  /admin/new/
-    defaults: { _controller: "HotelRoomBundle:Reserve:reserve" }
-
-reserve_user:
-    pattern:  /
-    defaults: { _controller: "HotelRoomBundle:Reserve:dummy" }
+    defaults: { _controller: "HotelRoomBundle:Reserve:newAdmin" }
 
 reserve_show:
     pattern:  /{id}/show/

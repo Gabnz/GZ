@@ -8,10 +8,11 @@
 
 {{ include('HotelUserBundle:User:'~prefix~'-topbar.html.twig') }}
 
-	{#titulo#}
-	<div class="title-div">
-		<h1>Reservaciones</h1>
-	</div>
+{#titulo#}
+<div class="title-div">
+	<h1>Reservaciones</h1>
+</div>
+
 	{#reserva de habitaciones por categoria#}
 	{% set rooms = [ "Estandar" , "Business" , "Alta" ] %}
 	{% set rooms_cat = ["standard", "bussiness", "high"] %}
@@ -64,9 +65,7 @@
 					</div>		
 				</div>
 				{#formulario de disponibilidad y reserva#}
-				<div id="res-div">
-					{% include 'HotelRoomBundle:Reserve:form.html.twig' with {'form': form, 'category':rooms_cat[i]} %}
-				</div>
+				{#% include 'HotelRoomBundle:Reserve:form.html.twig' with {'form': form, 'category':rooms_cat[i]} %#}
 		    </div>
 		  </li>
 		{% endfor %}

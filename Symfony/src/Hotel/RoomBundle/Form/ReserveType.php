@@ -26,20 +26,36 @@ class ReserveType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options){
 
-        /*si el formulario es para crear una reserva, se muestra una configuracion*/
         if($this->formtype == 'new'){
+        /*si el formulario es para crear una reserva como usuario estandar, se muestra una configuracion*/
+            $builder
+            ->add('user', 'hidden')
+            ->add('roomcategory', 'hidden')
+            ->add('entrydate', 'date', array('label' => 'Fecha de entrada', 'widget' => 'single_text', 'attr' => array('class' => 'datepicker')))
+            ->add('exitdate','date',array('label' => 'Fecha de salida','widget' => 'single_text', 'attr' => array('class' => 'datepicker')))
+            ->add('roomtype','choice',array('choices' => array('individual' => 'Individual', 'double' => 'Doble'),
+            'label'=>'Tipo'))
+            ->add('available', 'submit', array('label' => 'Disponibilidad', 'attr' => array('class' => 'small')))
+            ;
 
-            $builder->add('entrydate', 'date', array('label' => 'Fecha de entrada', 'widget' => 'single_text', 'attr' => array('class' => 'datepicker')))
+        }elseif($this->formtype == 'new_admin'){
+            /*si el formulario es para crear una reserva como usuario administrador, se muestra otra configuracion*/
+            $builder
+            ->add('user', 'entity', array('class' => 'HotelUserBundle:User','property' => 'email',
+            'label' => 'Usuario'))
+            ->add('entrydate', 'date', array('label' => 'Fecha de entrada', 'widget' => 'single_text', 'attr' => array('class' => 'datepicker')))
             ->add('exitdate','date',array('label' => 'Fecha de salida','widget' => 'single_text', 'attr' => array('class' => 'datepicker')))
             ->add('roomtype','choice',array('choices' => array('individual' => 'Individual', 'double' => 'Doble'),
             'label'=>'Tipo'))
             ->add('roomcategory','choice',array('choices' => array('standard' => 'Estandar', 'bussiness' => 'Bussiness', 'high' => 'Alta'),
             'label'=>'Categoria'))
+            ->add('available', 'submit', array('label' => 'Disponibilidad', 'attr' => array('class' => 'small')))
             ;
 
         }else{
             /*si el formulario es para editar una reserva existente, se muestra otra configuracion*/
-            $builder->add('entrydate', 'date', array('label' => 'Fecha de entrada', 'widget' => 'single_text', 'attr' => array('readonly' => true)))
+            $builder
+            ->add('entrydate', 'date', array('label' => 'Fecha de entrada', 'widget' => 'single_text', 'attr' => array('readonly' => true)))
             ->add('exitdate','date',array('label' => 'Fecha de salida','widget' => 'single_text', 'attr' => array('readonly' => true)))
             ->add('roomtype','text',array('label'=>'Tipo', 'attr' => array('readonly' => true)))
             ->add('roomcategory','text',array('label'=>'Categoria', 'attr' => array('readonly' => true)))

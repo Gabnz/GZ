@@ -1,10 +1,9 @@
 {#formulario para cada categoria#}
 {{ form_start(form, {'attr': {novalidate: 'novalidate', 'class':'custom'}}) }}
-{#<form class="custom" action="{{ path('reserve_user') }}" method="post" id="res-form">#}
 	{% form_theme form 'HotelRoomBundle:Form:fields.html.twig' %}
 	<div class="row">
 		
-		<div class="small-4 columns">
+		<div class="small-12 medium-4 columns">
 			<div class="row">
 				<div class="small-8 small-centered columns">
 					{{ form_row(form.entrydate) }}
@@ -16,7 +15,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="small-4 columns">
+		<div class="small-12 medium-4 columns">
 			<div class="row">
 				<div class="small-6 small-centered columns">
 					{{ form_row(form.roomtype) }}
@@ -28,26 +27,30 @@
 				</div>
 			</div>
 		</div>
-
 		
-		<div class="small-4 columns">
+		<div class="small-12 medium-4 columns">
 
 			<div class="small-12 columns">&nbsp;</div>
 			<div class="small-12 columns">&nbsp;</div>
 
-			<div class="row collapse">
-				<div class="small-5 push-2 columns">
-					<a class="button prefix" >{{ form_row(form.available) }}</a>
+
+			<div class="row">
+				<div class="small-8 medium-8 columns">
+					{{ form_row(form.available) }}
 				</div>
-				<div class="small-3 pull-2 columns">
-					<span class="postfix">-</span>
+				<div class="small-4 medium-4 columns">
+					{% if availableCount is not defined %}
+						<a class="secondary small button" disabled>---</a>
+	                {% else %}
+	                	<a class="secondary small button" disabled>{{ availableCount }}</a>
+	                {% endif %}
 				</div>
 			</div>
 			
 			<div class="small-12 columns">&nbsp;</div>
 
 			<div align="center">
-				{% if user != null %}
+				{% if user is defined %}
 					{{ form_row(form.submit) }}
 				{% else %}
 					<h5 align="center">Ingresa a tu cuenta para reservar</h5>
