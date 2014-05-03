@@ -28,8 +28,29 @@ class BillRepository extends EntityRepository
 	}// end updatebillstatus
 
 
+	// Retorna todas las facturas
+	 function bills($id){
 
-	// Regresa el status de una reserva
+		$em = $this->getEntityManager();
+		
+        if ($id == -1)	// consulta todas las facturas de todos los usuarios
+        	$query = $em->createQuery('SELECT b FROM HotelBillBundle:Bill b ORDER BY b.issuedate ASC');
+        	
+        else{  // consulta todas las factura de un usuario en  particular
+       		$query = $em->createQuery('SELECT b FROM HotelBillBundle:Bill b WHERE b.user = :id 
+       			ORDER BY b.issuedate ASC');
+			$query->setParameter('id', $id);
+        }
+
+		$aux = $query->getResult();
+		$em->flush(); // Executes all updates.
+        $em->clear(); // Detaches all objects from Doctrine!
+
+		return $aux;
+	}// end bills
+
+
+	// Retorna el status de una reserva
 	 function reser_status($reser_id){
 
 		$em = $this->getEntityManager();
@@ -43,11 +64,32 @@ class BillRepository extends EntityRepository
         $result['restatus'] = $result[0]['restatus'];
 
 		return $result;
-	}// end updatebillstatus
+	}// end reser_status
 
 
 
-	// Genera la factura
+	// Consulta todos los items asociado a una factura actual
+	 function billitems($id){
+
+		$em = $this->getEntityManager();
+        // Consulta la factura recien agregada
+    	$newbill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
+       		array(
+       		'id' => $id
+       	)); 
+
+		$query = $em->createQuery('SELECT b  FROM HotelBillBundle:BillItems b WHERE b.bill = :bill');
+		$query->setParameter('bill', $newbill->getId());
+		$aux = $query->getResult();
+		$em->flush(); // Executes all updates.
+        $em->clear(); // Detaches all objects from Doctrine!
+
+		return $aux;
+	}// end billitems
+
+
+
+	// Genera la factura tanto por pago como por cancelacion
 	public function bill_generate($user_id, $reser_id){
 
 		$em = $this->getEntityManager();
@@ -395,9 +437,6 @@ class BillRepository extends EntityRepository
 	if($aux_typebill == 'canceled') {
 
 
-
-		 	$result['aux1'] = "entro a canceled";
-
 			$query = $em->createQuery('SELECT DATEDIFF(r.entrydate, CURRENT_DATE() ) AS days 
 			 FROM HotelRoomBundle:Reserve r  WHERE  r.id = :id');		
 			$query->setParameter('id', $reser_id);
@@ -410,7 +449,6 @@ class BillRepository extends EntityRepository
 	       		'user' => $user_id,
 	       		'billstatus' => 'actual'
 	       	)); 
-
 
                 if($info_rese_c[0]['days']  == 0){//100%
                     $newbill->setFailCost(" 100%");
@@ -463,30 +501,8 @@ class BillRepository extends EntityRepository
 	        $em->clear(); // Detaches all objects from Doctrine!
 	
 
-		return $result;
+		return 0;
 	} //end bill_generate
-
-
-
-	// Consulta todos los items asociado a una factura actual
-	 function billitems($user_id){
-
-		$em = $this->getEntityManager();
-        // Consulta la factura recien agregada
-    	$newbill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
-       		array(
-       		'user' => $user_id,
-       		'billstatus' => 'actual'
-       	)); 
-
-		$query = $em->createQuery('SELECT b  FROM HotelBillBundle:BillItems b WHERE b.bill = :bill');
-		$query->setParameter('bill', $newbill->getId());
-		$aux = $query->getResult();
-		$em->flush(); // Executes all updates.
-        $em->clear(); // Detaches all objects from Doctrine!
-
-		return $aux;
-	}// end updatebillstatus
 
 
 }//end

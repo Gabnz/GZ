@@ -11,11 +11,11 @@ bill_generate:
     defaults: { _controller: "HotelBillBundle:Bill:generate" }
 
 bill_pdf:
-    pattern:  /pdf
+    pattern:  /pdf{user_id}/{bill_id}
     defaults: { _controller: "HotelBillBundle:Bill:pdf" }
 
 bill_show:
-    pattern:  /{id}/show
+    pattern:  /show/{user_id}/{bill_id}
     defaults: { _controller: "HotelBillBundle:Bill:show" }
 
 bill_new:

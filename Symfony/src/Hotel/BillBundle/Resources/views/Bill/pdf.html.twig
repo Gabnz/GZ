@@ -41,12 +41,18 @@
 		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_user.idcard }} </td>
 			</tr>
 		<tr>
-		  	<td> tipo de facturacion: </td>		
-		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_bill.TypeBill }} Reserva </td>
+		  	<td> correo electronico: </td>		
+		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_user.email }} </td>
 			</tr>
 		<tr>
-		  	<td> estatus de la factura: </td>		
-		  	<td style="margin: 0% 0% 0% 5%" > {{ entity_bill.Billstatus }} </td>
+		  	<td> tipo de facturacion: </td>		
+		  	<td style="margin: 0% 0% 0% 5%" > 
+                {% if entity_bill.TypeBill == "complete" %}
+                    reserva completada
+                {% else %}
+                    reserva cancelada
+                {% endif %}	
+            </td>
 			</tr>									
 		<tr>
 		  	<td> factura numero: </td>		
@@ -67,11 +73,27 @@
 	 	<tr> <th> nombre </th>  <th style="text-align:right" > descripcion </th> <th style="text-align:right"> monto </th> </tr>			
 
 		<tr>
-			<td>  tipo habitacion: </td> <td style="text-align:right"> {{ entity_bill.Type}} </td>
+			<td>  tipo habitacion: </td> 
+			<td style="text-align:right">
+                {% if entity_bill.Type == "individual" %}
+                    individual
+                {% else %}
+                    doble
+                {% endif %}
+			</td>
 		  	<td style="text-align:right" > {{ entity_bill.TypeCost }} </td>		
 			</tr>
 		<tr>
-			<td>  categoria habitacion: </td> <td style="text-align:right"> {{ entity_bill.Category}} </td>
+			<td>  categoria habitacion: </td> 
+			<td style="text-align:right">
+               {% if entity_bill.Category == "standard" %}
+                    estandar
+               {% elseif entity_bill.Category == "bussiness" %}
+                    bussiness
+               {% else %}
+                    alta
+               {% endif %}			
+			</td>
 		  	<td style="text-align:right" > {{ entity_bill.CategoryCost }}  </td>		
 			</tr>			
 		<tr>

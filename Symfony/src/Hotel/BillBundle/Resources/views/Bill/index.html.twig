@@ -1,3 +1,76 @@
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
+
+{% block body -%}
+<div class="cover-div"
+    style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
+
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+<div class="title-div">
+    <h1>Lista de Facturas</h1>
+</div>
+
+<div align="center">
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Factura </th>
+                    {% if user.role == 'admin' %}
+                        <th>Usuario</th>
+                    {%  endif %}
+                <th>Fecha emision</th>
+                <th>Estatus reserva</th>
+                <th>Monto alojamiento</th>
+                <th>Monto consumos</th>
+                <th>Monto total</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entity_bill %}
+            <tr>
+                <td align="center"><a href="{{ path('bill_show', { 'bill_id': entity.id, 'user_id': entity.user.id }) }}">{{ entity.id }}</a></td>
+                {% if user.role == 'admin' %}
+                    <td align="center"><a href="{{ path('user_show', { 'id': entity.user.id }) }}">{{ entity.user.id }}</a></td>
+                {%  endif %}
+
+                <td>
+                    {{ entity.Issuedate |date('d-m-Y') }}
+                </td>
+                <td>
+
+                    {% if entity.TypeBill == "complete" %}
+                        Completada
+                    {% else %}
+                        Cancelada
+                    {% endif %}
+
+                </td>
+                <td>
+                    Bfs. {{ entity.HousingCost }}
+                </td>
+                <td>
+                    Bfs. {{ entity.ItemsCost }}
+                </td>
+                <td>
+                    Bfs. {{ entity.TotalCost }}
+                </td>                
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}
+
+
+
+
+
+{#
+
 {% extends '::base.html.twig' %}
 
 {% block body -%}
@@ -41,3 +114,5 @@
         </li>
     </ul>
     {% endblock %}
+
+#}

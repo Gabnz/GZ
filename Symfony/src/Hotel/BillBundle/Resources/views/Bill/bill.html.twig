@@ -47,14 +47,20 @@
 		</div>
 
 		<div style="margin:0% 0% 0% 4%" class="row">
-			<div class="small-6 columns" >	<h5> tipo de facturacion: </h5>	</div>
-			<div class="small-6 columns">	<h5> {{ entity_bill.TypeBill }} Reserva </h5> </div>	
-		</div>	
+			<div class="small-6 columns" >	<h5> correo electronico: </h5> </div>
+			<div class="small-6 columns">	<h5> {{ entity_user.email }} </h5>	</div>	
+		</div>			
 
 		<div style="margin:0% 0% 0% 4%" class="row">
-			<div class="small-6 columns" >	<h5> estatus de la reserva: </h5> </div>
-			<div class="small-6 columns">	<h5> {{ entity_bill.Billstatus }} </h5>	</div>	
-		</div>		
+			<div class="small-6 columns" >	<h5> tipo de facturacion: </h5>	</div>
+			<div class="small-6 columns">	
+                {% if entity_bill.TypeBill == "complete" %}
+                  <h5>    reserva completada </h5>
+                {% else %}
+                   <h5>   reserva cancelada </h5>
+                {% endif %}	 
+            </div>	
+		</div>	
 
 		<div style="margin:0% 0% 0% 4%" class="row">
 			<div class="small-6 columns" >  <h5> factura numero: </h5>	</div>
@@ -79,13 +85,31 @@
 
 		<div style="margin:0% 0% 0% 4%" class="row" >
 			<div class="small-4 columns" >	<h5> tipo habitacion: </h5>	</div>
-			<div class="small-4 columns">	<h5> {{ entity_bill.Type}} </h5> </div>	
+			<div class="small-4 columns">	
+			<h5> 
+                {% if entity_bill.Type == "individual" %}
+                    individual
+                {% else %}
+                    doble
+                {% endif %}
+			</h5> 
+			</div>	
 			<div class="small-4 columns">	<h5> {{ entity_bill.TypeCost }} </h5> </div>
 		</div>
 
 		<div style="margin:0% 0% 0% 4%" class="row" >
 			<div class="small-4 columns" >  <h5> categoria habitacion: </h5> </div>
-			<div class="small-4 columns">  <h5> {{ entity_bill.Category}} </h5> </div>
+			<div class="small-4 columns">  
+			<h5>
+               {% if entity_bill.Category == "standard" %}
+                    estandar
+               {% elseif entity_bill.Category == "bussiness" %}
+                    bussiness
+               {% else %}
+                    alta
+               {% endif %}
+            </h5>
+			</div>
 			<div class="small-4 columns">  <h5> {{ entity_bill.CategoryCost }} </h5> </div>
 		</div>
 
@@ -154,7 +178,7 @@
 			<div style="margin:0% 0% 0% 4%" class="row" >
 				<div class="small-4 columns" >	<h5> <b> penalizacion: </h5> </div>
 				<div class="small-4 columns">	<p>  </p> </div>
-				<div class="small-4 columns">	<h5> Bfs. {{ entity_bill.FailCost }} del monto de alojamiento 
+				<div class="small-4 columns">	<h5>  {{ entity_bill.FailCost }} del monto de alojamiento 
 				</h5> </div>
 			</div>		
 
@@ -177,11 +201,19 @@
 	<div class="row">
 		<div class ="small-12 columns" >
 			<div style="margin:0% 0% 0% 0%;">
-	    		<a href="{{ path('bill_pdf') }}">
+	    		<a href="{{ path('bill_pdf', { 'bill_id': entity_bill.id, 'user_id': entity_bill.user.id }) }}"> 
 	    		<i class="fi-page-export-pdf" style="margin: 10% 0% 0% 50%; color:black; font-size:500%;"> </i></a>
 	    	</div>
 	    </div>
-	</div>    
+	</div> 
+
+<div class="row">
+    <div class="small-6 medium-4 columns">
+        <a href="{{ path('bill') }}" class="success button">
+            Regresar
+        </a>
+    </div>
+</div>
 
 
 {% endblock %}

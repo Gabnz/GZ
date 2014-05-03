@@ -21,10 +21,53 @@ use Hotel\BillBundle\Form\BillType;
 class BillController extends Controller
 {
 
+    // funcion de prueba para probar boton que genere factura
     public function testAction(){            
         return $this->render('HotelBillBundle:Bill:test.html.twig');       
     }
 
+    /**
+     * Lists all Bill entities.
+     *
+     */
+     public function indexAction(){
+        
+        $session = $this->getRequest()->getSession();
+
+        if($session->has('user')){
+
+            $em = $this->getDoctrine()->getManager();
+            $user = $session->get('user');
+
+            if ($user->getRole() == 'admin'){ // si es el admin, son todas las facturas.
+                $result = $em->getRepository('HotelBillBundle:Bill')->bills(-1);
+
+            }else{ // si es un usuario, son todas sus facturas.
+                $id = $user->getId();
+                $result = $em->getRepository('HotelBillBundle:Bill')->bills($id);
+            }
+
+            if ($result == NULL) {
+             /*si no existen facturas para mostrar */
+             throw $this->createNotFoundException('no existen facturas disponible asociados a tu cuenta.  =/');            
+                
+            }else{
+
+                return $this->render('HotelBillBundle:Bill:index.html.twig', array(
+                    'entity_bill' => $result,
+                    'user' => $user
+                ));
+            }
+        }
+        /*si no es un usuario, no puede ver la lista de reservas*/
+        throw $this->createNotFoundException('No eres usuario, pagina no disponible.');
+    }
+
+
+    /**
+     * Genera la factura asociada al usuario.
+     *
+     */
     public function generateAction(){
 
         $session = $this->getRequest()->getSession();
@@ -101,7 +144,6 @@ class BillController extends Controller
 
                 return $this->redirect($this->generateUrl('bill_pdf'));
 
-
             }else
 
              throw $this->createNotFoundException('No tienes reservas asociadas.');
@@ -112,24 +154,27 @@ class BillController extends Controller
 
     }
 
-    public function pdfAction(){
+
+    /**
+     * Genera la version en pdf de una factura.
+     *
+     */
+    public function pdfAction($bill_id, $user_id){
 
             $session = $this->getRequest()->getSession();
 
-            $id = $session->get('user')->getId();
             $em = $this->getDoctrine()->getManager();
             // obtener el usuario
-            $entity_user = $em->getRepository('HotelUserBundle:User')->find($id); 
+            $entity_user = $em->getRepository('HotelUserBundle:User')->find($user_id); 
 
-            // obtener la factura recien agregada
+            // obtener la factura 
             $entity_bill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
                array(
-                  'user' => $entity_user->getId(),
-                   'billstatus' => 'actual'
-            ));
+                  'id' => $bill_id
+                   ));
 
          // consulta todos los items asociado a la factura actual del usuario
-        $selected = $em->getRepository('HotelBillBundle:Bill')->billitems($entity_user->getId());
+        $selected = $em->getRepository('HotelBillBundle:Bill')->billitems($bill_id);
 
 
         $html = $this->renderView('HotelBillBundle:Bill:pdf.html.twig', array(
@@ -149,19 +194,17 @@ class BillController extends Controller
     }    
 
     /**
-     * Lists all Bill entities.
+     * Muestra un factura en parcticular.
      *
      */
-
-    public function indexAction(){
+    public function showAction($bill_id, $user_id){
 
         $session = $this->getRequest()->getSession();
       
         if($session->has('user')){
 
-            $id = $session->get('user')->getId();
             $em = $this->getDoctrine()->getManager();
-            $entity_user = $em->getRepository('HotelUserBundle:User')->find($id); 
+            $entity_user = $em->getRepository('HotelUserBundle:User')->find($user_id); 
 
             if (!$entity_user) {
                 throw $this->createNotFoundException('Usuario no encontrado.');
@@ -171,19 +214,18 @@ class BillController extends Controller
             /*si no es un usuario registrado, no puede ver la lista de facturas*/
             if($user->getRole() != 'guest'){ 
 
-                $id = $session->get('user')->getId();
-                $entity_user = $em->getRepository('HotelUserBundle:User')->find($id);                
+                // $id = $session->get('user')->getId();
+               // $entity_user = $em->getRepository('HotelUserBundle:User')->find($id);                
 
             // obtener la factura recien agregada
             $entity_bill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
                array(
-                  'user' => $entity_user->getId(),
-                   'billstatus' => 'actual'
-            ));
+                  'id' => $bill_id
+                   ));
 
 
                 // consulta todos los items asociado a la factura actual del usuario
-                $selected = $em->getRepository('HotelBillBundle:Bill')->billitems($entity_user->getId());
+                $selected = $em->getRepository('HotelBillBundle:Bill')->billitems($bill_id);
 
                 return $this->render('HotelBillBundle:Bill:bill.html.twig', array(
                 'entity_user' => $entity_user,
@@ -277,6 +319,7 @@ class BillController extends Controller
      * Finds and displays a Bill entity.
      *
      */
+    /*
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -293,6 +336,7 @@ class BillController extends Controller
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),        ));
     }
+    */
 
     /**
      * Displays a form to edit an existing Bill entity.
