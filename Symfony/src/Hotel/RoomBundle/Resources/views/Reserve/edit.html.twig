@@ -8,63 +8,122 @@
 {{ include('HotelUserBundle:User:user-topbar.html.twig') }}
 
 <div class="title-div">
-    <h1>Editar reserva</h1>
+    <h1>Detalles de reservacion</h1>
 </div>
 
 {{ form_start(edit_form, {'attr': {novalidate: 'novalidate'}}) }}
 	{% form_theme edit_form 'HotelRoomBundle:Form:fields.html.twig' %}
 
 	<div class="row">
-		<div class="small-12 medium-4 medium-centered columns">
-			{{ form_row(edit_form.user) }}
-		</dvi>
-	</div>
-
-	<div class="row">
-		<div class="small-12 medium-6 medium-centered columns">
-			<div class="row">
-				<div class="small-12 medium-6 columns">
-					{{ form_row(edit_form.entrydate) }}
-				</div>
-				<div class="small-12 medium-6 columns">
-					{{ form_row(edit_form.exitdate) }}
-				</div>
-			</div>
-			<div class="row">
-				<div class="small-12 medium-6 columns">
-					{{ form_row(edit_form.roomtype) }}
-				</div>
-				<div class="small-12 medium-6 columns">
-					{{ form_row(edit_form.roomcategory) }}
-				</div>
-			</div>
-			<div class="row">
-				<div class="small-12 medium-6 columns">
-					{{ form_row(edit_form.restatus) }}
-				</div>
-				<div class="small-12 medium-3 columns">
-					<div align="center">
-					{{ form_label(edit_form.special) }}
-						{% if edit_form.special.vars.value == true %}
-							Si
-						{% else %}
-							No
-						{% endif %}
+		<div class="small-12 medium-5 medium-centered columns">
+			<div class="panel">
+				<div class="row">
+					<div class="small-6 medium-6 columns">
+						<label>
+							Usuario
+						</label>
+						{{ entity.user.email }}
+					</div>
+					<div class="small-6 medium-6 columns">
+						<label>
+							Id de usuario
+						</label>
+						<a href="{{ path('user_show', { 'id': entity.user.id }) }}">{{ entity.user.id }}</a>
 					</div>
 				</div>
-				<div class="small-12 medium-3 columns">
-					<div align="center">
-						{{ form_row(edit_form.childbed) }}
+				<br><br>
+				<div class="row">
+					<div class="small-6 medium-6 columns">
+						<label>
+							Fecha de entrada
+						</label>
+						{{ entity.entrydate|date('Y-m-d') }}
+					</div>
+					<div class="small-6 medium-6 columns">
+						<label>
+							Fecha de salida
+						</label>
+						{{ entity.exitdate|date('Y-m-d') }}
+					</div>
+				</div>
+				<br><br>
+				<div class="row">
+					<div class="small-6 medium-6 columns">
+						<label>
+							Categoria
+						</label>
+						{% if entity.roomcategory == "standard" %}
+                        	Estandar
+	                    {% elseif entity.roomcategory == "bussiness" %}
+	                        Bussiness
+	                    {% else %}
+	                        Alta
+	                    {% endif %}
+					</div>
+					<div class="small-6 medium-6 columns">
+						<label>
+							Tipo
+						</label>
+						{% if entity.roomtype == "individual" %}
+	                        Individual
+	                    {% else %}
+	                        Doble
+	                    {% endif %}
+					</div>
+				</div>
+				<br><br>
+				<div class="row">
+					<div class="small-6 medium-6 columns">
+						<label>
+							Id de habitacion
+						</label>
+						{% if entity.room is null %}
+		                    ---
+		                {% else %}
+		                	{% if route == 'reserve_edit' %}
+		                		{{ entity.room.id }}
+		                	{% else %}
+		                    	<a href="{{ path('room_show', { 'id': entity.room.id }) }}">{{ entity.room.id }}</a>
+		                    {% endif %}
+		                {% endif %}
+					</div>
+					<div class="small-6 medium-6 columns">
+						<label>
+							Cama infantil
+						</label>
+						{% if entity.childbed == false %}
+	                        No
+	                    {% else %}
+	                        Si
+	                    {% endif %}
+					</div>
+					
+				</div>
+				<br><br>
+				<div class="row">
+					<div class="small-6 medium-6 columns">
+						<label>
+							Caso especial
+						</label>
+						{% if entity.special == false %}
+	                        No
+	                    {% else %}
+	                        Si
+	                    {% endif %}
+					</div>
+					<div class="small-6 medium-6 columns">
+						{{ form_row(edit_form.restatus) }}
 					</div>
 				</div>
 			</div>
-
-			<div align="center">
-				{{ form_row(edit_form.submit) }}
-			</div>
-			{{ form_rest(edit_form) }}
 		</div>
 	</div>
+
+	<div align="center">
+		{{ form_row(edit_form.submit) }}
+	</div>
+	{{ form_rest(edit_form) }}
+
 {{ form_end(edit_form) }}
 
 {% if message is defined %}
@@ -80,7 +139,11 @@
 
 <div class="row">
     <div class="small-6 medium-4 columns">
-        <a href="{{ path('reserve_show', { 'id': entity.id }) }}" class="success button">
+    	{% if route == 'reserve_edit' %}
+        	<a href="{{ path('reserve_userlist') }}" class="success button">
+        {% else %}
+        	<a href="{{ path('reserve_admin') }}" class="success button">
+        {% endif %}
             Regresar
         </a>
     </div>

@@ -26,6 +26,7 @@ class ReserveType extends AbstractType
             ->add('roomtype','choice',array('choices' => array('individual' => 'Individual', 'double' => 'Doble'),
             'label'=>'Tipo'))
             ->add('available', 'submit', array('label' => 'Disponibilidad', 'attr' => array('class' => 'small')))
+            ->add('childbed', 'checkbox', array( 'label' => 'Cama infantil'))
             ->add('submit', 'submit', array('label' => 'Reservar'))
             ;
         }
@@ -43,16 +44,9 @@ class ReserveType extends AbstractType
         if($this->formtype == 'edit'){
 
             $builder
-            ->add('entrydate', 'date', array('label' => 'Fecha de entrada', 'widget' => 'single_text', 'attr' => array('readonly' => true)))
-            ->add('exitdate','date',array('label' => 'Fecha de salida','widget' => 'single_text', 'attr' => array('readonly' => true)))
-            ->add('roomtype','text',array('label'=>'Tipo', 'attr' => array('readonly' => true)))
-            ->add('roomcategory','text',array('label'=>'Categoria', 'attr' => array('readonly' => true)))
             ->add('restatus','choice',array('choices' => array('active' => 'Activa', 'occupied' => 'Ocupada', 'canceled' => 'Cancelada', 'complete' => 'Completa'),
-            'label'=>'Estado'))
-            ->add('special', 'hidden', array( 'label' => 'Caso especial', 'attr' => array('readonly' => true)))
-            ;
+            'label'=>'Estado'));
         }
-        $builder->add('childbed', 'checkbox', array( 'label' => 'Cama infantil'));
     }
 
     /**

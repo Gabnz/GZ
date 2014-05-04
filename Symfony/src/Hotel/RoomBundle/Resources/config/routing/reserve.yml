@@ -1,10 +1,18 @@
-reserve_user:
+reserve_userlist:
     pattern:  /
+    defaults: { _controller: HotelRoomBundle:Reserve:index }
+
+reserve_user:
+    pattern:  /new/
     defaults: { _controller: "HotelRoomBundle:Reserve:reserve" }
 
 reserve_new:
-    pattern:  /{category}
+    pattern:  /new/{category}
     defaults: { _controller: HotelRoomBundle:Reserve:new }
+
+reserve_edit:
+    pattern:  /{id}/edit/
+    defaults: { _controller: "HotelRoomBundle:Reserve:edit" }
 
 reserve_admin:
     pattern:  /admin/
@@ -14,16 +22,6 @@ reserve_new_admin:
     pattern:  /admin/new/
     defaults: { _controller: "HotelRoomBundle:Reserve:newAdmin" }
 
-reserve_show:
-    pattern:  /{id}/show/
-    defaults: { _controller: "HotelRoomBundle:Reserve:show" }
-
-reserve_edit:
-    pattern:  /{id}/edit/
+reserve_edit_admin:
+    pattern:  /admin/{id}/edit/
     defaults: { _controller: "HotelRoomBundle:Reserve:edit" }
-#    requirements: { _method: post|put }
-
-reserve_delete:
-    pattern:  /{id}/delete
-    defaults: { _controller: "HotelRoomBundle:Reserve:delete" }
-    requirements: { _method: post|delete }

@@ -8,7 +8,7 @@
 {{ include('HotelUserBundle:User:user-topbar.html.twig') }}
 
 <div class="title-div">
-    <h1>Lista de Reservaciones</h1>
+    <h1>Mis reservaciones</h1>
 </div>
 
 <div align="center">
@@ -16,7 +16,6 @@
         <thead>
             <tr>
                 <th>Reserva</th>
-                <th>Usuario</th>
                 <th>Tipo</th>
                 <th>Categoria</th>
                 <th>Fecha entrada</th>
@@ -27,8 +26,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td align="center"><a href="{{ path('reserve_edit_admin', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td align="center"><a href="{{ path('user_show', { 'id': entity.user.id }) }}">{{ entity.user.id }}</a></td>
+                <td align="center"><a href="{{ path('reserve_edit', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
 
                 <td>
                     {% if entity.roomtype == "individual" %}
@@ -76,11 +74,5 @@
         </tbody>
     </table>
 
-</div>
-
-<div align="center">        
-    <a class="button" href="{{ path('reserve_new_admin') }}">
-        Crear nueva reserva
-    </a>
 </div>
 {% endblock %}

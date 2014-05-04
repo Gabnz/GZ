@@ -16,6 +16,7 @@
             <li class="has-dropdown">
               <a>Opciones de usuario</a>
               <ul class="dropdown">
+                <li><a href="{{ path('reserve_userlist') }}"><i class="fi-list-bullet" style="font-size:150%; margin:7%;"></i>Mis reservaciones</a></li>
                 <li><a href="{{ path('user_show', {'id':user.id}) }}"><i class="fi-torso" style="font-size:150%; margin:7%;"></i>Mostrar mis datos</a></li>
                 <li><a href="{{ path('user_edit', {'id':user.id}) }}"><i class="fi-pencil" style="font-size:150%; margin:7%;"></i>Editar mis datos</a></li>
                 <li><a href="{{ path('user_delete', {'id':user.id}) }}"><i class="fi-x" style="font-size:150%; margin:7%;"></i>Eliminar mi cuenta</a></li>
@@ -23,7 +24,7 @@
                   <li><label>Opciones de Administrador</label></li>
                   <li><a href="{{ path('user') }}"><i class="fi-results-demographics" style="font-size:150%; margin:7%;"></i>Lista de usuarios</a></li>
                   <li><a href="{{ path('room') }}"><i class="fi-results" style="font-size:150%; margin:7%;"></i>Lista de habitaciones</a></li>
-                  <li><a href="{{ path('reserve_admin') }}"><i class="fi-clipboard-notes" style="font-size:150%; margin:7%;"></i>Lista de reservas</a></li> 
+                  <li><a href="{{ path('reserve_admin') }}"><i class="fi-clipboard-notes" style="font-size:150%; margin:7%;"></i>Lista de reservaciones</a></li> 
                   <li><a href="{{ path('bill') }}"><i class="fi-page-multiple" style="font-size:150%; margin:7%;"></i>Lista de facturas</a></li>                    
                 {% endif %}
               </ul>

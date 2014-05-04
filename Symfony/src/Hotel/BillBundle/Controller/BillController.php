@@ -80,7 +80,7 @@ class BillController extends Controller
             );
 
             $selected = $em->getRepository('HotelRoomBundle:Reserve')->findBy(
-            array('user' => $user->getId())
+            array('user' => $user)
             );           
 
             // verifica si el usuario tiene reserva
