@@ -63,29 +63,33 @@ class ReserveController extends Controller
             $options['prefix'] = 'user';
             $options['user'] = $session->get('user');
         }
-                
+
         return $this->render('HotelRoomBundle:Reserve:new-reserve.html.twig', $options);
     }
 
     public function newAction(Request $request, $category){
 
         $session = $this->getRequest()->getSession();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = new Reserve();
-        $form = $this->createNewForm($entity);
+        $form = $this->createNewForm($entity, 'new', $category);
         $entity->setRoomcategory($category);
 
-        $options['entity'] = $entity;
         $options['category'] = $category;
 
         if($session->has('user')){
 
             $user = $session->get('user');
-            //$em = $this->getDoctrine()->getManager();
-            //$selected = $em->getRepository('HotelUserBundle:User')->find($user->getId());
-            $entity->setUser($user);
-            $options['prefix'] = 'user';
+                
+            $selected = $em->getRepository('HotelUserBundle:User')->findOneBy(
+                array('id' => $user->getId())
+            );
+
+            $entity->setUser($selected);
+            $options['prefix'] = 'user';                
             $options['user'] = $user;
+
         }else{
 
             $form->remove('submit');
@@ -96,81 +100,43 @@ class ReserveController extends Controller
 
         if($form->isValid()){
 
-            return new Response('<html><body>Formulario correcto.</body></html>');
-
-        }
-
-        $options['form'] = $form->createView();
-        
-        return $this->render('HotelRoomBundle:Reserve:new-form.html.twig', $options);
-    }
-
-    public function reserve2Action(Request $request){
-
-        $session = $this->getRequest()->getSession();
-        
-        $entity = new Reserve();
-        $form = $this->createNewForm($entity);
-        $form->handleRequest($request);
-        //$entity->setRoomcategory($category);
-        
-        if ($form->isValid()){
-            /*
-
-            $availableCount = $em->getRepository('HotelRoomBundle:Reserve')
-                ->availableCount($entity->getRoomtype(), $entity->getRoomcategory(),
+            $available = $em->getRepository('HotelRoomBundle:Reserve')
+                ->availableCount($entity->getRoomtype(), $category,
                     $entity->getEntrydate(), $entity->getExitdate());
 
             $availableAction = $form->get('available')->isClicked()
                 ? true
                 : false;
 
-            //si solo se desea verificar la disponibilidad
+            /*si solo se desea verificar la disponibilidad*/
             if($availableAction){
 
-                return new Response('<html><body>Hello '.$availableCount.'!</body></html>');
+                $options['availableCount'] = $available['count'];
 
             }else{
                 //si hay disponibilidad, reserva.
-                if($availableCount > 0){
+                if($available['count'] > 0){
+
+                    //en caso de que sea un caso especial, se toma en cuenta
+                    if($available['special'] == true){
+                        $entity->setRoomtype('double');
+                        $entity->setSpecial(true);
+                    }
 
                     $em->persist($entity);
                     $em->flush();
-                    return $this->redirect($this->generateUrl('reserve_show', array('id' => $entity->getId())));
-
+                    //return $this->redirect($this->generateUrl('reserve_show', array('id' => $entity->getId())));
+                    return new Response('<html><body>Reserva creada. Buscala, su id es '.$entity->getId().'</body></html>');
                 }else{
-                    //pagina de error
-                    throw $this->createNotFoundException('No hay habitaciones disponibles para la reserva.');
+                    //si no hay disponibilidad, lo notifica.
+                    $options['reserved'] = false;
                 }
-            }*/
+            }
         }
 
-        if(!$session->has('user')){
-            $form->remove('submit');
-
-            return $this->render('HotelRoomBundle:Reserve:reserve.html.twig', array(
-                //'entity' => $entity,
-                //'form'   => $form->createView(),
-                'prefix' => 'guest',
-                //'user' => null,
-                //'category' => $category,
-            ));
-        }else{
-
-            $user = $session->get('user');
-            //$entity->setUser($user);
-
-            //$form->add('submit', 'submit', array('label' => 'Reservar'));
-                
-            return $this->render('HotelRoomBundle:Reserve:reserve.html.twig', array(
-                //'entity' => $entity,
-                //'form'   => $form->createView(),
-                'prefix' => 'user',
-                'user' => $user,
-                //'category' => $category,
-            ));
-        }
-        //return new Response('<html><body>Pagina en proceso :/</body></html>');
+        $options['form'] = $form->createView();
+        
+        return $this->render('HotelRoomBundle:Reserve:new-form.html.twig', $options);
     }
 
     /**
@@ -180,20 +146,22 @@ class ReserveController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createNewForm(Reserve $entity, $formtype = 'new'){
+    private function createNewForm(Reserve $entity, $formtype, $category = null){
+
+        if($formtype == 'new'){
+            $url = $this->generateUrl(
+                'reserve_new',
+                array('category' => $category));
+        }
+        else{
+            $url = $this->generateUrl(
+                'reserve_new_admin');
+        }
 
         $form = $this->createForm(new ReserveType($formtype), $entity, array(
-            'action' => $this->generateUrl('reserve_'.$formtype),
+            'action' => $url,
             'method' => 'POST',
         ));
-
-        $session = $this->getRequest()->getSession();
-        $user = $session->get('user');
-
-        $em = $this->getDoctrine()->getManager();
-
-        $form->add('submit', 'submit', array('label' => 'Reservar'))
-        ;
 
         return $form;
     }
@@ -205,22 +173,23 @@ class ReserveController extends Controller
     public function newAdminAction(Request $request){
 
         $session = $this->getRequest()->getSession();
+        $em = $this->getDoctrine()->getManager();
 
         /*si es admin, puede crear reservas de esta forma*/
         if($session->has('user') && $session->get('user')->getRole() == 'admin'){
 
             $entity = new Reserve();
-
             $form = $this->createNewForm($entity, 'new_admin');
-
             $user = $session->get('user');
-            $em = $this->getDoctrine()->getManager();
 
             $selected = $em->getRepository('HotelUserBundle:User')->findOneBy(
-                array('id' => $form['user']->getData())
+                array('email' => $form['user']->getData())
             );
 
             $entity->setUser($selected);
+            $options['prefix'] = 'user';
+            $options['user'] = $user;
+
             $form->handleRequest($request);
 
             if($form->isValid()) {
@@ -236,12 +205,7 @@ class ReserveController extends Controller
                 /*si solo se desea verificar la disponibilidad*/
                 if($availableAction){
 
-                    return $this->render('HotelRoomBundle:Reserve:new.html.twig', array(
-                        'entity' => $entity,
-                        'form'   => $form->createView(),
-                        'user' => $user,
-                        'availableCount' => $available['count'],
-                    ));
+                    $options['availableCount'] = $available['count'];
 
                 }else{
                     /*si hay disponibilidad, reserva.*/
@@ -259,21 +223,14 @@ class ReserveController extends Controller
 
                     }else{
                         /*si no hay disponibilidad, lo notifica.*/
-                        return $this->render('HotelRoomBundle:Reserve:new.html.twig', array(
-                        'entity' => $entity,
-                        'form'   => $form->createView(),
-                        'user' => $user,
-                        'reserved' => false,
-                    ));
+                        $options['reserved'] = false;
                     }
                 }
             }
 
-            return $this->render('HotelRoomBundle:Reserve:new.html.twig', array(
-                'entity' => $entity,
-                'form'   => $form->createView(),
-                'user' => $user,
-            ));
+            $options['form'] = $form->createView();
+
+            return $this->render('HotelRoomBundle:Reserve:new.html.twig', $options);
         }
         /*si no es admin, no puede crear reservas de esta forma*/
         throw $this->createNotFoundException('No eres administrador, pagina no disponible.');

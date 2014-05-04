@@ -69,8 +69,7 @@
 
 	<div align="center">
 		{{ form_rest(form) }}
-		{% if reserved is defined %}
-			{% if reserved == false %}
+		{% if reserved is defined and reserved == false %}
 			<div class="row">
 				<div class="small-12 medium-6 medium-centered columns">
 					<div data-alert class="alert-box warning">
@@ -79,7 +78,6 @@
 					</div>
 				</div>
 			</div>
-			{% endif %}
 		{% endif %}
 	</div>
 {{ form_end(form) }}

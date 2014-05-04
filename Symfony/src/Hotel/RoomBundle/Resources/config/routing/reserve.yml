@@ -4,7 +4,7 @@ reserve_user:
 
 reserve_new:
     pattern:  /{category}
-    defaults: { _controller: HotelRoomBundle:Reserve:new, category: standard }
+    defaults: { _controller: HotelRoomBundle:Reserve:new }
 
 reserve_admin:
     pattern:  /admin/
