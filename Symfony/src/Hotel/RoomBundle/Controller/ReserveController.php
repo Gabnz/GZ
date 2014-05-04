@@ -358,8 +358,20 @@ class ReserveController extends Controller
                     ->updateReserve($actualRestatus, $editForm['restatus']->getData(), $id);
 
                 if($update['status'] == true){
+
+                if ( ( $actualRestatus =='occupied' && $editForm['restatus']->getData()=='complete' ) 
+                     ||
+                     ( $actualRestatus == 'active' && $editForm['restatus']->getData()=='canceled' )){
+                     
+                    return $this->redirect($this->generateUrl('bill_generate', 
+                        array( 'user_id' => $editForm['user']->getData(),
+                               'reser_id' => $id
+                            )));                    
+
+                }
+
                     /*si la reserva se actualizo correctamente, la muestra*/
-                    return $this->redirect($this->generateUrl('reserve_show', array('id' => $entity->getId())));
+                   return $this->redirect($this->generateUrl('reserve_show', array('id' => $entity->getId())));
                 }
 
                 /*si no se pudo hacer la actualizacion de la reservacion, se muestra un mensaje*/

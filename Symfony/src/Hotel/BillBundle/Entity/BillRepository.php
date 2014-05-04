@@ -65,7 +65,7 @@ class BillRepository extends EntityRepository
 
 		return $result;
 	}// end reser_status
-
+	
 
 
 	// Consulta todos los items asociado a una factura actual
@@ -123,7 +123,7 @@ class BillRepository extends EntityRepository
         $mins_total = 0;					   	
 
 
-        $result;
+        $result['hola']='hola';
 
         // Consulta informacion de la reserva
         //-----------------------------------------------------------------------------------------------//
@@ -135,6 +135,10 @@ class BillRepository extends EntityRepository
 			$info_rese = $query->getResult();
 			$em->flush(); // Executes all updates.
 	        $em->clear(); // Detaches all objects from Doctrine!
+
+
+	        //$result['type'] = $info_rese[0]['type'];
+	       // $result['category'] = $info_rese[0]['category'];
 
 
         // Consulta el precio del tipo de habitacion
@@ -168,10 +172,10 @@ class BillRepository extends EntityRepository
 		       	));
 
 		    $aux_typebill = $newbill->getTypeBill();
+
+		     //$result['typebill'] = $aux_typebill;
 	// si la reserva es ocupada
 	if ($aux_typebill == 'complete'){
-
-
 
       	// Cantidad de cada item en el minibar
  		//-----------------------------------------------------------------------------------------------//
@@ -186,6 +190,7 @@ class BillRepository extends EntityRepository
 			$result['num_minibar'] = (count($num_minibar));
 			$num_items = (count($num_minibar));
 
+			$result['num_minibar'] = $num_items;
 
         // Consulta las llamadas telefonicas pertenecientes a la reserva
  		//-----------------------------------------------------------------------------------------------//
@@ -296,6 +301,7 @@ class BillRepository extends EntityRepository
 			$em->flush(); // Executes all updates.
 	        $em->clear(); // Detaches all objects from Doctrine!
 
+	        //$result['num_minibar'];
 
  		//-----------------------------------------------------------------------------------------------//
         //				      EMPEZANDO ARMAR LA FACTURA.  CREANDO Y AGREGANDO LOS ITEMS DE LA FACTURA  			        //
@@ -463,14 +469,15 @@ class BillRepository extends EntityRepository
                     $newbill->setTotalCost(0);                	
                     $newbill->setFailCost(" 0%");
                 }
-
+			$em->flush(); // Executes all updates.
+	        $em->clear(); // Detaches all objects from Doctrine!
 
 	}// end else
 
 
 		// Actualizar estatus de la habitacion (ocupada a libre)
  		//-----------------------------------------------------------------------------------------------//
-
+		
 			$em = $this->getEntityManager();
 			$query = $em->createQuery("UPDATE HotelRoomBundle:Room r set r.roomstatus = :roomstatus 
 			WHERE r.id = :id ");
@@ -480,10 +487,10 @@ class BillRepository extends EntityRepository
 			$em->flush(); // Executes all updates.
 	        $em->clear(); // Detaches all objects from Doctrine!
 	
-
+		
 		// Actualizar estatus de la reserva (ocupada a completada) o ( activa a cancelada)
  		//-----------------------------------------------------------------------------------------------//
-
+	    /*
 			$em = $this->getEntityManager();
 			$query = $em->createQuery("UPDATE HotelRoomBundle:Reserve r set r.restatus = :restatus_new 
 			WHERE r.user = :user_id AND r.id = :reser_id ");
@@ -499,9 +506,10 @@ class BillRepository extends EntityRepository
 			$numUpdated = $query->execute();
 			$em->flush(); // Executes all updates.
 	        $em->clear(); // Detaches all objects from Doctrine!
+	     */
 	
 
-		return 0;
+		return $result;
 	} //end bill_generate
 
 

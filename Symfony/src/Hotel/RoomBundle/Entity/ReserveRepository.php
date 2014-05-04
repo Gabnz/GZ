@@ -191,7 +191,7 @@ class ReserveRepository extends EntityRepository
 
         $selectedRoom->setRoomstatus('free');
 
-        $reserve->setRoom(null);
+        //$reserve->setRoom(null);
       }
       /*se persisten los datos en la BD*/
       $em->flush();
