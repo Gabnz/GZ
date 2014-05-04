@@ -2,27 +2,53 @@
 
 {% block body -%}
 
-<div class="cover-div"
-	style="background-image:url({{ asset('bundles/img/login.jpg') }});">
-</div>
+{% if category is defined %}
+	<div class="largecover-div"
+	    style="background-image:url({{ asset('bundles/img/'~category~'.jpg') }});">
+	</div>
+{% else %}
+	<div class="cover-div"
+		style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+	</div>
+{% endif %}
 
-{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+{{ include('HotelUserBundle:User:'~prefix~'-topbar.html.twig') }}
+
+{% if category is defined %}
+<div class="title-div">
+	<h1>Habitacion
+		{% if category == 'standard' %}
+			Estandar
+		{% elseif category == 'bussiness'%}
+			Bussiness
+		{% else %}
+			Alta
+		{% endif %}
+	</h1>
+</div>
+{% else %}
 
 <div class="title-div">
 	<h1>Creacion de reserva</h1>
 </div>
 
+{% endif %}
+
+
 {{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
 	{% form_theme form 'HotelRoomBundle:Form:fields.html.twig' %}
 
+	{% if form.user is defined %}
 	<div class="row">
 		<div class="small-12 medium-4 medium-centered columns">
 			{{ form_row(form.user) }}
 		</div>
 	</div>
+	{% endif %}
 
 	<div class="row">
-		<div class="small-12 medium-6 medium-centered columns">
+		<div class="small-12 medium-7 medium-centered columns">
 			<div class="small-12 medium-6 columns">
 				{{ form_row(form.entrydate) }}
 			</div>
@@ -33,24 +59,37 @@
 	</div>
 
 	<div class="row">
-		<div class="small-12 medium-6 medium-centered columns">
+		<div class="small-12 medium-7 medium-centered columns">
+
+		{% if category is defined %}
 			<div class="small-12 medium-6 columns">
 				{{ form_row(form.roomtype) }}
 			</div>
-			<div class="small-12 medium-6 columns">
-				{{ form_row(form.roomcategory) }}
-			</div>
-		</div>
-	</div>
 
-	<div class="row">
-		<div class="small-12 medium-6 medium-centered columns">
-			<div class="small-6 medium-6 columns">
+			<div class="small-12 medium-6 columns">
 				<div align="center">
 					{{ form_row(form.childbed) }}
 				</div>
 			</div>
-			<div class="small-6 medium-6 columns">
+		{% else %}
+			<div class="small-12 medium-4 columns">
+				{{ form_row(form.roomtype) }}
+			</div>
+			<div class="small-12 medium-4 columns">
+				{{ form_row(form.roomcategory) }}
+			</div>
+			<div class="small-12 medium-4 columns">
+				<div align="center">
+					{{ form_row(form.childbed) }}
+				</div>
+			</div>
+		{% endif %}
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="small-12 medium-7 medium-centered columns">
+			<div class="small-12 medium-6 columns">
 				<div class="row">
 					<div class="small-8 columns">
 						{{ form_row(form.available) }}
@@ -64,10 +103,20 @@
 					</div>
 				</div>
 			</div>
+			<div class="small-12 medium-6 columns">
+				<div align="center">
+					{% if form.submit is defined %}
+						{{ form_row(form.submit) }}
+					{% else %}
+						<h5 align="center">Ingresa a tu cuenta para reservar</h5>
+					{% endif %}
+				</div>
+			</div>
 		</div>
 	</div>
 
 	<div align="center">
+
 		{{ form_rest(form) }}
 		{% if reserved is defined and reserved == false %}
 			<div class="row">
@@ -82,6 +131,7 @@
 	</div>
 {{ form_end(form) }}
 
+{% if category is not defined %}
 <div class="row">
 	<div class="small-6 medium-4 columns">
         <a href="{{ path('reserve_admin') }}" class="success button">
@@ -89,4 +139,6 @@
         </a>
 	</div>
 </div>
+{% endif %}
+
 {% endblock %}

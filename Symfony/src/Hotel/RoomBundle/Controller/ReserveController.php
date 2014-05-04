@@ -64,7 +64,7 @@ class ReserveController extends Controller
             $options['user'] = $session->get('user');
         }
 
-        return $this->render('HotelRoomBundle:Reserve:new-reserve.html.twig', $options);
+        return $this->render('HotelRoomBundle:Reserve:reserve.html.twig', $options);
     }
 
     public function newAction(Request $request, $category){
@@ -92,7 +92,6 @@ class ReserveController extends Controller
 
         }else{
 
-            $form->remove('submit');
             $options['prefix'] = 'guest';
         }
 
@@ -125,7 +124,7 @@ class ReserveController extends Controller
 
                     $em->persist($entity);
                     $em->flush();
-                    //return $this->redirect($this->generateUrl('reserve_show', array('id' => $entity->getId())));
+
                     return new Response('<html><body>Reserva creada. Buscala, su id es '.$entity->getId().'</body></html>');
                 }else{
                     //si no hay disponibilidad, lo notifica.
@@ -136,7 +135,7 @@ class ReserveController extends Controller
 
         $options['form'] = $form->createView();
         
-        return $this->render('HotelRoomBundle:Reserve:new-form.html.twig', $options);
+        return $this->render('HotelRoomBundle:Reserve:new.html.twig', $options);
     }
 
     /**
@@ -147,6 +146,8 @@ class ReserveController extends Controller
     * @return \Symfony\Component\Form\Form The form
     */
     private function createNewForm(Reserve $entity, $formtype, $category = null){
+
+        $session = $this->getRequest()->getSession();
 
         if($formtype == 'new'){
             $url = $this->generateUrl(
@@ -163,6 +164,9 @@ class ReserveController extends Controller
             'method' => 'POST',
         ));
 
+        if(!$session->has('user'))
+            $form->remove('submit');
+        
         return $form;
     }
 
