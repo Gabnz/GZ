@@ -3,31 +3,28 @@
 namespace Hotel\BillBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Session\Session;
-
 use Hotel\BillBundle\Entity\Bill;
 use Hotel\BillBundle\Form\BillType;
 
 
 /**
- * Bill controller.
+ * Factura controller.
  *
  */
 class BillController extends Controller
 {
 
     // funcion de prueba para probar boton que genere factura
-    public function testAction(){            
-        return $this->render('HotelBillBundle:Bill:test.html.twig');       
-    }
+    //public function testAction(){            
+      //  return $this->render('HotelBillBundle:Bill:test.html.twig');       
+   // }
 
     /**
-     * Lists all Bill entities.
+     * Lista todas las facturas.
      *
      */
      public function indexAction(){
@@ -65,18 +62,22 @@ class BillController extends Controller
 
 
     /**
-     * Genera la factura asociada al usuario.
+     * Genera la factura asociada a un usuario.
      *
      */
-    public function generateAction(){
+    public function generateAction($user_id, $reser_id){
+      
 
         $session = $this->getRequest()->getSession();
 
         /*si eres usuario registrado */
         if($session->has('user')){
 
-            $user = $session->get('user');
             $em = $this->getDoctrine()->getManager();
+
+            $user = $em->getRepository('HotelUserBundle:User')->findOneBy(
+            array('email' => $user_id)
+            );
 
             $selected = $em->getRepository('HotelRoomBundle:Reserve')->findBy(
             array('user' => $user->getId())
@@ -88,22 +89,17 @@ class BillController extends Controller
                 // actualiza el estatus a 'expire' de todas las facturas
                 $aux = $em->getRepository('HotelBillBundle:Bill')->updatebillstatus($user->getId());               
 
-                // id de la reserva (motivos de pruebas)
-                $reser_id = 13;
-
                 // consultando el tipo de reserva (completada o cancelada)
-                $result = $em->getRepository('HotelBillBundle:Bill')->reser_status($reser_id); 
-
-
-                if ($result['restatus'] == 'occupied') 
-                    $result['restatus'] = 'complete';
-                else
-                    $result['restatus'] = 'canceled';
+                $result = $em->getRepository('HotelBillBundle:Bill')->reser_status($reser_id);      
 
                 // consultando usuario para agregarlo a la factura
                 $selected = $em->getRepository('HotelUserBundle:User')->findOneBy(
                    array('id' => $user->getId())
                    );
+
+                if (!$selected) {
+                    throw $this->createNotFoundException('Usuario no encontrado.');
+                } 
 
                 // creando la factura
                 $newbill = new Bill();
@@ -117,32 +113,21 @@ class BillController extends Controller
 
                 // generando la factura  y sus billitems (minibar, telefono, alojamiento) correspondientes
                 $result = $em->getRepository('HotelBillBundle:Bill')->bill_generate($user->getId(), $reser_id); 
+ 
+                // consulta la factura recien creada
+                $newbill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
+                array(
+                  'billstatus' => 'actual',
+                  'user' => $user
+                   ));
 
-
-/*
-                echo "--";
-                echo $result['aux4'];
-                echo "--";
-
-                echo "--";
-                echo $result['aux5'];
-                echo "--";                
-
-
-                echo "--";
-                echo $result['aux1'];
-                echo "--";
-                echo "--";
-                echo $result['aux2'];
-                echo "--"; 
-                echo "--";
-                echo $result['aux3'];
-                echo "--";                                
-                echo " EXITO ";
- */ 
-
-
-                return $this->redirect($this->generateUrl('bill_pdf'));
+               
+                // lo redireciona a la pagina de mostrar factura (con la que se acaba de crear)
+                return $this->redirect($this->generateUrl('bill_show',
+                 array(
+                    'bill_id' => $newbill->getId(),
+                    'user_id' => $user->getId() 
+                    )));
 
             }else
 
@@ -176,13 +161,14 @@ class BillController extends Controller
          // consulta todos los items asociado a la factura actual del usuario
         $selected = $em->getRepository('HotelBillBundle:Bill')->billitems($bill_id);
 
-
+        // crea la vista
         $html = $this->renderView('HotelBillBundle:Bill:pdf.html.twig', array(
             'entity_user' => $entity_user,
             'entity_bill' => $entity_bill,
             'billitems' => $selected
             ));       
 
+        // retorna la vista en pdf.
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
             200,
@@ -212,21 +198,18 @@ class BillController extends Controller
 
             $user = $session->get('user');
             /*si no es un usuario registrado, no puede ver la lista de facturas*/
-            if($user->getRole() != 'guest'){ 
+            if($user->getRole() != 'guest'){                
 
-                // $id = $session->get('user')->getId();
-               // $entity_user = $em->getRepository('HotelUserBundle:User')->find($id);                
-
-            // obtener la factura recien agregada
-            $entity_bill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
-               array(
+                // obtener la factura recien agregada
+                $entity_bill = $em->getRepository('HotelBillBundle:Bill')->findOneBy(
+                array(
                   'id' => $bill_id
                    ));
-
 
                 // consulta todos los items asociado a la factura actual del usuario
                 $selected = $em->getRepository('HotelBillBundle:Bill')->billitems($bill_id);
 
+                // renderiza la vista.
                 return $this->render('HotelBillBundle:Bill:bill.html.twig', array(
                 'entity_user' => $entity_user,
                 'entity_bill' => $entity_bill,
@@ -244,24 +227,11 @@ class BillController extends Controller
         throw $this->createNotFoundException('No eres usuario registrado, pagina no disponible.');
     }
 
-
-    /*
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('HotelBillBundle:Bill')->findAll();
-
-        return $this->render('HotelBillBundle:Bill:index.html.twig', array(
-            'entities' => $entities,
-        ));
-    }
-    */
     /**
      * Creates a new Bill entity.
      *
      */
-    public function createAction(Request $request)
+    /* public function createAction(Request $request)
     {
         $entity = new Bill();
         $form = $this->createCreateForm($entity);
@@ -279,15 +249,15 @@ class BillController extends Controller
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
-    }
+    }*/
 
-    /**
+    /*
     * Creates a form to create a Bill entity.
     *
     * @param Bill $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
-    */
+    
     private function createCreateForm(Bill $entity)
     {
         $form = $this->createForm(new BillType(), $entity, array(
@@ -298,12 +268,12 @@ class BillController extends Controller
         $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
-    }
+    }*/
 
-    /**
+    /*
      * Displays a form to create a new Bill entity.
-     *
-     */
+     
+     
     public function newAction()
     {
         $entity = new Bill();
@@ -313,7 +283,7 @@ class BillController extends Controller
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
-    }
+    }**/
 
     /**
      * Finds and displays a Bill entity.
@@ -338,10 +308,10 @@ class BillController extends Controller
     }
     */
 
-    /**
+    /*
      * Displays a form to edit an existing Bill entity.
      *
-     */
+     
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -360,15 +330,15 @@ class BillController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
-    }
+    }**/
 
-    /**
+    /*
     * Creates a form to edit a Bill entity.
     *
     * @param Bill $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
-    */
+    
     private function createEditForm(Bill $entity)
     {
         $form = $this->createForm(new BillType(), $entity, array(
@@ -379,11 +349,11 @@ class BillController extends Controller
         $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
-    }
-    /**
+    }**/
+    /*
      * Edits an existing Bill entity.
      *
-     */
+     *
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -409,11 +379,12 @@ class BillController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
-    }
-    /**
+    }**/
+    /*
      * Deletes a Bill entity.
      *
-     */
+     *
+
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
@@ -432,15 +403,15 @@ class BillController extends Controller
         }
 
         return $this->redirect($this->generateUrl('bill'));
-    }
+    }**/
 
-    /**
+    /*
      * Creates a form to delete a Bill entity by id.
      *
      * @param mixed $id The entity id
      *
      * @return \Symfony\Component\Form\Form The form
-     */
+     *
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
@@ -450,4 +421,5 @@ class BillController extends Controller
             ->getForm()
         ;
     }
+    **/
 }
