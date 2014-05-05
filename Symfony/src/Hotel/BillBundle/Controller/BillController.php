@@ -27,7 +27,7 @@ class BillController extends Controller
      * Lista todas las facturas.
      *
      */
-     public function indexAction(){
+     public function indexAction($_route){
         
         $session = $this->getRequest()->getSession();
 
@@ -36,25 +36,33 @@ class BillController extends Controller
             $em = $this->getDoctrine()->getManager();
             $user = $session->get('user');
 
-            if ($user->getRole() == 'admin'){ // si es el admin, son todas las facturas.
-                $result = $em->getRepository('HotelBillBundle:Bill')->bills(-1);
+            if($_route == 'bill_admin'){
 
+                if ($user->getRole() == 'admin'){ // si es el admin, son todas las facturas.
+                    $result = $em->getRepository('HotelBillBundle:Bill')->bills(-1);
+
+                }else{
+                    /*si no es admin, no puede ver la lista de reservas*/
+                    throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
+                }
             }else{ // si es un usuario, son todas sus facturas.
+
                 $id = $user->getId();
                 $result = $em->getRepository('HotelBillBundle:Bill')->bills($id);
             }
 
-            if ($result == NULL) {
-             /*si no existen facturas para mostrar */
-             throw $this->createNotFoundException('no existen facturas disponible asociados a tu cuenta.  =/');            
-                
-            }else{
+                if ($result == NULL) {
+                 /*si no existen facturas para mostrar */
+                 throw $this->createNotFoundException('no existen facturas disponible asociados a tu cuenta.  =/');            
+                    
+                }else{
 
-                return $this->render('HotelBillBundle:Bill:index.html.twig', array(
-                    'entity_bill' => $result,
-                    'user' => $user
-                ));
-            }
+                    return $this->render('HotelBillBundle:Bill:index.html.twig', array(
+                        'entity_bill' => $result,
+                        'user' => $user
+                    ));
+                }
+
         }
         /*si no es un usuario, no puede ver la lista de reservas*/
         throw $this->createNotFoundException('No eres usuario, pagina no disponible.');
@@ -76,7 +84,7 @@ class BillController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             $user = $em->getRepository('HotelUserBundle:User')->findOneBy(
-            array('email' => $user_id)
+            array('id' => $user_id)
             );
 
             $selected = $em->getRepository('HotelRoomBundle:Reserve')->findBy(

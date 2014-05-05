@@ -25,10 +25,15 @@ class Reserve
     */
     private $user;
 
+   
+    
+    //OneToOne(targetEntity="Room")
+    //JoinColumn(name="room_id", referencedColumnName="id", nullable=TRUE)
+    
     /**
-    * @ORM\OneToOne(targetEntity="Room")
+    * @ORM\ManyToOne(targetEntity="Room")
     * @ORM\JoinColumn(name="room_id", referencedColumnName="id", nullable=TRUE)
-    */
+    */     
     private $room;
 
     /**

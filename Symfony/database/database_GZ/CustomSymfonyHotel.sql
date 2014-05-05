@@ -240,24 +240,24 @@ CREATE TABLE IF NOT EXISTS `Reserve` (
 --
 
 INSERT INTO `Reserve` (`id`, `entrydate`, `exitdate`, `special`, `user_id`, `roomcategory`, `roomtype`, `restatus`, `room_id`, `childbed`) VALUES
-(1, '2014-04-15', '2014-05-20', 0, 8, 'standard', 'individual', 'occupied', 8, 1),
-(2, '2014-04-15', '2014-05-20', 0, 9, 'standard', 'double', 'occupied', 28, 0),
-(3, '2014-04-15', '2014-05-20', 0, 8, 'business', 'individual', 'occupied', 48, 0),
-(4, '2014-04-15', '2014-05-20', 0, 9, 'business', 'double', 'occupied', 68, 1),
-(5, '2014-04-15', '2014-05-20', 0, 8, 'high', 'individual', 'occupied', 88, 0),
-(6, '2014-04-15', '2014-05-20', 0, 9, 'high', 'double', 'occupied', 108, 0),
-(7, '2014-04-15', '2014-05-20', 0, 10, 'standard', 'individual', 'occupied', 9, 0),
-(8, '2014-04-15', '2014-05-20', 0, 10, 'standard', 'double', 'occupied', 29, 0),
-(9, '2014-04-15', '2014-05-20', 0, 10, 'business', 'individual', 'occupied', 49, 0),
-(10, '2014-04-15', '2014-05-20', 0, 10, 'business', 'double', 'occupied', 69, 0),
-(11, '2014-04-15', '2014-05-20', 0, 10, 'high', 'individual', 'occupied', 89, 0),
-(12, '2014-04-15', '2014-05-20', 0, 10, 'high', 'double', 'occupied', 109, 0),
-(13, '2014-05-01', '2014-05-20', 0, 11, 'standard', 'individual', 'active', NULL, 0),
-(14, '2014-05-02', '2014-05-20', 0, 11, 'standard', 'double', 'active', NULL, 0),
-(15, '2014-05-03', '2014-05-20', 0, 11, 'business', 'individual', 'active', NULL, 0),
-(16, '2014-05-04', '2014-05-20', 0, 11, 'business', 'double', 'active', NULL, 0),
-(17, '2014-05-01', '2014-05-20', 0, 11, 'high', 'individual', 'active', NULL, 0),
-(18, '2014-05-07', '2014-05-20', 0, 11, 'high', 'double', 'active', NULL, 0);
+(1, '2014-04-15', '2014-05-20', 0, 3, 'standard', 'individual', 'occupied', 8, 1),
+(2, '2014-04-15', '2014-05-20', 0, 4, 'standard', 'double', 'occupied', 28, 0),
+(3, '2014-04-15', '2014-05-20', 0, 3, 'business', 'individual', 'occupied', 48, 0),
+(4, '2014-04-15', '2014-05-20', 0, 4, 'business', 'double', 'occupied', 68, 1),
+(5, '2014-04-15', '2014-05-20', 0, 3, 'high', 'individual', 'occupied', 88, 0),
+(6, '2014-04-15', '2014-05-20', 0, 4, 'high', 'double', 'occupied', 108, 0),
+(7, '2014-04-15', '2014-05-20', 0, 5, 'standard', 'individual', 'occupied', 9, 0),
+(8, '2014-04-15', '2014-05-20', 0, 5, 'standard', 'double', 'occupied', 29, 0),
+(9, '2014-04-15', '2014-05-20', 0, 5, 'business', 'individual', 'occupied', 49, 0),
+(10, '2014-04-15', '2014-05-20', 0, 5, 'business', 'double', 'occupied', 69, 0),
+(11, '2014-04-15', '2014-05-20', 0, 5, 'high', 'individual', 'occupied', 89, 0),
+(12, '2014-04-15', '2014-05-20', 0, 5, 'high', 'double', 'occupied', 109, 0),
+(13, '2014-05-01', '2014-05-20', 0, 6, 'standard', 'individual', 'active', NULL, 0),
+(14, '2014-05-02', '2014-05-20', 0, 6, 'standard', 'double', 'active', NULL, 0),
+(15, '2014-05-03', '2014-05-20', 0, 6, 'business', 'individual', 'active', NULL, 0),
+(16, '2014-05-04', '2014-05-20', 0, 6, 'business', 'double', 'active', NULL, 0),
+(17, '2014-05-01', '2014-05-20', 0, 6, 'high', 'individual', 'active', NULL, 0),
+(18, '2014-05-07', '2014-05-20', 0, 6, 'high', 'double', 'active', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -432,17 +432,12 @@ CREATE TABLE IF NOT EXISTS `User` (
 --
 
 INSERT INTO `User` (`id`, `pass`, `firstname`, `lastname`, `email`, `gender`, `idcard`, `birthdate`, `creditcard`, `account`, `nationality`, `rif`, `role`) VALUES
-(1, '123', 'nombre', 'apellido', 'prueba@gmail.com', 'male', '22222', '2008-01-01', '1234567890123456', 'current', 'venezuelan', 'V-123456789-9', 'standard'),
-(2, '123', 'roynny', 'zambrano', 'roynny@gmail.com', 'male', '12219443', '1988-10-07', '1234567890123456', 'saving', 'venezuelan', 'V-22310143-9', 'standard'),
-(3, '123', 'baltazar', 'apellido', 'baltazar@gmail.com', 'male', '222232', '2008-01-01', '1234567890123456', 'current', 'venezuelan', 'V-123456789-9', 'standard'),
-(4, '123', 'royadmin', 'zambrano', 'royadmin@gmail.com', 'male', '210443', '1997-11-09', '1234567890123456', 'saving', 'venezuelan', 'V-42210243-9', 'admin'),
-(5, '123', 'penoso', 'apellido', 'penoso@gmail.com', 'male', '224432', '2008-01-01', '1234567890123456', 'current', 'venezuelan', 'V-123456789-9', 'standard'),
-(6, '123', 'vayaina', 'apellido', 'vayaina@gmail.com', 'male', '0000332', '2008-01-01', '1234567890123456', 'current', 'venezuelan', 'V-123456789-9', 'standard'),
-(7, '12345', 'prueba', 'prueba', 'prueba2@gmail.com', 'male', '12345678', '1992-11-14', '1234567891123456', 'current', 'venezuelan', 'V-12321312-9', 'standard'),
-(8, '123', 'reservador1', 'apellido', 'reservador1@gmail.com', 'male', '5000332', '2008-01-01', '1234567890123457', 'current', 'venezuelan', 'V-123456789-10', 'standard'),
-(9, '123', 'reservador2', 'prueba', 'reservador2@gmail.com', 'male', '42345678', '1992-11-14', '1234567891123458', 'current', 'venezuelan', 'V-12321312-11', 'standard'),
-(10, '123', 'reservador3', 'apellido', 'reservador3@gmail.com', 'male', '3000332', '2008-01-01', '1234567890123459', 'current', 'venezuelan', 'V-123456789-12', 'standard'),
-(11, '123', 'reservador4', 'prueba', 'reservador4@gmail.com', 'male', '22345678', '1992-11-14', '1234567891123410', 'current', 'venezuelan', 'V-12321312-13', 'standard');
+(1, '123', 'roynny', 'zambrano', 'roynny@gmail.com', 'male', '12219443', '1988-10-07', '1234567890123456', 'saving', 'venezuelan', 'V-22310143-9', 'standard'),
+(2, '123', 'royadmin', 'zambrano', 'royadmin@gmail.com', 'male', '210443', '1997-11-09', '1234567890123456', 'saving', 'venezuelan', 'V-42210243-9', 'admin'),
+(3, '123', 'reservador1', 'apellido', 'reservador1@gmail.com', 'male', '5000332', '2008-01-01', '1234567890123457', 'current', 'venezuelan', 'V-123456789-10', 'standard'),
+(4, '123', 'reservador2', 'prueba', 'reservador2@gmail.com', 'male', '42345678', '1992-11-14', '1234567891123458', 'current', 'venezuelan', 'V-12321312-11', 'standard'),
+(5, '123', 'reservador3', 'apellido', 'reservador3@gmail.com', 'male', '3000332', '2008-01-01', '1234567890123459', 'current', 'venezuelan', 'V-123456789-12', 'standard'),
+(6, '123', 'reservador4', 'prueba', 'reservador4@gmail.com', 'male', '22345678', '1992-11-14', '1234567891123410', 'current', 'venezuelan', 'V-12321312-13', 'standard');
 
 --
 -- Restricciones para tablas volcadas

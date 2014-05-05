@@ -2,6 +2,10 @@ bill:
     pattern:  /
     defaults: { _controller: "HotelBillBundle:Bill:index" }
 
+bill_admin:
+    pattern:  /admin/
+    defaults: { _controller: "HotelBillBundle:Bill:index" }
+
 bill_generate:
     pattern:  /generate/{user_id}/{reser_id}
     defaults: { _controller: "HotelBillBundle:Bill:generate" }
