@@ -7,11 +7,11 @@
 
 {{ include('HotelUserBundle:User:user-topbar.html.twig') }}
 
+{% if edit_form is defined %}
+
 <div class="title-div">
 	<h1>Datos de usuario</h1>
 </div>
-
-{#% include 'HotelUserBundle:User:form.html.twig' with {'form': edit_form} %#}
 
 {{ form_start(edit_form, {'attr': {novalidate: 'novalidate'}}) }}
 	{% form_theme edit_form 'HotelRoomBundle:Form:fields.html.twig' %}
@@ -45,6 +45,12 @@
 							{{ form_row(edit_form.role) }}
 						</div>
 						{% endif %}
+
+						<div align="center">
+							<a href="{{ path('user_edit_pass', { 'id': entity.id }) }}" class="button">
+					            Cambiar contrasena
+					        </a>
+				        </div>
 					</div>
 				</div>
 
@@ -57,10 +63,44 @@
 
 {{ form_end(edit_form) }}
 
-
 <div align="center">
     {{ form(delete_form) }}
 </div>
+
+{% else %}
+
+<div class="title-div">
+	<h1>Contrasena de usuario</h1>
+</div>
+
+{{ form_start(pass_form, {'attr': {novalidate: 'novalidate'}}) }}
+
+	{% form_theme pass_form 'HotelRoomBundle:Form:fields.html.twig' %}
+
+	<div class="row">
+		<div class="small-12 medium-4 medium-centered columns">
+			<div class="panel">
+				{{ form_row(pass_form.actualpass) }}
+				{{ form_row(pass_form.pass) }}
+				
+				<div align="center">
+					{{ form_rest(pass_form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+{{ form_end(pass_form) }}
+
+<div class="row">
+	<div class="small-6 medium-4 columns">
+        <a href="{{ path('user_edit', { 'id': entity.id }) }}" class="success button">
+            Regresar
+        </a>
+	</div>
+</div>
+
+{% endif %}
 
 {% if user.role == 'admin' %}
 <div class="row">

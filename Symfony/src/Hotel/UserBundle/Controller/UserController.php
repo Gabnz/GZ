@@ -3,6 +3,7 @@
 namespace Hotel\UserBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Hotel\UserBundle\Entity\User;
 use Hotel\UserBundle\Form\UserType;
@@ -56,6 +57,7 @@ class UserController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
@@ -103,10 +105,10 @@ class UserController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Enviar'));
-
         if($session->has('user') && $session->get('user')->getRole() == 'admin')
             $form->add('role', 'choice', array( 'choices' => array('standard' => 'Estandar', 'admin' => 'Administrador'),'label' => 'Tipo de usuario'));
+
+        $form->add('submit', 'submit', array('label' => 'Enviar'));
 
         return $form;
     }
@@ -118,21 +120,79 @@ class UserController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(User $entity){
+    private function createEditForm(User $entity, $type = 'edit'){
 
         $session = $this->getRequest()->getSession();
 
-        $form = $this->createForm(new UserType('edit'), $entity, array(
-            'action' => $this->generateUrl('user_edit', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
+        if($type == 'edit'){
 
-        if($session->has('user') && $session->get('user')->getRole() == 'admin')
+            $options['action'] = $this->generateUrl('user_edit', array('id' => $entity->getId()));
+        }else{
+
+            $options['action'] = $this->generateUrl('user_edit_pass', array('id' => $entity->getId()));
+        }
+
+        $options['method'] = 'PUT';
+
+        $form = $this->createForm(new UserType($type), $entity, $options);
+
+        if($type == 'edit' && $session->has('user') && $session->get('user')->getRole() == 'admin')
             $form->add('role', 'choice', array( 'choices' => array('standard' => 'Estandar', 'admin' => 'Administrador'),'label' => 'Tipo de usuario'));
         
         $form->add('submit', 'submit', array('label' => 'Actualizar'));
 
         return $form;
+    }
+
+    public function editpassAction(Request $request, $id){
+
+        $session = $this->getRequest()->getSession();
+
+        $em = $this->getDoctrine()->getManager();
+
+
+        if($session->has('user')){
+
+            if($session->get('user')->getRole() == 'admin' || $session->get('user')->getId() == $id){
+
+                $entity = $em->getRepository('HotelUserBundle:User')->find($id);
+
+                $actualPass = $entity->getPass();
+
+                if(!$entity){
+                    throw $this->createNotFoundException('Usuario no encontrado.');
+                }
+
+                $passForm = $this->createEditForm($entity, 'edit_pass');
+                $passForm->handleRequest($request);
+
+                if($passForm->isValid()){
+
+                    if($passForm->get('actualpass')->getData() == $actualPass){
+
+                        $em->flush();
+
+                        return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
+
+                    }else{
+
+                        $passForm->get('actualpass')->addError(new FormError('Contrasena invalida.'));
+                    }
+                }
+
+                $user = $session->get('user');
+
+                return $this->render('HotelUserBundle:User:edit.html.twig', array(
+                    'entity'      => $entity,
+                    'pass_form'   => $passForm->createView(),
+                    'user' => $user,
+                ));
+            }
+            /*en caso de que no sea un admin y quiera editar una entidad distinta a la suya, deniega la accion*/
+            throw $this->createNotFoundException('Acceso a otro usuario denegado, pagina no disponible.');
+        }
+        /*en caso de que sea un invitado, deniega la accion*/
+        throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
     }
     /**
      * Edits an existing User entity.
@@ -143,7 +203,7 @@ class UserController extends Controller
         $session = $this->getRequest()->getSession();
 
         $em = $this->getDoctrine()->getManager();
-        
+
         /*si es un usuario estandar o un admin, prosigue con la accion*/
         if($session->has('user')){
 
@@ -204,6 +264,7 @@ class UserController extends Controller
                 $form->handleRequest($request);
 
                 if ($form->isValid()) {
+
                     $em = $this->getDoctrine()->getManager();
                     $entity = $em->getRepository('HotelUserBundle:User')->find($id);
 
@@ -240,7 +301,7 @@ class UserController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('user_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Eliminar'))
+            ->add('submit', 'submit', array('label' => 'Eliminar cuenta', 'attr' => array('class' => 'alert buton')))
             ->getForm()
         ;
     }

@@ -17,8 +17,7 @@
               <a>Opciones de usuario</a>
               <ul class="dropdown">
                 <li><a href="{{ path('reserve_userlist') }}"><i class="fi-list-bullet" style="font-size:150%; margin:7%;"></i>Mis reservaciones</a></li>
-                <li><a href="{{ path('user_edit', {'id':user.id}) }}"><i class="fi-pencil" style="font-size:150%; margin:7%;"></i>Mis datos de usuario</a></li>
-                <li><a href="{{ path('user_delete', {'id':user.id}) }}"><i class="fi-x" style="font-size:150%; margin:7%;"></i>Eliminar mi cuenta</a></li>
+                <li><a href="{{ path('user_edit', {'id':user.id}) }}"><i class="fi-pencil" style="font-size:150%; margin:7%;"></i>Datos de usuario</a></li>
                 {% if user.role == 'admin' %}
                   <li><label>Opciones de Administrador</label></li>
                   <li><a href="{{ path('user') }}"><i class="fi-results-demographics" style="font-size:150%; margin:7%;"></i>Lista de usuarios</a></li>

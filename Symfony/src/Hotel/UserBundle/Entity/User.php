@@ -51,17 +51,19 @@ class User
      * @var string
      *
      * @ORM\Column(name="pass", type="string", length=50)
-     * @Assert\NotBlank(message="Porfavor introduzca una contrasena.")
+     * @Assert\NotBlank(message="Porfavor introduzca una contrasena.", groups={"editpass"})
      * @Assert\Regex(
      *      pattern="/[a-zA-Z0-9]+/",
      *      match=true,
-     *      message="Porfavor introduzca una contrasena valida."
+     *      message="Porfavor introduzca una contrasena valida.",
+     *      groups={"editpass"}
      *  )
      * @Assert\Length(
      *      min = 5,
      *      max = 50,
      *      minMessage = "Su contrasena debe tener minimo {{ limit }} caracteres.",
-     *      maxMessage = "Su contrasena debe tener maximo {{ limit }} caracteres.")
+     *      maxMessage = "Su contrasena debe tener maximo {{ limit }} caracteres."),
+     *      groups={"editpass"}
      */
     private $pass;
 
