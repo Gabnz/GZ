@@ -11,7 +11,24 @@
 	<div class="title-div">
 		<h1>Login</h1>
 	</div>
-	{#formulario de login#}
-	{% include 'HotelUserBundle:User:login-form.html.twig' with {'form': form} %}
+
+{{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+	{% form_theme form 'HotelUserBundle:Form:fields.html.twig' %}
+	<div class="small-12 medium-5 large-5 small-centered medium-centered large-centered columns">
+		<div class="row">
+			<div class="small-12 columns">
+				{{ form_row(form.email) }}
+			</div>
+			<div class="small-12 columns">
+				{{ form_row(form.pass) }}
+			</div>
+		</div>
+		
+		<div align="center">
+			{{ form_row(form.submit) }}
+		</div>
+	</div>
+	{{ form_rest(form) }}
+{{ form_end(form) }}
 
 {% endblock %}

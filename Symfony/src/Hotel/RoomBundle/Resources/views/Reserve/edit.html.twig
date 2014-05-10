@@ -19,100 +19,129 @@
 			<div class="panel">
 				<div class="row">
 					<div class="small-6 medium-6 columns">
-						<label>
-							Usuario
-						</label>
-						{{ entity.user.email }}
+						<div align="center">
+							<label>
+								Usuario
+							</label>
+						
+							{{ entity.user.email }}
+						</div>
 					</div>
 					<div class="small-6 medium-6 columns">
-						<label>
-							Id de usuario
-						</label>
-						<a href="{{ path('user_show', { 'id': entity.user.id }) }}">{{ entity.user.id }}</a>
-					</div>
-				</div>
-				<br><br>
-				<div class="row">
-					<div class="small-6 medium-6 columns">
-						<label>
-							Fecha de entrada
-						</label>
-						{{ entity.entrydate|date('Y-m-d') }}
-					</div>
-					<div class="small-6 medium-6 columns">
-						<label>
-							Fecha de salida
-						</label>
-						{{ entity.exitdate|date('Y-m-d') }}
+						<div align="center">
+							<label>
+								Id de usuario
+							</label>
+						
+							<a href="{{ path('user_edit', { 'id': entity.user.id }) }}">{{ entity.user.id }}</a>
+						</div>
 					</div>
 				</div>
 				<br><br>
 				<div class="row">
 					<div class="small-6 medium-6 columns">
-						<label>
-							Categoria
-						</label>
-						{% if entity.roomcategory == "standard" %}
-                        	Estandar
-	                    {% elseif entity.roomcategory == "bussiness" %}
-	                        Bussiness
-	                    {% else %}
-	                        Alta
-	                    {% endif %}
+						<div align="center">
+							<label>
+								Fecha de entrada
+							</label>
+						
+							{{ entity.entrydate|date('Y-m-d') }}
+						</div>
 					</div>
 					<div class="small-6 medium-6 columns">
-						<label>
-							Tipo
-						</label>
-						{% if entity.roomtype == "individual" %}
-	                        Individual
-	                    {% else %}
-	                        Doble
-	                    {% endif %}
+						<div align="center">
+							<label>
+								Fecha de salida
+							</label>
+						
+							{{ entity.exitdate|date('Y-m-d') }}
+						</div>
 					</div>
 				</div>
 				<br><br>
 				<div class="row">
 					<div class="small-6 medium-6 columns">
-						<label>
-							Id de habitacion
-						</label>
-						{% if entity.room is null %}
-		                    ---
-		                {% else %}
-		                	{% if route == 'reserve_edit' %}
-		                		{{ entity.room.id }}
-		                	{% else %}
-		                    	<a href="{{ path('room_show', { 'id': entity.room.id }) }}">{{ entity.room.id }}</a>
+						<div align="center">
+							<label>
+								Categoria
+							</label>
+						
+							{% if entity.roomcategory == "standard" %}
+	                        	Estandar
+		                    {% elseif entity.roomcategory == "bussiness" %}
+		                        Bussiness
+		                    {% else %}
+		                        Alta
 		                    {% endif %}
-		                {% endif %}
+	                    </div>
 					</div>
 					<div class="small-6 medium-6 columns">
-						<label>
-							Cama infantil
-						</label>
-						{% if entity.childbed == false %}
-	                        No
-	                    {% else %}
-	                        Si
-	                    {% endif %}
+						<div align="center">
+							<label>
+								Tipo
+							</label>
+						
+							{% if entity.roomtype == "individual" %}
+		                        Individual
+		                    {% else %}
+		                        Doble
+		                    {% endif %}
+	                    </div>
+					</div>
+				</div>
+				<br><br>
+				<div class="row">
+					<div class="small-6 medium-6 columns">
+						<div align="center">
+							<label>
+								Id de habitacion
+							</label>
+						
+							{% if entity.room is null %}
+			                    ---
+			                {% else %}
+			                	{% if route == 'reserve_edit' %}
+			                		{{ entity.room.id }}
+			                	{% else %}
+			                    	<a href="{{ path('room_show', { 'id': entity.room.id }) }}">{{ entity.room.id }}</a>
+			                    {% endif %}
+			                {% endif %}
+		                </div>
+					</div>
+					<div class="small-6 medium-6 columns">
+						<div align="center">
+							<label>
+								Cama infantil
+							</label>
+						
+							{% if entity.childbed == false %}
+		                        No
+		                    {% else %}
+		                        Si
+		                    {% endif %}
+	                    </div>
 					</div>
 					
 				</div>
 				<br><br>
 				<div class="row">
 					<div class="small-6 medium-6 columns">
-						<label>
-							Caso especial
-						</label>
-						{% if entity.special == false %}
-	                        No
-	                    {% else %}
-	                        Si
-	                    {% endif %}
+						<div align="center">
+							<label>
+								Caso especial
+							</label>
+						
+							{% if entity.special == false %}
+		                        No
+		                    {% else %}
+		                        Si
+		                    {% endif %}
+	                    </div>
 					</div>
 					<div class="small-6 medium-6 columns">
-						{{ form_row(edit_form.restatus) }}
+						<div align="center">
+							{{ form_row(edit_form.restatus) }}
+						</div>
 					</div>
 				</div>
 			</div>

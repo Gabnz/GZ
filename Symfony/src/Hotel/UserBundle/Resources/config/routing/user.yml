@@ -2,9 +2,9 @@ user:
     pattern:  /
     defaults: { _controller: "HotelUserBundle:User:index" }
 
-user_show:
-    pattern:  /{id}/show
-    defaults: { _controller: "HotelUserBundle:User:show" }
+#user_show:
+#    pattern:  /{id}/show
+#    defaults: { _controller: "HotelUserBundle:User:show" }
 
 user_new:
     pattern:  /new
@@ -26,7 +26,3 @@ user_login:
 user_logout:
     pattern:  /logout
     defaults: { _controller: "HotelUserBundle:User:logout" }
-
-user_hello:
-    pattern:  /hello/{name}
-    defaults: { _controller: HotelUserBundle:Default:index }

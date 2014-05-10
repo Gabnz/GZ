@@ -20,27 +20,16 @@
                 <th>Apellido</th>
                 <th>Correo</th>
                 <th>Cedula</th>
-                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('user_edit', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.firstname }}</td>
                 <td>{{ entity.lastname }}</td>
                 <td>{{ entity.email }}</td>
                 <td>{{ entity.idcard }}</td>
-                <td>
-                <ul class="button-group">
-                    <li>
-                        <a href="{{ path('user_show', { 'id': entity.id }) }}" class="button small">mostrar</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('user_edit', { 'id': entity.id }) }}" class="button small">editar</a>
-                    </li>
-                </ul>
-                </td>
             </tr>
         {% endfor %}
         </tbody>
@@ -49,7 +38,7 @@
 
 <div align="center">
     <a href="{{ path('user_new') }}" class="button">
-        Registrar nuevo usuario
+        Crear nuevo usuario
     </a>
 </div>
 {% endblock %}

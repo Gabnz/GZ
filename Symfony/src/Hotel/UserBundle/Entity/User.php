@@ -13,13 +13,12 @@ use Hotel\UserBundle\Validator\Constraints as UserAssert;
  *
  * @ORM\Table()
  * @ORM\Entity
- * @UniqueEntity(fields="email", message="Este correo ya esta registrado.")
  * @UniqueEntity(fields="idcard", message="Esta cedula ya esta registrada.")
  * @UniqueEntity(fields="creditcard", message="Esta tarjeta de credito ya esta registrada.")
+ * @UniqueEntity(fields="email", message="Este correo ya esta registrado.")
  */
 class User
 {
-
     /**
     * @ORM\OneToMany(targetEntity="\Hotel\RoomBundle\Entity\Reserve", mappedBy="user")
     */
@@ -30,8 +29,8 @@ class User
     */
     private $bills;
 
-    public function __construct()
-    {
+    public function __construct(){
+
         $this->reserves = new ArrayCollection();
 
         $this->bills = new ArrayCollection();
@@ -554,5 +553,4 @@ class User
     {
         return $this->bills;
     }    
-
 }

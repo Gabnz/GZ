@@ -8,20 +8,68 @@
 {{ include('HotelUserBundle:User:user-topbar.html.twig') }}
 
 <div class="title-div">
-	<h1>Editar Usuario</h1>
+	<h1>Datos de usuario</h1>
 </div>
 
-{% include 'HotelUserBundle:User:form.html.twig' with {'form': edit_form} %}
+{#% include 'HotelUserBundle:User:form.html.twig' with {'form': edit_form} %#}
+
+{{ form_start(edit_form, {'attr': {novalidate: 'novalidate'}}) }}
+	{% form_theme edit_form 'HotelRoomBundle:Form:fields.html.twig' %}
+
+	<div class="row">
+		<div class="small-12 medium-9 medium-centered columns">
+			<div class="panel">
+				<div class="row">
+					<div class="small-12 medium-6 columns">
+						{{ form_row(edit_form.email) }}
+						{{ form_row(edit_form.firstname) }}
+						{{ form_row(edit_form.lastname) }}
+						{{ form_row(edit_form.birthdate) }}
+						<div class="small-12 medium-6 columns">
+							{{ form_row(edit_form.gender) }}
+						</div>
+						<div class="small-12 medium-6 columns">
+							{{ form_row(edit_form.nationality) }}
+						</div>
+					</div>
+					<div class="small-12 medium-6 columns">
+						{{ form_row(edit_form.idcard) }}
+						{{ form_row(edit_form.rif) }}
+						{{ form_row(edit_form.creditcard) }}
+						<div class="small-12 medium-6 columns">
+							{{ form_row(edit_form.account) }}
+						</div>
+
+						{% if edit_form.role is defined %}
+						<div class="small-12 medium-6 columns">
+							{{ form_row(edit_form.role) }}
+						</div>
+						{% endif %}
+					</div>
+				</div>
+
+				<div align="center">
+					{{ form_rest(edit_form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+{{ form_end(edit_form) }}
+
 
 <div align="center">
     {{ form(delete_form) }}
 </div>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('user') }}">
-            Back to the list
+{% if user.role == 'admin' %}
+<div class="row">
+	<div class="small-6 medium-4 columns">
+        <a href="{{ path('user') }}" class="success button">
+            Regresar
         </a>
-    </li>
-</ul>
+	</div>
+</div>
+{% endif %}
+
 {% endblock %}

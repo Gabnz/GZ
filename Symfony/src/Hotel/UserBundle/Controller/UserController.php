@@ -66,26 +66,22 @@ class UserController extends Controller
                     return $this->redirect($this->generateUrl('main_welcome'));
                 }else{
                     /*en caso de que sea un admin, muestra los datos del usuario registrado*/
-                    return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
+                    return $this->redirect($this->generateUrl('user_edit', array('id' => $entity->getId())));
                 }
             }
 
             if(!$session->has('user')){
 
-                return $this->render('HotelUserBundle:User:new.html.twig', array(
-                    'form'   => $form->createView(),
-                    'prefix' => 'guest',
-                ));
+                $options['prefix'] = 'guest';
             }else{
 
-                $user = $session->get('user');
-
-                return $this->render('HotelUserBundle:User:new.html.twig', array(
-                    'form'   => $form->createView(),
-                    'prefix' => 'user',
-                    'user' => $user,
-                ));
+                $options['prefix'] = 'user';
+                $options['user'] = $session->get('user');
             }
+
+            $options['form'] = $form->createView();
+
+            return $this->render('HotelUserBundle:User:new.html.twig', $options);
         }
         /*en caso de que sea un usuario estandar el que quiera registrar, deniega la accion*/
         throw $this->createNotFoundException('No eres administrador ni invitado, pagina no disponible.');
@@ -100,53 +96,19 @@ class UserController extends Controller
     */
     private function createNewForm(User $entity){
 
-        $form = $this->createForm(new UserType(), $entity, array(
+        $session = $this->getRequest()->getSession();
+
+        $form = $this->createForm(new UserType('new'), $entity, array(
             'action' => $this->generateUrl('user_new'),
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Enviar'))
-        ->add('role', 'choice', array( 'choices' => array('standard' => 'Estandar', 'admin' => 'Administrador'),'label' => 'Tipo de usuario'));
+        $form->add('submit', 'submit', array('label' => 'Enviar'));
+
+        if($session->has('user') && $session->get('user')->getRole() == 'admin')
+            $form->add('role', 'choice', array( 'choices' => array('standard' => 'Estandar', 'admin' => 'Administrador'),'label' => 'Tipo de usuario'));
 
         return $form;
-    }
-
-    /**
-     * Finds and displays a User entity.
-     * Only available for admins and the user with the same id.
-     */
-    public function showAction($id){
-
-        $session = $this->getRequest()->getSession();
-        /*si es un usuario estandar o un admin, prosigue con la accion*/
-        if($session->has('user')){
-
-            if($session->get('user')->getRole() == 'admin' || $session->get('user')->getId() == $id){
-
-                $em = $this->getDoctrine()->getManager();
-
-                $entity = $em->getRepository('HotelUserBundle:User')->find($id);
-
-                if (!$entity) {
-                    throw $this->createNotFoundException('Usuario no encontrado.');
-                }
-
-                $deleteForm = $this->createDeleteForm($id);
-
-                $user = $session->get('user');
-
-                return $this->render('HotelUserBundle:User:show.html.twig', array(
-                    'entity'      => $entity,
-                    'delete_form' => $deleteForm->createView(),
-                    'user' => $user,
-                    ));
-            }
-            /*en caso de que no sea un admin y quiera consultar una entidad distinta a la suya, deniega la accion*/
-            throw $this->createNotFoundException('Acceso a otro usuario denegado, pagina no disponible.');
-
-        }
-        /*en caso de que sea un invitado, deniega la accion*/
-        throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
     }
 
     /**
@@ -158,13 +120,17 @@ class UserController extends Controller
     */
     private function createEditForm(User $entity){
 
-        $form = $this->createForm(new UserType(), $entity, array(
+        $session = $this->getRequest()->getSession();
+
+        $form = $this->createForm(new UserType('edit'), $entity, array(
             'action' => $this->generateUrl('user_edit', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Actualizar'))
-        ->add('role', 'choice', array( 'choices' => array('standard' => 'Estandar', 'admin' => 'Administrador'),'label' => 'Tipo de usuario'));
+        if($session->has('user') && $session->get('user')->getRole() == 'admin')
+            $form->add('role', 'choice', array( 'choices' => array('standard' => 'Estandar', 'admin' => 'Administrador'),'label' => 'Tipo de usuario'));
+        
+        $form->add('submit', 'submit', array('label' => 'Actualizar'));
 
         return $form;
     }
@@ -175,12 +141,13 @@ class UserController extends Controller
     public function editAction(Request $request, $id){
 
         $session = $this->getRequest()->getSession();
+
+        $em = $this->getDoctrine()->getManager();
+        
         /*si es un usuario estandar o un admin, prosigue con la accion*/
         if($session->has('user')){
 
             if($session->get('user')->getRole() == 'admin' || $session->get('user')->getId() == $id){
-
-                $em = $this->getDoctrine()->getManager();
 
                 $entity = $em->getRepository('HotelUserBundle:User')->find($id);
 
@@ -193,6 +160,7 @@ class UserController extends Controller
                 $editForm->handleRequest($request);
 
                 if ($editForm->isValid()) {
+
                     $em->flush();
 
                     /*en caso de que un usuario este editando su propia informacion, la actualiza*/
@@ -202,7 +170,7 @@ class UserController extends Controller
                     }
 
                     /*muestra los datos editados*/
-                    return $this->redirect($this->generateUrl('user_show', array('id' => $id)));
+                    return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
                 }
 
                 $user = $session->get('user');
