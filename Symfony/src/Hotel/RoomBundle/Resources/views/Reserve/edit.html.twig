@@ -8,14 +8,14 @@
 {{ include('HotelUserBundle:User:user-topbar.html.twig') }}
 
 <div class="title-div">
-    <h1>Detalles de reservacion</h1>
+    <h1>Reservacion {{ entity.id }}</h1>
 </div>
 
 {{ form_start(edit_form, {'attr': {novalidate: 'novalidate'}}) }}
 	{% form_theme edit_form 'HotelRoomBundle:Form:fields.html.twig' %}
 
 	<div class="row">
-		<div class="small-12 medium-5 medium-centered columns">
+		<div class="small-12 medium-6 medium-centered columns">
 			<div class="panel">
 				<div class="row">
 					<div class="small-6 medium-6 columns">

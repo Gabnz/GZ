@@ -3,7 +3,6 @@
 namespace Hotel\UserBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Hotel\UserBundle\Entity\User;
 use Hotel\UserBundle\Form\UserType;
@@ -159,9 +158,8 @@ class UserController extends Controller
 
                 $actualPass = $entity->getPass();
 
-                if(!$entity){
+                if(!$entity)
                     throw $this->createNotFoundException('Usuario no encontrado.');
-                }
 
                 $passForm = $this->createEditForm($entity, 'edit_pass');
                 $passForm->handleRequest($request);
@@ -211,11 +209,9 @@ class UserController extends Controller
 
                 $entity = $em->getRepository('HotelUserBundle:User')->find($id);
 
-                if (!$entity) {
+                if(!$entity)
                     throw $this->createNotFoundException('Usuario no encontrado.');
-                }
 
-                $deleteForm = $this->createDeleteForm($id);
                 $editForm = $this->createEditForm($entity);
                 $editForm->handleRequest($request);
 
@@ -238,7 +234,6 @@ class UserController extends Controller
                 return $this->render('HotelUserBundle:User:edit.html.twig', array(
                     'entity'      => $entity,
                     'edit_form'   => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
                     'user' => $user,
                 ));
             }
@@ -247,63 +242,6 @@ class UserController extends Controller
         }
         /*en caso de que sea un invitado, deniega la accion*/
         throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
-    }
-    /**
-     * Deletes a User entity.
-     * Only available for admins or the user with the same id.
-     */
-    public function deleteAction(Request $request, $id){
-
-        $session = $this->getRequest()->getSession();
-        /*si es un usuario estandar o un admin, prosigue con la accion*/
-        if($session->has('user')){
-
-            if($session->get('user')->getRole() == 'admin' || $session->get('user')->getId() == $id){
-
-                $form = $this->createDeleteForm($id);
-                $form->handleRequest($request);
-
-                if ($form->isValid()) {
-
-                    $em = $this->getDoctrine()->getManager();
-                    $entity = $em->getRepository('HotelUserBundle:User')->find($id);
-
-                    if (!$entity) {
-                        throw $this->createNotFoundException('Usuario no encontrado.');
-                    }
-
-                    $em->remove($entity);
-                    $em->flush();
-                }
-                /*si es admin y no elimina su propia cuenta, regresa a la lista de usuarios*/
-                if($session->get('user')->getRole() == 'admin' && $session->get('user')->getId() != $id)
-                    return $this->redirect($this->generateUrl('user'));
-                /*si es un usuario estandar o un admin que esta borrando su propia cuenta, cierra sesion*/
-                return $this->redirect($this->generateUrl('user_logout'));
-            }
-            /*en caso de que no sea un admin y quiera eliminar una entidad distinta a la suya, deniega la accion*/
-            throw $this->createNotFoundException('Acceso a otro usuario denegado, pagina no disponible.');
-
-        }
-        /*en caso de que sea un invitado, deniega la accion*/
-        throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
-    }
-
-    /**
-     * Creates a form to delete a User entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id){
-
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('user_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Eliminar cuenta', 'attr' => array('class' => 'alert buton')))
-            ->getForm()
-        ;
     }
 
     /**

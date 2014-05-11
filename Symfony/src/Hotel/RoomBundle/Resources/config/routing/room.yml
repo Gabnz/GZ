@@ -5,15 +5,3 @@ room:
 room_show:
     pattern:  /{id}/show
     defaults: { _controller: "HotelRoomBundle:Room:show" }
-
-room_new:
-    pattern:  /new
-    defaults: { _controller: "HotelRoomBundle:Room:new" }
-
-room_edit:
-    pattern:  /{id}/edit
-    defaults: { _controller: "HotelRoomBundle:Room:edit" }
-
-room_delete:
-    pattern:  /{id}/delete
-    defaults: { _controller: "HotelRoomBundle:Room:delete" }

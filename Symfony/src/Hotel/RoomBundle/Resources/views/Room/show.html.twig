@@ -8,65 +8,117 @@
 {{ include('HotelUserBundle:User:user-topbar.html.twig') }}
 
 <div class="title-div">
-    <h1>Habitacion</h1>
+    <h1>Habitacion {{ entity.id }} </h1>
 </div>
 
-<div align="center">
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Tipo</th>
-                <td>{{ entity.roomtype }}</td>
-            </tr>
-            <tr>
-                <th>Categoria</th>
-                <td>{{ entity.roomcategory }}</td>
-            </tr>
-            <tr>
-                <th>Tv</th>
-                <td>{{ entity.tv }}</td>
-            </tr>
-            <tr>
-                <th>Baño</th>
-                <td>{{ entity.shower }}</td>
-            </tr>
-            <tr>
-                <th>Jacuzzi</th>
-                <td>{{ entity.jacuzzi }}</td>
-            </tr>
-            <tr>
-                <th>Musica</th>
-                <td>{{ entity.music }}</td>
-            </tr>
-            <tr>
-                <th>Masaje</th>
-                <td>{{ entity.massage }}</td>
-            </tr>
-            <tr>
-                <th>Estatus</th>
-                <td>{{ entity.roomstatus }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div align="center">
-        <a href="{{ path('room_edit', { 'id': entity.id }) }}" class="button">
-            Editar
-        </a>
-        {{ form(delete_form) }}
+<div class="row">
+    <div class="small-12 medium-6 medium-centered columns">
+        <div class="panel">
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Tipo</label>
+                        {% if entity.roomtype == 'individual'%}
+                            Individual
+                        {% else %}
+                            Doble
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Categoria</label>
+                        {% if entity.roomcategory == 'standard' %}
+                            Estandar
+                        {% elseif  entity.roomcategory == 'bussiness' %}
+                            Bussiness
+                        {% else %}
+                            Alta
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <br/><br/>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>TV</label>
+                        {% if entity.tv == true %}
+                            Si
+                        {% else %}
+                            No
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Baño</label>
+                        {% if entity.shower == true %}
+                            Si
+                        {% else %}
+                            No
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <br/><br/>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Jacuzzi</label>
+                        {% if entity.jacuzzi == true %}
+                            Si
+                        {% else %}
+                            No
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Musica</label>
+                        {% if entity.music == true %}
+                            Si
+                        {% else %}
+                            No
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <br/><br/>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Masaje</label>
+                        {% if entity.massage == true %}
+                            Si
+                        {% else %}
+                            No
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Estado</label>
+                        {% if entity.roomstatus == 'free' %}
+                            Libre
+                        {% else %}
+                            Ocupada
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
 </div>
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('room') }}">
-                Regresar a la lista
-            </a>
-        </li>
-    </ul>
+
+{% if user.role == 'admin' %}
+<div class="row">
+    <div class="small-6 medium-4 columns">
+        <a href="{{ path('room') }}" class="success button">
+            Regresar
+        </a>
+    </div>
+</div>
+{% endif %}
 
 {% endblock %}

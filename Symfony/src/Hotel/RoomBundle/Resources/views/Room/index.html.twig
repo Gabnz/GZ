@@ -7,60 +7,51 @@
 
 {{ include('HotelUserBundle:User:user-topbar.html.twig') }}
 
-
 <div class="title-div">
     <h1>Lista de Habitaciones</h1>
 </div>
 
 <div align="center">
-
-    <table class="records_list">
+    <table>
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Tipo</th>
                 <th>Categoria</th>
-                <th>Tv</th>
-                <th>Baño</th>
-                <th>Jacuzzi</th>
-                <th>Musica</th>
-                <th>Masaje</th>
-                <th>Estatus</th>
-                <th>Acciones</th>
+                <th>Estado</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('room_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.roomtype }}</td>
-                <td>{{ entity.roomcategory }}</td>
-                <td>{{ entity.tv }}</td>
-                <td>{{ entity.shower }}</td>
-                <td>{{ entity.jacuzzi }}</td>
-                <td>{{ entity.music }}</td>
-                <td>{{ entity.massage }}</td>
-                <td>{{ entity.roomstatus }}</td>
                 <td>
-                <ul class="button-group">
-                    <li>
-                        <a href="{{ path('room_show', { 'id': entity.id }) }}" class="button small">mostrar</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('room_edit', { 'id': entity.id }) }}" class="button small">editar</a>
-                    </li>
-                </ul>
+                    {% if entity.roomtype == 'individual' %}
+                        Individual
+                    {% else %}
+                        Doble
+                    {% endif %}
+                </td>
+                <td>
+                    {% if entity.roomcategory == 'standard' %}
+                        Estandar
+                    {% elseif entity.roomcategory == 'bussiness' %}
+                        Bussiness
+                    {% else %}
+                        Alta
+                    {% endif %}
+                </td>
+                <td>
+                    {% if entity.roomstatus == 'free' %}
+                        Libre
+                    {% else %}
+                        Ocupada
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-</div>    
-
-<div align="center">
-    <a href="{{ path('room_new') }}" class="button">
-        Registrar nueva habitacion
-    </a>
 </div>
 
-    {% endblock %}
+{% endblock %}

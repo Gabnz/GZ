@@ -53,19 +53,14 @@
 				        </div>
 					</div>
 				</div>
-
-				<div align="center">
-					{{ form_rest(edit_form) }}
-				</div>
+			</div>
+			<div align="center">
+				{{ form_rest(edit_form) }}
 			</div>
 		</div>
 	</div>
 
 {{ form_end(edit_form) }}
-
-<div align="center">
-    {{ form(delete_form) }}
-</div>
 
 {% else %}
 
@@ -82,23 +77,14 @@
 			<div class="panel">
 				{{ form_row(pass_form.actualpass) }}
 				{{ form_row(pass_form.pass) }}
-				
-				<div align="center">
-					{{ form_rest(pass_form) }}
-				</div>
+			</div>
+			<div align="center">
+				{{ form_rest(pass_form) }}
 			</div>
 		</div>
 	</div>
 
 {{ form_end(pass_form) }}
-
-<div class="row">
-	<div class="small-6 medium-4 columns">
-        <a href="{{ path('user_edit', { 'id': entity.id }) }}" class="success button">
-            Regresar
-        </a>
-	</div>
-</div>
 
 {% endif %}
 

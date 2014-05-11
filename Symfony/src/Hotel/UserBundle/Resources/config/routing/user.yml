@@ -14,11 +14,6 @@ user_edit_pass:
     pattern:  /{id}/editpass
     defaults: { _controller: "HotelUserBundle:User:editpass" }
 
-user_delete:
-    pattern:  /{id}/delete
-    defaults: { _controller: "HotelUserBundle:User:delete" }
-    requirements: { _method: post|delete }
-
 user_login:
     pattern:  /login
     defaults: { _controller: "HotelUserBundle:User:login" }
