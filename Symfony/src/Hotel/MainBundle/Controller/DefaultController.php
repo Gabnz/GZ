@@ -20,4 +20,19 @@ class DefaultController extends Controller{
 
      return $this->render('HotelMainBundle:Main:index.html.twig', $options);
     }
+
+    public function teamAction(){
+
+    	$options['prefix'] = 'guest';
+
+    	$session = $this->getRequest()->getSession();
+
+        if($session->has('user')){
+
+        	$options['prefix'] = 'user';
+        	$options['user'] = $session->get('user');
+     	}
+
+     return $this->render('HotelMainBundle:Main:team.html.twig', $options);
+    }
 }

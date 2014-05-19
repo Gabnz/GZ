@@ -5,3 +5,7 @@ main_welcome:
 HotelMainBundle_contact:
     resource: "@HotelMainBundle/Resources/config/routing/contact.yml"
     prefix:   /contact
+
+main_team:
+    pattern:  /team
+    defaults: { _controller: "HotelMainBundle:Default:team" }
