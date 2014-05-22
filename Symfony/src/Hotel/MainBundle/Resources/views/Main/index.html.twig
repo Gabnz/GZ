@@ -4,7 +4,7 @@
 	{#cover con efecto parallax#}
 	<div class="parallax-div"
 	style="background-image:url({{ asset('bundles/img/cover.jpg') }});"
-	data-stellar-background-ratio="0.3">
+	data-stellar-background-ratio="0.2">
 		<div class="row">
 			<div class="small-12 medium-5 medium-centered columns" style="background-color:#474747;">
 				<h1 align="center" style="color:white;">Hotel Symfonia</h1>
@@ -27,25 +27,39 @@
 		<div class="small-12 medium-4 large-4 columns">
 			<h1 align="center" style="color:black;"><i class="fi-star" style="font-size:200%;"></i></h1>
 			<h4 align="center">Tu hotel favorito</h4>
+			<p align="justify">Podriamos decirte como es nuestro hotel, pero preferimos dejar que nuestros clientes den su opinion!</p>
 		</div>
 		<div class="small-12 medium-4 large-4 columns">
 			<h1 align="center" style="color:black;"><i class="fi-map" style="font-size:200%"></i></h1>
 			<h4 align="center">Ubicacion privilegiada</h4>
+			<p align="justify">Estamos convenientemente cerca de la Redoma de Guaparo.</p>
 		</div>
 		<div class="small-12 medium-4 large-4 columns">
 			<h1 align="center" style="color:black;"><i class="fi-shopping-cart" style="font-size:200%"></i></h1>
-			<h4 align="center">Reserva inmediata</h4>
+			<h4 align="center">Reserva a tu medida</h4>
+			<p align="justify">Reservar en un hotel nunca fue tan sencillo. Disfruta de una habitacion a tu medida.</p>
 		</div>
 	</div>
 	<div class="row">
 		<div class="small-12 medium-4 large-4 columns">
-			<p>Aqui va una labia.</p>
+			<blockquote class="twitter-tweet" lang="es"><p><a href="https://twitter.com/hotelSymfonia">@hotelSymfonia</a> El primer hotel de Valencia con sistema de reservas de ultima generacion. <a href="https://twitter.com/search?q=%23QueMasQuieres&amp;src=hash">#QueMasQuieres</a></p>&mdash; Gabriel Núñez (@gabnZn) <a href="https://twitter.com/gabnZn/statuses/469232083538554880">Mayo 21, 2014</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 		</div>
 		<div class="small-12 medium-4 large-4 columns">
-			<p>Aqui va una labia.</p>
+			<iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d1963.1960198258555!2d-68.01303243681417!3d10.229931125706063!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2s!4v1400709490073" height="200px" frameborder="0" style="border:0"></iframe>
 		</div>
 		<div class="small-12 medium-4 large-4 columns">
-			<p>Aqui va una labia.</p>
+			<ul class="example-orbit" data-orbit data-options="animation:'fade'; pause_on_hover: false; navigation_arrows: false; slide_number: false; bullets: false;">
+				<li>
+					<img src="{{ asset('bundles/img/standard.jpg') }}" alt="slide 1" />
+					<div class="orbit-caption"> Habitacion Estandar. </div>
+				</li>
+				<li class="active">
+					<img src="{{ asset('bundles/img/bussiness.jpg') }}" alt="slide 2" /> <div class="orbit-caption"> Habitacion Bussiness. </div> </li>
+				<li>
+					<img src="{{ asset('bundles/img/high.jpg') }}" alt="slide 3" /> <div class="orbit-caption"> Habitacion Alta. </div>
+				</li>
+			</ul>
 		</div>
 	</div>
 	{#footer#}

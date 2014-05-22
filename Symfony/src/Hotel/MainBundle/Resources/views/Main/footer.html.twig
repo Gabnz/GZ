@@ -10,17 +10,22 @@
 		</h3>
 		<br><br>
 		<div class="small-12 medium-6 medium-centered columns">
-		<a href="#">Inicio</a><br><br>
-		<a href="#">Registro</a><br><br>
-		<a href="#">Login</a><br><br>
-		<a href="#">Reservaciones</a><br><br>
-		<a href="#">Equipo</a><br><br>
+		<a href="{{ path('main_welcome') }}">Inicio</a><br><br>
+		<a href="{{ path('user_new') }}">Registro</a><br><br>
+		<a href="{{ path('user_login') }}">Login</a><br><br>
+		<a href="{{ path('reserve_user') }}">Reservaciones</a><br><br>
+		<a href="{{ path('main_team') }}">Equipo</a><br><br>
 		</div>
 	</div>
 	<div class="small-12 medium-4 columns">
-		<h3 align="center">
-			Algo mas
-		</h3>
+		<h3 align="center">Socializa con nosotros</h3>
+		<br/>
+		<div align="center">
+			<br/><br/>
+			<a href="https://twitter.com/hotelSymfonia" class="twitter-follow-button" data-show-count="false" data-lang="es" data-size="large">Seguir a @hotelSymfonia</a>
+			<br/><br/>
+			<a href="https://twitter.com/intent/tweet?button_hashtag=HotelSymfonia&text=El%20mejor%20hotel%20de%20valencia." class="twitter-hashtag-button" data-lang="es" data-size="large" data-related="hotelSymfonia">Tweet #HotelSymfonia</a>
+		</div>
 	</div>
 </div>
 {#footer#}
@@ -30,13 +35,6 @@
 			<div class="small-6 medium-6 columns">
 				<h3 style="text-align: left; color:#D6D6D6;">Hotel Symfonia</h3>
 				<p style="color:#999999; font-size:14px; margin:0%;">Creado por Gabriel Nunez y Roynny Zambrano.</p>
-			</div>
-			<div class="small-6 medium-6 columns">
-				<p align="right" style="color:#999999; margin:0%;">
-					<a href="#" class="fi-social-twitter" style="font-size:50px; color:#999999;"></a>
-					<a href="#" class="fi-social-facebook" style="font-size:50px; padding:15px; color:#999999;"><a>
-					<a href="#" class="fi-social-google-plus" style="font-size:50px; color:#999999;"></a>
-				</p>
 			</div>
 		</div>
 	</div>
