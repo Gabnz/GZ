@@ -1,15 +1,9 @@
-{% extends '::base.html.twig' %}
+{% block body %}
 
-{% block body -%}
-    <h1>Contact creation</h1>
+{{ form_start(form, {'attr': {novalidate: 'novalidate', id: 'contact-form'}}) }}
+	{% form_theme form 'HotelUserBundle:Form:fields.html.twig' %}
+	
+	{{ form_rest(form) }}
+{{ form_end(form) }}
 
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('contact') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
 {% endblock %}

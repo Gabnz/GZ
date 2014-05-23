@@ -15,15 +15,6 @@ contact_create:
     defaults: { _controller: "HotelMainBundle:Contact:create" }
     requirements: { _method: post }
 
-contact_edit:
-    pattern:  /{id}/edit
-    defaults: { _controller: "HotelMainBundle:Contact:edit" }
-
-contact_update:
-    pattern:  /{id}/update
-    defaults: { _controller: "HotelMainBundle:Contact:update" }
-    requirements: { _method: post|put }
-
 contact_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "HotelMainBundle:Contact:delete" }

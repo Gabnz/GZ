@@ -1,43 +1,36 @@
-{% extends '::base.html.twig' %}
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body -%}
-    <h1>Contact list</h1>
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Message</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('contact_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.email }}</td>
-                <td>{{ entity.message }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('contact_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('contact_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="cover-div" style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
 
-        <ul>
-        <li>
-            <a href="{{ path('contact_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+<div class="title-div">
+    <h1>Lista de Contactos</h1>
+</div>
+
+<div class="row">
+    <div class="small-12 medium-6 columns columns-centered">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Correo electronico</th>
+                    <th>Mensaje</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td><a href="{{ path('contact_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                    <td>{{ entity.email }}</td>
+                    <td>{{ entity.message }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -22,6 +22,9 @@ Hotel Symfonia
 
 <script>
 	$(function() {
+	
+	if (!Modernizr.inputtypes['date']) {
+	
 		$( ".datepicker" ).datepicker({
 			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
 			dayNames: [ "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ],
@@ -39,6 +42,7 @@ Hotel Symfonia
 			changeYear: true,
 			defaultDate: "-18y",
 		});
+	}
 	});
 </script>
 

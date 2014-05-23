@@ -2,6 +2,14 @@
 <div class="row">
 	<div class="small-12 medium-4 columns">
 		<h3 align="center">Contactanos</h3>
+
+		<div id="contact-div">
+			{{ render(controller('HotelMainBundle:Contact:new')) }}
+
+			<div align="center">
+				<a class="button" id="contact-send-button">Enviar</a>
+			</div>
+		</div>
 		
 	</div>
 	<div class="small-12 medium-4 columns">

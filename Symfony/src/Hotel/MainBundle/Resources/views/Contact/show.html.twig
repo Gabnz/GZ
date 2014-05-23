@@ -1,9 +1,17 @@
-{% extends '::base.html.twig' %}
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body -%}
-    <h1>Contact</h1>
 
-    <table class="record_properties">
+<div class="cover-div" style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
+
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+<div class="title-div">
+    <h1>Contacto {{entity.id}}</h1>
+</div>
+
+    <table>
         <tbody>
             <tr>
                 <th>Id</th>
@@ -20,15 +28,18 @@
         </tbody>
     </table>
 
+<div class="row">
+    <div class="small-6 medium-4 columns">
+        <a href="{{ path('contact') }}" class="success button">
+            Regresar
+        </a>
+    </div>
+</div>
+
         <ul class="record_actions">
     <li>
         <a href="{{ path('contact') }}">
             Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('contact_edit', { 'id': entity.id }) }}">
-            Edit
         </a>
     </li>
     <li>{{ form(delete_form) }}</li>

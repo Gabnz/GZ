@@ -3,6 +3,7 @@
 namespace Hotel\MainBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Hotel\MainBundle\Entity\Contact;
@@ -14,20 +15,29 @@ use Hotel\MainBundle\Form\ContactType;
  */
 class ContactController extends Controller
 {
-
     /**
      * Lists all Contact entities.
      *
      */
-    public function indexAction()
-    {
+    public function indexAction(){
+
+        $session = $this->getRequest()->getSession();
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('HotelMainBundle:Contact')->findAll();
+        /*si es admin, puede ver la lista de contactos*/
+        if($session->has('user') && $session->get('user')->getRole() == 'admin'){
 
-        return $this->render('HotelMainBundle:Contact:index.html.twig', array(
-            'entities' => $entities,
-        ));
+            $user = $session->get('user');
+
+            $entities = $em->getRepository('HotelMainBundle:Contact')->findAll();
+
+            return $this->render('HotelMainBundle:Contact:index.html.twig', array(
+                'entities' => $entities,
+                'user' => $user,
+            ));
+        }
+        /*si no es admin, no puede ver la lista de contactos*/
+        throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
     }
     /**
      * Creates a new Contact entity.
@@ -44,7 +54,7 @@ class ContactController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('contact_show', array('id' => $entity->getId())));
+            return new Response('true');
         }
 
         return $this->render('HotelMainBundle:Contact:new.html.twig', array(
@@ -67,7 +77,7 @@ class ContactController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Enviar'));
+        //$form->add('submit', 'submit', array('label' => 'Enviar'));
 
         return $form;
     }
@@ -108,78 +118,6 @@ class ContactController extends Controller
             'delete_form' => $deleteForm->createView(),        ));
     }
 
-    /**
-     * Displays a form to edit an existing Contact entity.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('HotelMainBundle:Contact')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Contact entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('HotelMainBundle:Contact:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-    * Creates a form to edit a Contact entity.
-    *
-    * @param Contact $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Contact $entity)
-    {
-        $form = $this->createForm(new ContactType(), $entity, array(
-            'action' => $this->generateUrl('contact_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-    /**
-     * Edits an existing Contact entity.
-     *
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('HotelMainBundle:Contact')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Contact entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('contact_edit', array('id' => $id)));
-        }
-
-        return $this->render('HotelMainBundle:Contact:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
     /**
      * Deletes a Contact entity.
      *
