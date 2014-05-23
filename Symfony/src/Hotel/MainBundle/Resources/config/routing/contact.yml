@@ -10,11 +10,6 @@ contact_new:
     pattern:  /new
     defaults: { _controller: "HotelMainBundle:Contact:new" }
 
-contact_create:
-    pattern:  /create
-    defaults: { _controller: "HotelMainBundle:Contact:create" }
-    requirements: { _method: post }
-
 contact_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "HotelMainBundle:Contact:delete" }

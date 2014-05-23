@@ -43,10 +43,10 @@ class ContactController extends Controller
      * Creates a new Contact entity.
      *
      */
-    public function createAction(Request $request)
-    {
+    public function newAction(Request $request){
+
         $entity = new Contact();
-        $form = $this->createCreateForm($entity);
+        $form = $this->createNewForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -70,52 +70,44 @@ class ContactController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Contact $entity){
+    private function createNewForm(Contact $entity){
         
         $form = $this->createForm(new ContactType(), $entity, array(
-            'action' => $this->generateUrl('contact_create'),
+            'action' => $this->generateUrl('contact_new'),
             'method' => 'POST',
         ));
 
-        //$form->add('submit', 'submit', array('label' => 'Enviar'));
-
         return $form;
-    }
-
-    /**
-     * Displays a form to create a new Contact entity.
-     *
-     */
-    public function newAction()
-    {
-        $entity = new Contact();
-        $form   = $this->createCreateForm($entity);
-
-        return $this->render('HotelMainBundle:Contact:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
     }
 
     /**
      * Finds and displays a Contact entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id){
+
+        $session = $this->getRequest()->getSession();
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('HotelMainBundle:Contact')->find($id);
+        /*si es admin, puede ver la lista de contactos*/
+        if($session->has('user') && $session->get('user')->getRole() == 'admin'){
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Contact entity.');
+            $user = $session->get('user');
+
+            $entity = $em->getRepository('HotelMainBundle:Contact')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('No se puede encontrar la entidad.');
+            }
+
+            $deleteForm = $this->createDeleteForm($id);
+
+            return $this->render('HotelMainBundle:Contact:show.html.twig', array(
+                'entity'      => $entity,
+                'delete_form' => $deleteForm->createView(),
+                'user' => $user,
+            ));
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('HotelMainBundle:Contact:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
@@ -132,7 +124,7 @@ class ContactController extends Controller
             $entity = $em->getRepository('HotelMainBundle:Contact')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Contact entity.');
+                throw $this->createNotFoundException('Entidad no encontrada.');
             }
 
             $em->remove($entity);
@@ -154,7 +146,7 @@ class ContactController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('contact_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Eliminar', 'attr' => array('class' => 'button alert')))
             ->getForm()
         ;
     }
