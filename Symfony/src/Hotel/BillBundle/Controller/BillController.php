@@ -46,17 +46,11 @@ class BillController extends Controller
                 $result = $em->getRepository('HotelBillBundle:Bill')->bills($id);
             }
 
-                if ($result == NULL) {
-                 /*si no existen facturas para mostrar */
-                 throw $this->createNotFoundException('no existen facturas disponible asociados a tu cuenta.  =/');            
-                    
-                }else{
-
-                    return $this->render('HotelBillBundle:Bill:index.html.twig', array(
-                        'entity_bill' => $result,
-                        'user' => $user
-                    ));
-                }
+                return $this->render('HotelBillBundle:Bill:index.html.twig', array(
+                    'entity_bill' => $result,
+                    'user' => $user
+                ));
+                
         }
         /*si no es un usuario, no puede ver la lista de reservas*/
         return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
