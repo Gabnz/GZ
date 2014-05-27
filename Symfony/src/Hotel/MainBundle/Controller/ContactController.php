@@ -37,7 +37,7 @@ class ContactController extends Controller
             ));
         }
         /*si no es admin, no puede ver la lista de contactos*/
-        throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
+        return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
     }
     /**
      * Creates a new Contact entity.

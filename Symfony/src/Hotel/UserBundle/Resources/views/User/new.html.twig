@@ -12,49 +12,18 @@
 	<h1>Registro de Usuario</h1>
 </div>
 
-{{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
-	{% form_theme form 'HotelRoomBundle:Form:fields.html.twig' %}
-	<div class="row">
-		<div class="small-12 medium-4 medium-push-2 columns">
-			{{ form_row(form.email) }}
-			{{ form_row(form.pass.first) }}
-			{{ form_row(form.pass.second) }}
-			{{ form_row(form.firstname) }}
-			{{ form_row(form.lastname) }}
-			{{ form_row(form.lastname) }}
-			{{ form_row(form.birthdate) }}
-		</div>
-		<div class="small-12 medium-4 medium-pull-2 columns">
-			{{ form_row(form.idcard) }}
-			{{ form_row(form.rif) }}
-			<div class="row">
-				<div class="small-6 columns">
-					{{ form_row(form.gender) }}
-				</div>
-				<div class="small-6 columns">
-					{{ form_row(form.nationality) }}
-				</div>
-			</div>
-			{{ form_row(form.creditcard) }}
-			<div class="row">
-				<div class="small-6 columns">
-					{{ form_row(form.account) }}
-				</div>
-				{% if form.role is defined %}
-					<div class="small-6 columns">
-						{{ form_row(form.role) }}
-					</div>
-				{% endif %}
-			</div>
-		</div>
+
+	<div id="user-new-div">
+			{{ render(controller('HotelUserBundle:User:newform')) }}
 	</div>
 
-	<div align="center">
-		{{ form_row(form.submit) }}
-	</div>
 
-	{{ form_rest(form) }}
-	{{ form_end(form) }}
+	<div id="noti2" class="reveal-modal small" medium data-reveal>
+	  <h4>Notificaion</h4>
+	  <h3> Usuario creado con exito.</h3>
+	 <span style="float:right;">    <a href"{{ path('main_welcome') }}" class="button submitbtn"> relajar la pelvis</a>  </span>
+	  <a class="close-reveal-modal">&#215;</a>
+	</div>
 
 
 {% if prefix == 'user' %}

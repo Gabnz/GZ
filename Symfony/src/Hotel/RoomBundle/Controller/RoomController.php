@@ -42,7 +42,7 @@ class RoomController extends Controller
                 'entities' => $rooms, 'user' => $user));
         }
         /*si no es admin, no puede ver la lista de habitaciones*/
-        throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
+        return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
     }
 
     /**
@@ -70,6 +70,6 @@ class RoomController extends Controller
             ));
         }
         /*si no es un admin, no muestra los datos de la habitacion*/
-        throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
+        return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
     }
 }

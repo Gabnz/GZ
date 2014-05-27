@@ -20,7 +20,7 @@ use Hotel\RoomBundle\Validator\Constraints as RoomAssert;
 class Reserve
 {
     /**
-    * @ORM\ManyToOne(targetEntity="\Hotel\UserBundle\Entity\User", inversedBy="reserves")
+    * @ORM\ManyToOne(targetEntity="\Hotel\UserBundle\Entity\User", cascade={"ALL"}, inversedBy="reserves")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=FALSE)
     */
     private $user;

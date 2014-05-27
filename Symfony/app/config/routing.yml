@@ -17,3 +17,6 @@ hotel_reserve:
 hotel_user:
     resource: "@HotelUserBundle/Resources/config/routing.yml"
     prefix:   /user
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"    

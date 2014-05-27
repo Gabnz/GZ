@@ -14,14 +14,22 @@
     {% block sticker %}{% endblock %}
   </head>
   <body>
+    
     {% block body %}{% endblock %}
     {% block footer %}{% endblock %}
+    
+
     <script src="{{ asset('bundles/foundation-5.0.2/js/vendor/custom.modernizr.js') }}"></script>
     <script src="{{ asset('bundles/foundation-5.0.2/js/vendor/jquery.js') }}"></script>
     <script src="{{ asset('bundles/foundation-5.0.2/js/foundation.min.js') }}"></script>
+    <script src="{{ asset('bundles/foundation-5.0.2/js/foundation/foundation.reveal.js') }}"></script>
     <script src="{{ asset('bundles/foundation-5.0.2/js/foundation/foundation.topbar.js') }}"></script>
     <script src="{{ asset('bundles/foundation-5.0.2/js/foundation/foundation.abide.js') }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     <script src="{{ asset('bundles/stellar.js/jquery.stellar.min.js') }}"></script>
+
+
     <script src="{{ asset('bundles/app.js') }}"></script>
     {% block javascripts %}{% endblock %}
     <script>

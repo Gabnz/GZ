@@ -3,6 +3,8 @@
 namespace Hotel\UserBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Hotel\UserBundle\Entity\User;
 use Hotel\UserBundle\Form\UserType;
@@ -30,7 +32,7 @@ class UserController extends Controller
             $user = $session->get('user');
             /*si no es admin, no puede ver la lista de usuarios registrados*/
             if($user->getRole() != 'admin')
-                throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
+                 return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
             /*en caso de ser admin, prosigue*/
             $em = $this->getDoctrine()->getManager();
             $entities = $em->getRepository('HotelUserBundle:User')->findAll();
@@ -39,13 +41,36 @@ class UserController extends Controller
                 'entities' => $entities, 'user' => $user));
         }
         /*si es invitado, no puede ver la lista de usuarios registrados*/
-        throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
+        return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
     }
+
+
+    /**
+     * Recibe la peticion de creacion de usuario y genera la vista completa
+     * 
+     */    
+   public function newindexAction(){
+
+            $session = $this->getRequest()->getSession();
+            
+            if(!$session->has('user')){
+
+                $options['prefix'] = 'guest';
+            }else{
+
+                $options['prefix'] = 'user';
+                $options['user'] = $session->get('user');
+            }
+
+        return $this->render('HotelUserBundle:User:new.html.twig', $options);
+    }
+
+
     /**
      * Creates a new User entity.
      * Only available for admins and guests.
      */
-    public function newAction(Request $request){
+    public function newformAction(Request $request){
 
         $session = $this->getRequest()->getSession();
         /*si es un invitado o un admin, prosigue con el registro*/
@@ -60,32 +85,26 @@ class UserController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
+
                 /*en este punto, si no tiene un usuario entonces es un invitado*/
+                
                 if(!$session->has('user')){
-                    /*guarda la sesion y redirecciona a pagina de bienvenida*/
+                    // guarda la sesion y redirecciona a pagina de bienvenida
                     $session->set('user', $entity);
-                    return $this->redirect($this->generateUrl('main_welcome'));
+                      return new Response('true');
                 }else{
-                    /*en caso de que sea un admin, muestra los datos del usuario registrado*/
-                    return $this->redirect($this->generateUrl('user_edit', array('id' => $entity->getId())));
+                    // en caso de que sea un admin, muestra los datos del usuario registrado
+                      return new Response('trueadmin');
                 }
+                
             }
 
-            if(!$session->has('user')){
+             return $this->render('HotelUserBundle:User:new-form.html.twig',
+                array('form' => $form->createView()));           
 
-                $options['prefix'] = 'guest';
-            }else{
-
-                $options['prefix'] = 'user';
-                $options['user'] = $session->get('user');
-            }
-
-            $options['form'] = $form->createView();
-
-            return $this->render('HotelUserBundle:User:new.html.twig', $options);
         }
         /*en caso de que sea un usuario estandar el que quiera registrar, deniega la accion*/
-        throw $this->createNotFoundException('No eres administrador ni invitado, pagina no disponible.');
+        return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
     }
 
     /**
@@ -100,7 +119,7 @@ class UserController extends Controller
         $session = $this->getRequest()->getSession();
 
         $form = $this->createForm(new UserType('new'), $entity, array(
-            'action' => $this->generateUrl('user_new'),
+            'action' => $this->generateUrl('user_newform'),
             'method' => 'POST',
         ));
 
@@ -187,10 +206,10 @@ class UserController extends Controller
                 ));
             }
             /*en caso de que no sea un admin y quiera editar una entidad distinta a la suya, deniega la accion*/
-            throw $this->createNotFoundException('Acceso a otro usuario denegado, pagina no disponible.');
+            return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
         }
         /*en caso de que sea un invitado, deniega la accion*/
-        throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
+        return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
     }
     /**
      * Edits an existing User entity.
@@ -238,18 +257,26 @@ class UserController extends Controller
                 ));
             }
             /*en caso de que no sea un admin y quiera editar una entidad distinta a la suya, deniega la accion*/
-            throw $this->createNotFoundException('Acceso a otro usuario denegado, pagina no disponible.');
+            return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
         }
         /*en caso de que sea un invitado, deniega la accion*/
-        throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
+        return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
     }
 
+
     /**
-     * Let a user login.
-     * Only available for guests.
-     * Simplify the code, pending.
+     * Recibe la peticion del inicio de sesion y genera la vista completa
+     * 
+     */    
+   public function loginindexAction(){
+        return $this->render('HotelUserBundle:User:login.html.twig');
+    }
+
+
+    /**
+     * crea el formulario de inicio de sesion
      */
-    public function loginAction(Request $request){
+    public function loginformAction(Request $request){
 
         $session = $this->getRequest()->getSession();
 
@@ -257,7 +284,7 @@ class UserController extends Controller
 
             $login = new Login();
             $form = $this->createForm(new LoginType(), $login, array(
-                'action' => $this->generateUrl('user_login'),
+                'action' => $this->generateUrl('user_loginform'),
                 'method' => 'POST',
             ));
             $form->add('submit', 'submit', array('label' => 'Entrar'));
@@ -279,16 +306,16 @@ class UserController extends Controller
                     //inicia sesion con los datos del usuario que hizo login
                     $session = $this->getRequest()->getSession();
                     $session->set('user', $user);
-                    /*redirecciona a la pagina de bienvenida*/
-                    return $this->redirect($this->generateUrl('main_welcome'));
+
+                    return new Response('true');
                 }
             }
 
-            return $this->render('HotelUserBundle:User:login.html.twig',
+            return $this->render('HotelUserBundle:User:login-form.html.twig',
                 array('form' => $form->createView()));
         }
         /*si el usuario ya ingreso, deniega la accion*/
-        throw $this->createNotFoundException('Ya ingresaste, pagina no disponible.');
+        return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
     }
 
     /**

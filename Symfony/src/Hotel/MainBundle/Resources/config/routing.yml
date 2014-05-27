@@ -1,6 +1,8 @@
 main_welcome:
     pattern:  /
     defaults: { _controller: "HotelMainBundle:Default:index" }
+    options:
+        expose: true    
 
 HotelMainBundle_contact:
     resource: "@HotelMainBundle/Resources/config/routing/contact.yml"

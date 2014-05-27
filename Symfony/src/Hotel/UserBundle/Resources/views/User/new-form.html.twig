@@ -1,0 +1,48 @@
+
+{{ form_start(form, {'attr': {novalidate: 'novalidate', id: 'newuser-form'}}) }}
+	{% form_theme form 'HotelRoomBundle:Form:fields.html.twig' %}
+	<div class="row">
+		<div class="small-12 medium-4 medium-push-2 columns">
+			{{ form_row(form.email) }}
+			{{ form_row(form.pass.first) }}
+			{{ form_row(form.pass.second) }}
+			{{ form_row(form.firstname) }}
+			{{ form_row(form.lastname) }}
+			{{ form_row(form.lastname) }}
+			{{ form_row(form.birthdate) }}
+		</div>
+		<div class="small-12 medium-4 medium-pull-2 columns">
+			{{ form_row(form.idcard) }}
+			{{ form_row(form.rif) }}
+			<div class="row">
+				<div class="small-6 columns">
+					{{ form_row(form.gender) }}
+				</div>
+				<div class="small-6 columns">
+					{{ form_row(form.nationality) }}
+				</div>
+			</div>
+			{{ form_row(form.creditcard) }}
+			<div class="row">
+				<div class="small-6 columns">
+					{{ form_row(form.account) }}
+				</div>
+				{% if form.role is defined %}
+					<div class="small-6 columns">
+						{{ form_row(form.role) }}
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<div id="new-user-button"  align="center">
+		{{ form_row(form.submit) }}
+	</div>
+
+
+
+	{{ form_rest(form) }}
+	{{ form_end(form) }}
+
+	

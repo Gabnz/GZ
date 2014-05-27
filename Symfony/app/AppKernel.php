@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Hotel\BillBundle\HotelBillBundle(),
             new Hotel\MainBundle\HotelMainBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

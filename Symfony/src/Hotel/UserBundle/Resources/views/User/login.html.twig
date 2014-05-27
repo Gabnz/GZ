@@ -1,34 +1,31 @@
 {% extends 'HotelMainBundle:Main:layout.html.twig' %}
 
 {% block body %}
-	{#cover de login#}
-	<div class="cover-div"
-	style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+
+		{#cover de login#}
+		<div class="cover-div"
+		style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+		</div>
+
+		{{ include('HotelUserBundle:User:guest-topbar.html.twig') }}
+		{#titulo de login#}
+		<div class="title-div">
+			<h1>Login</h1>
+		</div>
+
+	<div id="user-login-div">
+			{{ render(controller('HotelUserBundle:User:loginform')) }}
 	</div>
 
-	{{ include('HotelUserBundle:User:guest-topbar.html.twig') }}
-	{#titulo de login#}
-	<div class="title-div">
-		<h1>Login</h1>
+
+	<div id="noti1" class="reveal-modal small" medium data-reveal>
+	  <h4>Notificaion</h4>
+	  <h3> Sesion iniciada con exito.</h3>
+	 <span style="float:right;">    <a href"{{ path('main_welcome') }}" class="button submitbtn"> relajar la pelvis</a>  </span>
+	  <a class="close-reveal-modal">&#215;</a>
 	</div>
 
-{{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
-	{% form_theme form 'HotelUserBundle:Form:fields.html.twig' %}
-	<div class="small-12 medium-5 large-5 small-centered medium-centered large-centered columns">
-		<div class="row">
-			<div class="small-12 columns">
-				{{ form_row(form.email) }}
-			</div>
-			<div class="small-12 columns">
-				{{ form_row(form.pass) }}
-			</div>
-		</div>
-		
-		<div align="center">
-			{{ form_row(form.submit) }}
-		</div>
-	</div>
-	{{ form_rest(form) }}
-{{ form_end(form) }}
 
 {% endblock %}
+
+

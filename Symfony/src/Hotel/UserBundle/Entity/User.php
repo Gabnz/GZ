@@ -20,7 +20,7 @@ use Hotel\UserBundle\Validator\Constraints as UserAssert;
 class User
 {
     /**
-    * @ORM\OneToMany(targetEntity="\Hotel\RoomBundle\Entity\Reserve", mappedBy="user")
+    * kkOneToMany(targetEntity="\Hotel\RoomBundle\Entity\Reserve", mappedBy="user")
     */
     private $reserves;
 

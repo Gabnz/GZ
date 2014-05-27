@@ -51,7 +51,7 @@ class ReserveController extends Controller
                     $options['entities'] = $reservations;
                 }else{
                     /*si no es admin, no puede ver la lista de reservas*/
-                    throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
+                   return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
                 }
 
                 return $this->render('HotelRoomBundle:Reserve:index.html.twig', $options);
@@ -66,7 +66,7 @@ class ReserveController extends Controller
             }
         }
         /*si no es admin, no puede ver la lista de reservas*/
-        throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
+        return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
     }
 
     public function reserveAction(){
@@ -255,7 +255,7 @@ class ReserveController extends Controller
             return $this->render('HotelRoomBundle:Reserve:new.html.twig', $options);
         }
         /*si no es admin, no puede crear reservas de esta forma*/
-        throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
+        return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
     }
 
     /**
@@ -356,9 +356,9 @@ class ReserveController extends Controller
                     'route' => $_route,
                 ));
             }
-            throw $this->createNotFoundException('No eres administrador, pagina no disponible.');
+            return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
         }
         /*si no es admin, no puede ver la reserva de esta forma*/
-        throw $this->createNotFoundException('No estas registrado, pagina no disponible.');
+        return $this->render('HotelMainBundle:Main:accessdenied.html.twig');
     }
 }

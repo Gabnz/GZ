@@ -1,10 +1,20 @@
 user:
     pattern:  /
     defaults: { _controller: "HotelUserBundle:User:index" }
+    options:
+        expose: true    
 
 user_new:
     pattern:  /new
-    defaults: { _controller: "HotelUserBundle:User:new" }
+    defaults: { _controller: "HotelUserBundle:User:newindex" }
+    options:
+        expose: true
+
+user_newform:
+    pattern:  /newform
+    defaults: { _controller: "HotelUserBundle:User:newform" }
+    options:
+        expose: true          
 
 user_edit:
     pattern:  /{id}/edit
@@ -16,7 +26,15 @@ user_edit_pass:
 
 user_login:
     pattern:  /login
-    defaults: { _controller: "HotelUserBundle:User:login" }
+    defaults: { _controller: "HotelUserBundle:User:loginindex" }
+    options:
+        expose: true
+
+user_loginform:
+    pattern:  /loginform
+    defaults: { _controller: "HotelUserBundle:User:loginform" }
+    options:
+        expose: true        
 
 user_logout:
     pattern:  /logout
