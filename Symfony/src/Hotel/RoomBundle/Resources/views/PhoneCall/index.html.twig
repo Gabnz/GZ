@@ -1,0 +1,49 @@
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
+
+{% block body -%}
+<div class="cover-div"
+    style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
+
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+<div class="title-div">
+    <h1>Lista de Llamadas telefonicas</h1>
+</div>
+
+<div align="center">
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fecha de llamada</th>
+                <th>Telefono</th>
+                <th>Tipo de llamada</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('phonecall_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>
+                {% if entity.calldate %}{{ entity.calldate|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ entity.phonenumber }}</td>
+                <td>
+                    {% if entity.calltype == "national" %}
+                        Nacional
+                    {% else %}
+                        Internacional
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div align="center">
+        <a class="button" href="{{ path('phonecall_new') }}">
+            Crear nueva llamada
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
+
+{% block body -%}
+<div class="cover-div"
+    style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
+
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+<div class="title-div">
+    <h1>Crear llamada </h1>
+</div>
+
+{{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+	{% form_theme form 'HotelRoomBundle:Form:fields.html.twig' %}
+
+	<div class="row">
+		<div class="small-12 medium-6 medium-centered columns">
+			<div class="row">
+				<div class="small-12 medium-6 columns">
+					{{ form_row(form.reserve) }}
+					{{ form_row(form.calldate) }}
+					{{ form_label(form.starttime) }}
+					<div class="row">
+						<div class="small-12 medium-6 columns">
+							{{ form_widget(form.starttime.hour) }}
+						</div>
+						<div class="small-12 medium-6 columns">
+							{{ form_widget(form.starttime.minute) }}
+						</div>
+					</div>
+					{{ form_errors(form.starttime) }}
+				</div>
+				<div class="small-12 medium-6 columns">
+					{{ form_row(form.phonenumber) }}
+					{{ form_row(form.calltype) }}
+					{{ form_label(form.endtime) }}
+					<div class="row">
+						<div class="small-12 medium-6 columns">
+							{{ form_widget(form.endtime.hour) }}
+						</div>
+						<div class="small-12 medium-6 columns">
+							{{ form_widget(form.endtime.minute) }}
+						</div>
+					</div>
+					{{ form_errors(form.endtime) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div align="center">
+		{{ form_rest(form) }}
+	</div>
+{{ form_end(form) }}
+
+<div class="row">
+    <div class="small-6 medium-4 columns">
+        <a href="{{ path('phonecall') }}" class="success button">
+            Regresar
+        </a>
+    </div>
+</div>
+
+{% endblock %}

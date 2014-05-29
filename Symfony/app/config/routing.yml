@@ -18,5 +18,9 @@ hotel_user:
     resource: "@HotelUserBundle/Resources/config/routing.yml"
     prefix:   /user
 
+Hotel_phonecall:
+    resource: "@HotelRoomBundle/Resources/config/routing/phonecall.yml"
+    prefix:   /phonecall
+
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"    

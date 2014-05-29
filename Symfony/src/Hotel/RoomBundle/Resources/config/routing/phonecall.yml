@@ -1,0 +1,12 @@
+phonecall:
+    pattern:  /
+    defaults: { _controller: "HotelRoomBundle:PhoneCall:index" }
+
+phonecall_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "HotelRoomBundle:PhoneCall:show" }
+
+phonecall_new:
+    pattern:  /new
+    defaults: { _controller: "HotelRoomBundle:PhoneCall:new" }
+

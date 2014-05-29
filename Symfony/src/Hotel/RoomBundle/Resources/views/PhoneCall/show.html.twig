@@ -1,0 +1,100 @@
+{% extends 'HotelMainBundle:Main:layout.html.twig' %}
+
+{% block body -%}
+<div class="cover-div"
+    style="background-image:url({{ asset('bundles/img/login.jpg') }});">
+</div>
+
+{{ include('HotelUserBundle:User:user-topbar.html.twig') }}
+
+<div class="title-div">
+    <h1>Llamada {{ entity.id }} </h1>
+</div>
+
+<div class="row">
+    <div class="small-12 medium-6 medium-centered columns">
+        <div class="panel">
+            <div class="row">
+                    <div class="small-12 medium-6 columns">
+                        <div align="center">
+                            <label>Id de la reservacion</label>
+
+                            <a href="{{ path('reserve_edit_admin', { 'id': entity.reserve.id }) }}">{{ entity.reserve.id }}</a>
+                        </div>
+                    </div>
+                    <div class="small-12 medium-6 columns">
+                        <div align="center">
+                            <label>Usuario</label>
+                            
+                            {{ entity.reserve.user.email }}
+                        </div>
+                    </div>
+            </div>
+            <br/><br/>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Id de llamada</label>
+
+                        {{ entity.id }}
+                    </div>
+                </div>
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Fecha de llamada</label>
+                        
+                        {{ entity.calldate|date('Y-m-d') }}
+                    </div>
+                </div>
+            </div>
+            <br/><br/>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Tiempo de inicio</label>
+
+                        {{ entity.starttime|date('H:i:s') }}
+                    </div>
+                </div>
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Tiempo de terminacion</label>
+                        
+                        {{ entity.endtime|date('H:i:s') }}
+                    </div>
+                </div>
+            </div>
+            <br/><br/>
+            <div class="row">
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Numero de telefono</label>
+
+                        {{ entity.phonenumber }}
+                    </div>
+                </div>
+                <div class="small-12 medium-6 columns">
+                    <div align="center">
+                        <label>Tipo de llamada</label>
+                        
+                        {% if entity.calltype == "national" %}
+                            Nacional
+                        {% else %}
+                            Internacional
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <br/><br/>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-6 medium-4 columns">
+        <a href="{{ path('phonecall') }}" class="success button">
+            Regresar
+        </a>
+    </div>
+</div>
+{% endblock %}

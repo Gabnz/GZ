@@ -3,12 +3,15 @@
 namespace Hotel\RoomBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Hotel\RoomBundle\Validator\Constraints as PhoneAssert;
 
 /**
  * PhoneCall
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @PhoneAssert\ValidTime
  */
 class PhoneCall
 {
@@ -32,6 +35,8 @@ class PhoneCall
      * @var \DateTime
      *
      * @ORM\Column(name="calldate", type="date")
+     * @Assert\NotBlank(message="Porfavor introduzca una fecha de llamada.")
+     * @Assert\Date(message="Porfavor introduzca una fecha valida.")
      */
     private $calldate;
 
@@ -39,6 +44,8 @@ class PhoneCall
      * @var \DateTime
      *
      * @ORM\Column(name="starttime", type="time")
+     * @Assert\NotBlank(message="Porfavor introduzca una hora de inicio.")
+     * @Assert\Time(message="Porfavor introduzca una hora valida.")
      */
     private $starttime;
 
@@ -46,6 +53,8 @@ class PhoneCall
      * @var \DateTime
      *
      * @ORM\Column(name="endtime", type="time")
+     * @Assert\NotBlank(message="Porfavor introduzca una hora de terminacion.")
+     * @Assert\Time(message="Porfavor introduzca una hora valida.")
      */
     private $endtime;
 
@@ -53,6 +62,15 @@ class PhoneCall
      * @var string
      *
      * @ORM\Column(name="phonenumber", type="string", length=30)
+     * @Assert\NotBlank(message="Porfavor introduzca un numero de telefono.")
+     * @Assert\Regex(
+     *      pattern="/^[0-9]*$/",
+     *      match=true,
+     *      message="Porfavor introduzca un numero de telefono valido.")
+     * @Assert\Length(
+     *      min="11",
+     *      max="30",
+     *      exactMessage="Porfavor introduzca un numero con 16 digitos.")
      */
     private $phonenumber;
 
@@ -60,6 +78,8 @@ class PhoneCall
      * @var string
      *
      * @ORM\Column(name="calltype", type="string", length=15)
+     * @Assert\NotBlank(message="Porfavor introduzca un tipo de llamada.")
+     * @Assert\Choice(choices = {"national", "international"}, message = "Porfavor elija un tipo de llamada valido.")
      */
     private $calltype;
 
