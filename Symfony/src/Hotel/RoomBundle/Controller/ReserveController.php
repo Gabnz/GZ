@@ -22,7 +22,7 @@ class ReserveController extends Controller
      * Lists all Reserve entities (admin only).
      *
      */
-     public function indexAction($_route){
+    public function indexAction($_route){
         
         $session = $this->getRequest()->getSession();
 
@@ -140,8 +140,8 @@ class ReserveController extends Controller
                         $entity->setSpecial(true);
                     }
 
-                    $em->persist($entity);
-                    $em->flush();
+                    $consumables = $em->getRepository('HotelRoomBundle:Reserve')
+                    ->makeReserve($entity);
 
                     return $this->redirect($this->generateUrl('reserve_edit', array('id' => $entity->getId())));
                 }else{
@@ -239,8 +239,9 @@ class ReserveController extends Controller
                             $entity->setSpecial(true);
                         }
 
-                        $em->persist($entity);
-                        $em->flush();
+                        $consumables = $em->getRepository('HotelRoomBundle:Reserve')
+                        ->makeReserve($entity);
+
                         return $this->redirect($this->generateUrl('reserve_edit_admin', array('id' => $entity->getId())));
 
                     }else{
@@ -276,10 +277,15 @@ class ReserveController extends Controller
             'action' => $url,'method' => 'PUT'));
 
         if($_route == "reserve_edit"){
-            $form
-            ->remove('restatus')
-            ->add('restatus','choice',array('choices' => array('active' => 'Activa', 'canceled' => 'Cancelada'),
-            'label'=>'Estado'));
+            
+            $form->remove('restatus');
+
+            if($entity->getRestatus() == 'active' || $entity->getRestatus() == 'canceled')
+                $form->add('restatus','choice',array('choices' => array('active' => 'Activa', 'canceled' => 'Cancelada'),
+                'label'=>'Estado'));
+            else
+                $form->add('restatus','choice',array('choices' => array('occupied' => 'Ocupada', 'complete' => 'Completa'),
+                'label'=>'Estado'));
         }
 
         $form->add('submit', 'submit', array('label' => 'Actualizar'));

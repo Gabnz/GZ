@@ -2,6 +2,8 @@
 
 namespace Hotel\RoomBundle\Entity;
 
+use Hotel\RoomBundle\Entity\Consumable;
+
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -197,5 +199,73 @@ class ReserveRepository extends EntityRepository
       $em->flush();
     }
     return $update;
+  }
+
+  public function makeReserve($entity){
+
+    $em = $this->getEntityManager();
+
+    $roomcategory = $entity->getRoomcategory();
+
+    $beer = $em->getRepository('HotelRoomBundle:ConsumableStore')->findOneBy(
+    array('name' => 'cerveza', 'roomcategory' => $roomcategory));
+
+    $consumable = new Consumable();
+    $consumable->setReserve($entity);
+    $consumable->setConsumablestore($beer);
+    $consumable->setAmount(4);
+    $em->persist($consumable);
+    $result['beer'] = $consumable;
+
+    $wine = $em->getRepository('HotelRoomBundle:ConsumableStore')->findOneBy(
+    array('name' => 'vino', 'roomcategory' => $roomcategory));
+
+    $consumable = new Consumable();
+    $consumable->setReserve($entity);
+    $consumable->setConsumablestore($wine);
+    $consumable->setAmount(2);
+    $em->persist($consumable);
+    $result['wine'] = $consumable;
+
+    $water = $em->getRepository('HotelRoomBundle:ConsumableStore')->findOneBy(
+    array('name' => 'agua'));
+
+    $consumable = new Consumable();
+    $consumable->setReserve($entity);
+    $consumable->setConsumablestore($water);
+    $consumable->setAmount(4);
+    $em->persist($consumable);
+    $result['water'] = $consumable;
+
+    $coke = $em->getRepository('HotelRoomBundle:ConsumableStore')->findOneBy(
+    array('name' => 'refresco'));
+
+    $consumable = new Consumable();
+    $consumable->setReserve($entity);
+    $consumable->setConsumablestore($coke);
+    $consumable->setAmount(4);
+    $em->persist($consumable);
+    $result['coke'] = $consumable;
+
+    $alcohol = $em->getRepository('HotelRoomBundle:ConsumableStore')->findOneBy(
+    array('name' => 'alcohol', 'roomcategory' => $roomcategory));
+
+    $consumable = new Consumable();
+    $consumable->setReserve($entity);
+    $consumable->setConsumablestore($alcohol);
+    $consumable->setAmount(4);
+    $em->persist($consumable);
+    $result['alcohol'] = $consumable;
+
+    $entity->addConsumable($result['beer']);
+    $entity->addConsumable($result['wine']);
+    $entity->addConsumable($result['water']);
+    $entity->addConsumable($result['coke']);
+    $entity->addConsumable($result['alcohol']);
+    $em->persist($entity);
+
+    $em->flush();
+
+    return $result;
   }
 }
