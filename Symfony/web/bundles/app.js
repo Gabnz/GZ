@@ -9,8 +9,8 @@ $(document).ready(function(){
 
 function contact(){
 
-	$("#contact-div").on('click' , '#contact-send-button', function () {
-
+	$("#contact-div").on('click' , '#contact-send-button', function(event) {
+		event.preventDefault();
 		form = $("#contact-form");
 		
 		var inform = function(result){
@@ -39,6 +39,7 @@ function contact(){
 			async: true,
 			url: form.attr('action'),
 			data: form.serialize(),
+			dataType: 'text',
 			success: inform
 		});
 	});
@@ -47,7 +48,7 @@ function contact(){
 // notificacion - inicio de sesion
 function noti1(){
 
-	$("#user-login-div").on('click' , '#loggin-user-button', function () {
+	$("#user-login-div").on('click' , '#loggin-user-button', function(event) {
 		event.preventDefault();
 		form = $("#loggin-form");
 		
@@ -79,7 +80,7 @@ function noti1(){
 // notificacion - creacion de usuario
 function noti2(){
 
-	$("#user-new-div").on('click' , '#new-user-button', function () {
+	$("#user-new-div").on('click' , '#new-user-button', function(event) {
 		event.preventDefault();
 		form = $("#newuser-form");
 		
