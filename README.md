@@ -1,10 +1,17 @@
 #Proyecto GZ
 
-##Comandos
+##Instrucciones de instalacion
 
-###Composer
-Instalar dependencias del proyecto (Estando en la raiz de Symfony)
-`composer install`
+Crear carpeta `mkdir GZ` e inicializar un repositorio vacio dentro `git init`
+
+Crear un puntero al repositorio `git remote add origin https://github.com/Gbrlx5/GZ.git`
+
+Halar los cambios existentes en github `git pull -u origin master`
+
+Estando en la raiz de Symfony, revisar que cumpla con los requerimientos de configuracion
+`php app/check.php`
+
+Estando en la raiz de Symfony, Asegurarse de tener instalado composer e instalar dependencias del proyecto `composer install`
 
 ###Symfony
 Limpiar cache de produccion:
