@@ -20,10 +20,10 @@ lo puedes instalar desde aqui -> http://jallander.wordpress.com/2013/09/09/insta
 8. ejecutar el siguiente comando dentro del proyecto de symfony `php app/console assets:install --symlink web`
 
 
-9. luego ir a la ruta /servidorlocal/GZ/Symfony/app y ejecutar
+9. luego ir a la ruta /servidorlocal/GZ/Symfony/app, crear las carpetas `cache` y `logs` y ejecutar
 `chmod -R 777 cache` y `chmod -R 777 logs`
 
-10. (base de datos - mysql) para que el sistema funcione correctamente es necesario crear una base de datos llamada `SymfonyGZ` y un usuario con todos los privilegios con el mismo nombre  `SymfonyGZ`
+10. (base de datos - mysql) para que el sistema funcione correctamente es necesario crear una base de datos llamada `SymfonyGZ` y un usuario con todos los privilegios con el mismo nombre  `SymfonyGZ` y contrasena `symfonygz`
 
 
 11. abrir el navegador e ir a la siguiente ruta `http://localhost/GZ/Symfony/web/app.php/` nota: localhost puede variar dependiendo de como tengas tu configurado tu server apache
