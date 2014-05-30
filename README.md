@@ -2,16 +2,33 @@
 
 ##Instrucciones de instalacion
 
-Crear carpeta `mkdir GZ` e inicializar un repositorio vacio dentro `git init`
+1. Crear carpeta GZ en el servidor apache con `mkdir GZ`
 
-Crear un puntero al repositorio `git remote add origin https://github.com/Gbrlx5/GZ.git`
+2. inicializar un repositorio vacio dentro de la carpeta GZ -> `git init`
 
-Halar los cambios existentes en github `git pull -u origin master`
+3. Crear un puntero al repositorio -> `git remote add origin https://github.com/Gbrlx5/GZ.git`
 
-Estando en la raiz de Symfony, revisar que cumpla con los requerimientos de configuracion
-`php app/check.php`
+4. Halar los cambios existentes en github -> `git pull -u origin master`
 
-Estando en la raiz de Symfony, Asegurarse de tener instalado composer e instalar dependencias del proyecto `composer install`
+5. Debido a las multiples depedencias de php, es necesario tener instalado composer en la maquina local
+lo puedes instalar desde aqui -> http://jallander.wordpress.com/2013/09/09/instalar-composer-phar-globalmente-en-linux-mint/
+
+6. una vez que ya tienes composer en tu sistema, tienes que ir a la ruta /servidorlocal/GZ/Symfony y ejecutar -> `composer install`
+
+7. descargar el siguiente binario wkhtmltopdf desde el siguiente enlace `http://wkhtmltopdf.org/downloads.html` extraer el archivo `wkhtmltopdf` y guardarlo en la siguiente ruta de la maquina local `/usr/local/bin/`
+
+8. ejecutar el siguiente comando dentro del proyecto de symfony `php app/console assets:install --symlink web`
+
+
+9. luego ir a la ruta /servidorlocal/GZ/Symfony/app y ejecutar
+`chmod -R 777 cache` y `chmod -R 777 logs`
+
+10. (base de datos - mysql) para que el sistema funcione correctamente es necesario crear una base de datos llamada `SymfonyGZ` y un usuario con todos los privilegios con el mismo nombre  `SymfonyGZ`
+
+
+11. abrir el navegador e ir a la siguiente ruta `http://localhost/GZ/Symfony/web/app.php/` nota: localhost puede variar dependiendo de como tengas tu configurado tu server apache
+
+
 
 ###Symfony
 Limpiar cache de produccion:
