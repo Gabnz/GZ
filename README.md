@@ -15,7 +15,7 @@ lo puedes instalar desde aqui -> http://jallander.wordpress.com/2013/09/09/insta
 
 6. una vez que ya tienes composer en tu sistema, tienes que ir a la ruta /servidorlocal/GZ/Symfony y ejecutar -> `composer install`
 
-7. descargar el siguiente binario wkhtmltopdf desde el siguiente enlace `http://wkhtmltopdf.org/downloads.html` extraer el archivo `wkhtmltopdf` y guardarlo en la siguiente ruta de la maquina local `/usr/local/bin/`
+7. descargar el siguiente binario wkhtmltopdf desde el siguiente enlace `http://wkhtmltopdf.org/downloads.html` extraer el archivo `wkhtmltopdf` y guardarlo en la siguiente ruta de la maquina local `/usr/local/bin/wkhtmltopdf`
 
 8. ejecutar el siguiente comando dentro del proyecto de symfony `php app/console assets:install --symlink web`
 
@@ -23,10 +23,11 @@ lo puedes instalar desde aqui -> http://jallander.wordpress.com/2013/09/09/insta
 9. luego ir a la ruta /servidorlocal/GZ/Symfony/app, crear las carpetas `cache` y `logs` y ejecutar
 `chmod -R 777 cache` y `chmod -R 777 logs`
 
-10. (base de datos - mysql) para que el sistema funcione correctamente es necesario crear una base de datos llamada `SymfonyGZ` y un usuario con todos los privilegios con el mismo nombre  `SymfonyGZ` y contrasena `symfonygz`
+10. (base de datos - mysql) para que el sistema funcione correctamente es necesario crear una base de datos llamada `SymfonyGZ` con contraseña `symfonygz` y un usuario con todos los privilegios con el mismo nombre  `SymfonyGZ`
 
+11. importar el script `CustomSymfonyHotel.sql` que se encuentra en la ruta GZ/Symfony/database/database_GZ/CustomSymfonyHotel.sql. en la base de datos recien creada. 
 
-11. abrir el navegador e ir a la siguiente ruta `http://localhost/GZ/Symfony/web/app.php/` nota: localhost puede variar dependiendo de como tengas tu configurado tu server apache
+12. abrir el navegador e ir a la siguiente ruta `http://localhost/GZ/Symfony/web/app.php/` nota: localhost puede variar dependiendo de como tengas tu configurado tu server apache
 
 
 
